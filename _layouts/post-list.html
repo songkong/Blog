@@ -18,7 +18,7 @@
             {% assign counter = counter | plus: 1 %}
             <li>
                 <h2>
-                    <a href="/{{ post.url }}" class="post-title">
+                    <a href="{{ post.url }}" class="post-title">
                         <span>{{ post.title | markdownify | remove: "<p>" | remove: "</p>" }}</span>
                     </a>
                     <span class="date">{{ post.date | date: '%d %b %Y' }}</span>
