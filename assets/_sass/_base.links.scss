@@ -1,0 +1,64 @@
+a {
+  font-weight: $base-font-bold;
+  text-decoration: none;
+  color: $light-red;
+  text-shadow:  1px 1px $dark-white ,2px 2px $darker-white;
+}
+
+.logo {
+  float: left;
+  margin: 1em 0 0 0;
+  width: 3em;
+  height: 3em;
+  background: $white;
+  @include border-radius(1.5em);
+}
+
+/*         btn        */
+
+.btn-primary {
+  width: auto;
+  height: auto;
+  padding: 5px 10px;
+  @include border-radius(20px);
+  text-shadow: none;
+  border: 2px solid $blue;
+  color: $blue;
+  background-color: transparent;
+  &:hover,
+  &:active {
+    background-color: rgba(98, 179, 245, 0.1);
+  }
+}
+
+.btn-blue {
+  border: none;
+  color: $white;
+  background-color: rgba(98, 179, 245, 0.9);
+  &:hover,
+  &:active {
+    background-color: $blue;
+  }
+}
+
+.btn-white {
+  border: 2px solid $white;
+  color: $white;
+  background-color: transparent;
+  &:hover,
+  &:active {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.post-title {
+  display: inline-block;
+  max-width: 75%;
+  color: $light-red;
+  text-shadow: 1px 1px $dark-white, 2px 2px $darker-white;
+  &:hover {
+    text-shadow: 1px 1px $dark-white, 2px 2px $light-blue;
+  }
+}
+
+
