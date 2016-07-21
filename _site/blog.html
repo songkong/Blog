@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog of Song</title>
+  <meta name="description" content="This is Song' home.">
+
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="canonical" href="kongsoso.com/blog">
+  <link rel="alternate" type="application/rss+xml" title="Song" href="kongsoso.com/feed.xml">
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/js.js"></script>
+  <script src="assets/js/jPages.js"></script>
+  <script src="assets/js/canvas.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      /* initiate the plugin */
+      $("div.pag-holder").jPages({
+        containerID  : "pag-itemContainer",
+        perPage      : 5,  /* num of items per page */
+        startPage    : 1,
+        startRange   : 1,
+        midRange     : 4,
+        endRange     : 1
+      });
+    });
+  </script>
+</head>
+
+
+<body>
+
+<header id="header">
+  <div class="wrapper">
+    <div class="logo"></div>
+    <nav>
+      
+        <a href=" kongsoso.com ">Home</a>
+        <a href=" kongsoso.com/blog ">Blog</a>
+      
+    </nav>
+  </div>
+</header>
+
+<section id="banner">
+    <div class="wrapper text-center">
+	    <h1 class="white-title">Someday there will be an ice bear.</h1>
+    </div>
+</section>
+
+<section id="posts" style="padding-bottom: 0">
+    <div class="wrapper">
+        <div class="text-center">
+            <h1 class="blue-title">Posts</h1>
+        </div>
+        <ul class="posts-list" id="pag-itemContainer">
+            
+            
+            
+            <li>
+                <h2>
+                    <a href="kongsoso.com/welcome-to-jekyll/" class="post-title">
+                        <span>Welcome to Jekyll!
+</span>
+                    </a>
+                    <span class="date">05 Jul 2016</span>
+                </h2>
+                <p>You’ll find this post in your _posts directory. Go ahead...</p>
+                <ul class="tags">
+                    
+                    <li><a href="kongsoso.com/tags#content">content</a></li>
+                    
+                    
+                    <li><a href="kongsoso.com/tags#css">css</a></li>
+                    
+                    
+                    <li><a href="kongsoso.com/tags#edge case">edge case</a></li>
+                    
+                    
+                    <li><a href="kongsoso.com/tags#lists">lists</a></li>
+                    
+                    
+                    <li><a href="kongsoso.com/tags#markup">markup</a></li>
+                    
+                    
+                </ul>
+            </li>
+            
+        </ul>
+        
+
+
+    </div>
+</section>
+
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+        <h1 class="blue-title">Comments</h1>
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+             *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+             *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+             */
+            /*
+             var disqus_config = function () {
+             this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+             this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+             };
+             */
+            (function() {  // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+
+                s.src = '//kongsong.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </div>
+<footer id="footer">
+  <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn" href="mailto:hi@kongsoso.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        <li><a class="social-btn" href="http://facebook.com/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Facebook"><i class="fa fa-fw fa-facebook"></i></a></li>
+        
+        <li><a class="social-btn" href="http://linkedin.com/in/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Linkedin"><i class="fa fa-fw fa-linkedin"></i></a></li>
+        
+        
+        
+        <li><a class="social-btn" href="http://github.com/songkong" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+  </div>
+  <div id="canvas-wrapper">
+    <canvas id="canvas"></canvas>
+  </div>
+</footer>
+</body>
+</html>
