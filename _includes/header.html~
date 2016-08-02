@@ -3,7 +3,7 @@
     <div class="logo"></div>
     <nav>
       {% if page.title != 'Song' %}
-        <a href=" # ">Home</a>
+      <a href=" /">Home</a>
         <a href=" /blog ">Blog</a>
       {% else %}
         <a href=" # ">Home</a>

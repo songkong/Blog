@@ -59,8 +59,8 @@ section {
     position: relative;
     .content {
       position: relative;
-      left: 40%;
-      width: 60%;
+      //left: 40%;
+      width: 100%;
       h1 {
         margin: 0 0 40px 0;
       }
@@ -83,14 +83,13 @@ section {
     width: 100%;
     z-index: 2;
     position: absolute;
-    bottom: 40px;
+    bottom: 20px;
   }
   #canvas-wrapper {
     width:100%;
     height: inherit;
     position: absolute;
-    bottom:0;
-    left: -40px;
+    overflow:hidden;
   }
 }
 

@@ -83,14 +83,13 @@ section {
     width: 100%;
     z-index: 2;
     position: absolute;
-    bottom: 40px;
+    bottom: 20px;
   }
   #canvas-wrapper {
     width:100%;
     height: inherit;
     position: absolute;
-    bottom:0;
-    left: -40px;
+    overflow:hidden;
   }
 }
 
