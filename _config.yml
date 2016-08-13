@@ -6,7 +6,7 @@ url: kongsong.me
 
 
 # Jekyll
-permalink:          /:title/
+permalink:          /blog/:title/
 markdown:           kramdown
 highlighter:        rouge
 kramdown:
@@ -55,4 +55,4 @@ gems:
   - jekyll-gist
 
 # Exclude list
-exclude: [README.md, Gemfile, Gemfile.lock, _site, src, vendor, CNAME, LICENSE, Rakefile, .sass-cache, .DS_Store]
+exclude: [Gemfile, Gemfile.lock, _site, src, vendor, CNAME, .idea, Rakefile, .sass-cache, .DS_Store]
