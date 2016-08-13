@@ -55,4 +55,4 @@ gems:
   - jekyll-gist
 
 # Exclude list
-exclude: [Gemfile, Gemfile.lock, _site, src, vendor, CNAME, .idea, Rakefile, .sass-cache, .DS_Store]
+exclude: [README.md, Gemfile, Gemfile.lock, _site, src, vendor, CNAME, LICENSE, Rakefile, .sass-cache, .DS_Store]
