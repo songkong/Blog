@@ -6,7 +6,7 @@ url: kongsong.me
 
 
 # Jekyll
-permalink:          /blog/:title/
+permalink:          /:title/
 markdown:           kramdown
 highlighter:        rouge
 kramdown:
