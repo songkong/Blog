@@ -9,8 +9,8 @@
   <meta name="description" content="This is Song' home.">
 
   <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
-  <link rel="canonical" href="kongsoso.com/blog">
-  <link rel="alternate" type="application/rss+xml" title="Song" href="kongsoso.com/feed.xml">
+  <link rel="canonical" href="kongsong.me/blog">
+  <link rel="alternate" type="application/rss+xml" title="Song" href="kongsong.me/feed.xml">
   <script src="/assets/js/jquery.min.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/js.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
@@ -35,7 +35,6 @@
 
 <header id="header">
   <div class="wrapper">
-    <div class="logo"></div>
     <nav>
       
       <a href=" /">Home</a>
@@ -46,8 +45,22 @@
 </header>
 
 <section id="banner">
-    <div class="wrapper text-center">
-	    <h1 class="white-title">Someday there will be an ice bear.</h1>
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+            <text x="50" y="130" fill="white" font-size="100">Welcome!</text>
+            <g>
+                <path d="M 375 400 V 300 A30 30 0 0 1 435 300 V 400"fill="white"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="385" cy="295"/>
+                    <circle r="5" cx="425" cy="295"/>
+                    <circle r="5" cx="397" cy="285"/>
+                    <circle r="5" cx="413" cy="285"/>
+                    <ellipse rx="15" ry="10" cx="405" cy="310"/>
+                </g>
+                <animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-15 400 400;15 400 400;-15 400 400" repeatCount="indefinite"/>
+            </g>
+            <path d="M50 410 Q 150 360 280 370 Q 410 390 640 360 Q 700 350 750 410 H 50 "  fill="#62B3E5"/>
+         </svg>
     </div>
 </section>
 
@@ -71,19 +84,19 @@
                 <p>You’ll find this post in your _posts directory. Go ahead...</p>
                 <ul class="tags">
                     
-                    <li><a href="kongsoso.com/tags#content">content</a></li>
+                    <li><a href="kongsong.me/tags#content">content</a></li>
                     
                     
-                    <li><a href="kongsoso.com/tags#css">css</a></li>
+                    <li><a href="kongsong.me/tags#css">css</a></li>
                     
                     
-                    <li><a href="kongsoso.com/tags#edge case">edge case</a></li>
+                    <li><a href="kongsong.me/tags#edge case">edge case</a></li>
                     
                     
-                    <li><a href="kongsoso.com/tags#lists">lists</a></li>
+                    <li><a href="kongsong.me/tags#lists">lists</a></li>
                     
                     
-                    <li><a href="kongsoso.com/tags#markup">markup</a></li>
+                    <li><a href="kongsong.me/tags#markup">markup</a></li>
                     
                     
                 </ul>
@@ -125,7 +138,7 @@
 <footer id="footer">
   <div class="social-wrapper text-center">
       <ul class="social-lists">
-        <li><a class="social-btn" href="mailto:hi@kongsoso.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        <li><a class="social-btn" href="mailto:hi@kongsong.me" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
         
         
         <li><a class="social-btn" href="http://facebook.com/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Facebook"><i class="fa fa-fw fa-facebook"></i></a></li>
@@ -135,7 +148,7 @@
         
         
         <li><a class="social-btn" href="http://github.com/songkong" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
-        
+        <li><a class="social-btn" href="http://stackoverflow.com/users/6438519/song-kong" target="_blank" rel="noopener noreferrer" title="Follow me on Stackoverflow"><i class="fa fa-fw fa-stack-overflow"></i></a></li>
         
         
         

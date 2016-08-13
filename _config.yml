@@ -2,7 +2,7 @@
 title: Song
 description: This is Song' home.
 logo: xxx.png
-url: kongsoso.com
+url: kongsong.me
 
 
 # Jekyll
@@ -23,12 +23,12 @@ sass:
 #google-analytics: UA-XXXXX-Y
 
 # Social Links
-email:               hi@kongsoso.com
+email:               hi@kongsong.me
 #google.plus:        username
 #twitter:            username
 facebook:            kongsong
 github:              songkong
-#stackoverflow:      123456/username   from a "http://stackoverflow.com/users/123456/username" link
+stackoverflow:      6438519/song-kong   #from a "http://stackoverflow.com/users/123456/username" link
 linkedin:           kongsong
 #xing:              username
 #instagram:          username

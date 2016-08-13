@@ -25,7 +25,23 @@ section {
 
 #banner {
   background-color: $light-blue;
-  height: 20em;
+  padding-bottom: 0;
+  height: 330px;
+  .wrapper {
+    height: 100%;
+    position: relative;
+    padding: 0 0;
+    svg {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+  @include media-query($on-laptop) {
+   height: 230px;
+  }
+  @include media-query($on-palm) {
+    height: 180px;
+  }
 }
 
 /**
@@ -37,7 +53,6 @@ section {
     .content {
       color: $grey-color;
       margin: 20px 10%;
-      font-size: $small-font-size;
     }
   }
   a {

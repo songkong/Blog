@@ -3,10 +3,10 @@
   <channel>
     <title>Song</title>
     <description>This is Song&#39; home.</description>
-    <link>kongsoso.com/</link>
-    <atom:link href="kongsoso.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 02 Aug 2016 20:49:20 +0800</pubDate>
-    <lastBuildDate>Tue, 02 Aug 2016 20:49:20 +0800</lastBuildDate>
+    <link>kongsong.me/</link>
+    <atom:link href="kongsong.me/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 13 Aug 2016 11:50:36 +0800</pubDate>
+    <lastBuildDate>Sat, 13 Aug 2016 11:50:36 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -27,8 +27,8 @@
 
 </description>
         <pubDate>Tue, 05 Jul 2016 20:21:30 +0800</pubDate>
-        <link>kongsoso.com/welcome-to-jekyll/</link>
-        <guid isPermaLink="true">kongsoso.com/welcome-to-jekyll/</guid>
+        <link>kongsong.me/welcome-to-jekyll/</link>
+        <guid isPermaLink="true">kongsong.me/welcome-to-jekyll/</guid>
         
         <category>content</category>
         
