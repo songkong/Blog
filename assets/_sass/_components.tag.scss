@@ -4,6 +4,7 @@
     display: inline-block;
     background: $blue;
     padding: 3px 8px;
+    margin-left: 0px;
     color: $white;
     font-size: $small-font-size;
     @include border-radius(0.3em);
@@ -18,4 +19,33 @@
       background-color: $light-red;
   }
   }
+}
+.entry-meta {
+  > li {
+    margin-left: 0 !important;
+    font-size: $small-font-size;
+    display: inline-block;
+    list-style: none;
+    > a {
+      text-shadow: none;
+      color: $white;
+      >span {
+        letter-spacing: normal;
+        padding: 3px 8px;
+      }
+    }
+  }
+}
+.term {
+  background-color: $light-blue;
+  border-top-left-radius: 0.3em;
+  border-bottom-left-radius: 0.3em;
+  &:hover {
+    background-color: $blue;
+  }
+}
+.count {
+  background-color: $blue;
+  border-top-right-radius: 0.3em;
+  border-bottom-right-radius: 0.3em;
 }

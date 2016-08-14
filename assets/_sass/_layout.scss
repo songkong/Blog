@@ -36,12 +36,6 @@ section {
       bottom: 0;
     }
   }
-  @include media-query($on-laptop) {
-   height: 230px;
-  }
-  @include media-query($on-palm) {
-    height: 180px;
-  }
 }
 
 /**

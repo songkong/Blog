@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+{% include head.html %}
+
+<body>
+
+{% include header.html %}
+{% include banner.html %}
+<section style="padding-bottom: 0">
+  <article class="wrapper">
+    <div class="post-header">
+      <h2 class="blue-title text-center dash-line" style="padding-bottom: 30px" >{{ page.title }}</h2>
+    </div>
+    <div class="post-content">
+      {{ content }}
+    </div>
+    {% include share.html %}
+  </article>
+</section>
+{% include comments.html %}
+{% include footer.html %}
+</body>
+</html>

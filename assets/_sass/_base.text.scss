@@ -36,7 +36,9 @@
     margin-left: 10px;
   }
 }
-
+.dash-line {
+  border-bottom: 1px dashed $light-red;
+}
 .blue-title {
   color: $blue;
   text-shadow: 1px 1px $dark-white,2px 2px $darker-white;
@@ -48,7 +50,16 @@
   color: $light-red;
   text-shadow: 1px 1px $dark-white,2px 2px $darker-white;
 }
-
+.entry-title {
+  list-style: none;
+  a {
+    color: $blue;
+    text-shadow: none;
+    &:hover {
+      border-bottom: 1px dashed $blue;
+    }
+  }
+}
 
 /* New Timeline style */
 
