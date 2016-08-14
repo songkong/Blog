@@ -1,12 +1,3 @@
-@include media-query($on-palm) {
-  .posts-list>li .date {
-    display: block;
-    float: none;
-  }
-  #banner {
-    height: 180px;
-  }
-}
 @include media-query($on-laptop) {
   #banner {
     height: 230px;
@@ -16,5 +7,14 @@
     max-width:         calc(#{$content-width} - (#{$spacing-unit}));
     padding-right: $spacing-unit / 2;
     padding-left: $spacing-unit / 2;
+  }
+}
+@include media-query($on-palm) {
+  .posts-list>li .date {
+    display: block;
+    float: none;
+  }
+  #banner {
+    height: 180px;
   }
 }
