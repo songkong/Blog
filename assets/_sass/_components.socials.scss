@@ -40,3 +40,10 @@
     background-color: lighten(#e57a71,5%);
   }
 }
+.weibo-btn {
+  background-color:#d92f2f;
+  &:hover,
+  &:visited {
+    background-color: lighten(#d92f2f,10%);
+  }
+}
