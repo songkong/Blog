@@ -1,0 +1,22 @@
+@keyframes rotatePortrait{
+
+    100% {
+        transform: rotate(360deg);
+        background: url(../images/portrait.jpg) center no-repeat;
+	background-size: 100% 100%;
+    }
+}
+.portrait {
+    width: 150px;
+    height: 150px;
+    border-radius: 95px;
+    border: 5px solid $light-blue;
+    background: url(../images/cartoon-portrait.jpg) center no-repeat;
+    background-size: 80% 80%;
+    &:hover {
+	animation: rotatePortrait 1s ease;
+	animation-fill-mode: forwards;
+	cursor: pointer;
+    }
+}
+

@@ -45,6 +45,7 @@ section {
 #about {
   .wrapper {
     .content {
+      text-indent: 2em;
       text-align:justify;
       color: $grey-color;
       margin: 20px 10%;
@@ -55,6 +56,12 @@ section {
       margin-right: 20px;
     }
   }
+  .portrait {
+    position: relative;
+    left: 50%;
+    margin-left: -75px;
+}
+
 }
 
 /**
