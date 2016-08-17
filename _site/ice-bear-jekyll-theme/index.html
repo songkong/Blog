@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
+<head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Song</title>
-  <meta name="description" content="This is Song' home.">
+  <title>Ice Bear Jekyll Theme</title>
+  <meta name="description" content="This is my first jekyll theme decorated by my favorite items – blue and ice bear.">
 
   <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
-  <link rel="canonical" href="kongsong.me/">
+  <link rel="canonical" href="kongsong.me/ice-bear-jekyll-theme/">
   <link rel="alternate" type="application/rss+xml" title="Song" href="kongsong.me/feed.xml">
   <script src="/assets/js/jquery.min.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/js.js" | prepend: site.baseurl }}"></script>
@@ -51,22 +51,21 @@
 </head>
 
 
-  <body>
+<body>
 
-    <header id="header">
+<header id="header">
   <div class="wrapper">
     <nav>
       
-        <a href=" # ">Home</a>
-        <a href=" #about ">About</a>
-        <a href=" #blog ">Blog</a>
-        <a href=" #projects">Projects</a>
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
       
     </nav>
   </div>
 </header>
 
-    <section id="banner">
+<section id="banner">
     <div class="wrapper">
 	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
             <text x="50" y="130" fill="white" font-size="100">Welcome!</text>
@@ -86,67 +85,77 @@
     </div>
 </section>
 
-    <section id="about">
-    <div class="wrapper">
-        <div class="text-center">
-            <h1 class="blue-title">About me</h1>
-	    <div class="portrait"></div>
-            <div class="content text-center">
-                I'm Song Kong, a student from BUPT. This is my online home & blog, where I share thoughts about front-end development, my daily life and other insteresting topics. Feel free to contact me by email if you have any question.
-
-            </div>
-            <div style="margin: 10px 0">
-                <a class="btn-primary btn-blue" href="mailto:hi@kongsong.me" target="_blank">Email me</a>
-                <a class="btn-primary btn-blue" href="#">Resume</a>
-            </div>
-        </div>
+<section style="padding-bottom: 0">
+  <article class="wrapper">
+    <div class="post-header">
+      <h2 class="red-title" >Ice Bear Jekyll Theme</h2>
+      <ul class="tags">
+        
+        <li><a href="/tags#jekyll">jekyll</a></li>
+        
+        
+        <li><a href="/tags#guide">guide</a></li>
+        
+        
+        <li><a href="/tags#front-end">front-end</a></li>
+        
+        
+      </ul>
+      <div class="line-highlight">13 Aug 2016</div>
     </div>
+    <div class="post-content">
+      <p>This is my first jekyll theme decorated by my favorite items – blue and ice bear.</p>
+
+<h3 id="installation">Installation</h3>
+<ul>
+  <li>Fork the <a href="https://github.com/songkong/Blog/tree/gh-pages">repo</a>.</li>
+  <li>Edit <code class="highlighter-rouge">_config.yml</code> file.</li>
+  <li>Edit <code class="highlighter-rouge">About me</code> content in <code class="highlighter-rouge">index.html</code>.</li>
+  <li>Add your own <code class="highlighter-rouge">projects</code> in <code class="highlighter-rouge">_includes/projects.html</code>.</li>
+  <li>Change <code class="highlighter-rouge">domain name</code> in <code class="highlighter-rouge">CNAME</code>.</li>
+  <li>Add your own <code class="highlighter-rouge">disqus</code> code in <code class="highlighter-rouge">_includes/comments.html</code>.</li>
+</ul>
+
+    </div>
+    
+<div style="margin-top:40px">
+    <a href="https://twitter.com/intent/tweet?text=kongsong.me/ice-bear-jekyll-theme/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=kongsong.me/ice-bear-jekyll-theme/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=kongsong.me/ice-bear-jekyll-theme/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=kongsong.me/ice-bear-jekyll-theme/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+  </article>
 </section>
 
-    <section id="blog">
     <div class="wrapper">
-        <div class="content text-center">
-            <div>
-                <h1 class="white-title">Blog of Song Kong</h1>
-            </div>
-            <div>
-		    <a class="btn-primary btn-white" href="/blog">Enter</a>
-            </div>
-        </div>
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+        <h1 class="blue-title">Comments</h1>
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+             *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+             *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+             */
+            /*
+             var disqus_config = function () {
+             this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+             this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+             };
+             */
+            (function() {  // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+
+                s.src = '//kongsong.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
     </div>
-</section>
-
-    <section id="projects">
-    <div class="wrapper">
-        <div class="text-center">
-            <h1 class="blue-title">Projects</h1>
-        </div>
-        <div id="vertical-timeline" class="light-timeline">
-
-            <div class="vertical-timeline-block">
-                <div class="vertical-timeline-icon">
-                    <i class="fa fa-paw" aria-hidden="true"></i>
-                </div>
-                <div class="vertical-timeline-content">
-                    <h4><a>Ice bear: A jekyll theme</a></h4>
-                    <p><span>This is a clean jekyll theme. To learn how to install and use this theme check out the <a href="http://kongsong.me/ice-bear-jekyll-theme/" target="_blank">installation</a> guide for more information.
-                       You can see the source code of this blog site at <a href="https://github.com/songkong/Blog/tree/gh-pages" target="_blank">github.com/songkong/blog</a>. </span></p>
-                </div>
-            </div>
-
-            <div class="vertical-timeline-block">
-                <div class="vertical-timeline-icon">
-                    <i class="fa fa-mobile" aria-hidden="true"></i>
-                </div>
-                <div class="vertical-timeline-content">
-                    <h4><a>Me: A web app based on react native</a></h4>
-                    <p><span >In progress </span></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-    <footer id="footer">
+<footer id="footer">
   <div class="social-wrapper text-center">
       <ul class="social-lists">
         <li><a class="social-btn" href="mailto:hi@kongsong.me" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
@@ -182,5 +191,5 @@
     <canvas id="canvas"></canvas>
   </div>
 </footer>
-  </body>
+</body>
 </html>
