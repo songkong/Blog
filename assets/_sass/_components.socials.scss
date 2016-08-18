@@ -4,13 +4,10 @@
   }
 }
 .social-btn {
-  font-size:1.5em;
-  color: rgba(255,255,255,0.8);
+  font-size:1em;
+  @include border-radius(50%);
+  padding: 0.2em;
   text-shadow: none;
-  &:hover,
-  &:visited {
-    color: $white;
-  }
 }
 .share-btn {
   text-shadow: none;

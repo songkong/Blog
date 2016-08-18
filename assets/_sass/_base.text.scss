@@ -2,7 +2,15 @@
 .text-center {
   text-align: center;
 }
+.copyright {
+  font-size: $small-font-size;
+  color: $white;
+}
 
+
+/**
+ * halving rule
+ */
 .line-highlight {
   text-align: center;
   margin: 20px 0;
@@ -39,6 +47,11 @@
 .dash-line {
   border-bottom: 1px dashed $light-red;
 }
+
+/**
+ * Title
+ */
+
 .blue-title {
   color: $blue;
   text-shadow: 1px 1px $dark-white,2px 2px $darker-white;
@@ -61,7 +74,9 @@
   }
 }
 
-/* New Timeline style */
+/**
+ * Timeline
+ */
 
 #vertical-timeline {
   position: relative;
