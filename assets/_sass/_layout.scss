@@ -29,7 +29,7 @@ section {
   .wrapper {
     height: 100%;
     position: relative;
-    padding: 0 0;
+    padding: 0;
     svg {
       position: absolute;
       bottom: 0;
@@ -69,13 +69,16 @@ section {
 
 #blog {
   background-color: $blue;
-  padding: 50px 0;
   height: auto;
+  #sky {
+    position: absolute;
+  }
   .wrapper {
     position: relative;
+    padding: 0;
     .content {
       position: relative;
-      //left: 40%;
+      margin: 20px auto;
       width: 100%;
       h1 {
         margin: 0 0 40px 0;

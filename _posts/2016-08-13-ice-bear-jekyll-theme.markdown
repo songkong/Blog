@@ -11,6 +11,7 @@ tags:
 This is my first jekyll theme decorated by my favorite items -- blue and ice bear.
 
 ### Installation
+<hr/>
 * Fork the [repo](https://github.com/songkong/Blog/tree/gh-pages).
 * Edit `_config.yml` file.
 * Edit `About me` content in `index.html`.
