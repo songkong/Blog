@@ -6,7 +6,7 @@ url: kongsong.me
 rss_url: /feed.xml
 
 # Jekyll
-permalink:          /:title/
+permalink:          /blog/:title/
 markdown:           kramdown
 highlighter:        rouge
 kramdown:

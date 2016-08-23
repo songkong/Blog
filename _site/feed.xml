@@ -5,13 +5,13 @@
     <description>This is Song&#39; home.</description>
     <link>kongsong.me/</link>
     <atom:link href="kongsong.me/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 20 Aug 2016 21:07:42 +0800</pubDate>
-    <lastBuildDate>Sat, 20 Aug 2016 21:07:42 +0800</lastBuildDate>
+    <pubDate>Tue, 23 Aug 2016 23:12:45 +0800</pubDate>
+    <lastBuildDate>Tue, 23 Aug 2016 23:12:45 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
         <title>Ice Bear Jekyll Theme</title>
-        <description>&lt;p&gt;This is my first jekyll theme decorated by my favorite items – blue and ice bear.&lt;/p&gt;
+        <description>&lt;p&gt;This is my first jekyll theme decorated by my favorite items – blue and ice bear. It’s welcomed to give me a star at github if you like it.&lt;/p&gt;
 
 &lt;h3 id=&quot;installation&quot;&gt;Installation&lt;/h3&gt;
 &lt;hr /&gt;
@@ -23,11 +23,12 @@
   &lt;li&gt;Add your own &lt;code class=&quot;highlighter-rouge&quot;&gt;projects&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes/projects.html&lt;/code&gt;.&lt;/li&gt;
   &lt;li&gt;Change &lt;code class=&quot;highlighter-rouge&quot;&gt;domain name&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt;.&lt;/li&gt;
   &lt;li&gt;Add your own &lt;code class=&quot;highlighter-rouge&quot;&gt;disqus&lt;/code&gt; code in &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes/comments.html&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;The last two scripts in &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes/head.html&lt;/code&gt; offer Google Analysis and Baidu Fenxi. You can replace them with your own codes.&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Sat, 13 Aug 2016 15:52:30 +0800</pubDate>
-        <link>kongsong.me/ice-bear-jekyll-theme/</link>
-        <guid isPermaLink="true">kongsong.me/ice-bear-jekyll-theme/</guid>
+        <link>kongsong.me/blog/ice-bear-jekyll-theme/</link>
+        <guid isPermaLink="true">kongsong.me/blog/ice-bear-jekyll-theme/</guid>
         
         <category>jekyll</category>
         
