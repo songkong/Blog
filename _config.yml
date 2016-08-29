@@ -19,9 +19,6 @@ sass:
   sass_dir:         assets/_sass
   style:            compressed
 
-# Google Analytics
-#google-analytics: UA-XXXXX-Y
-
 # Social Links
 email:               hi@kongsong.me
 #google.plus:        username
@@ -55,4 +52,4 @@ gems:
   - jekyll-gist
 
 # Exclude list
-exclude: [README.md, Gemfile, Gemfile.lock, _site, src, vendor, CNAME, LICENSE, Rakefile, .sass-cache, .DS_Store, .idea]
+exclude: [README.md, Gemfile, Gemfile.lock, _site, src, vendor, CNAME, LICENSE, Rakefile,.sass-cache,.DS_Store,.idea]

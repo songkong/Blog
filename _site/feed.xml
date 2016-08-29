@@ -5,8 +5,8 @@
     <description>This is Song&#39; home.</description>
     <link>kongsong.me/</link>
     <atom:link href="kongsong.me/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 23 Aug 2016 23:12:45 +0800</pubDate>
-    <lastBuildDate>Tue, 23 Aug 2016 23:12:45 +0800</lastBuildDate>
+    <pubDate>Mon, 29 Aug 2016 22:31:46 +0800</pubDate>
+    <lastBuildDate>Mon, 29 Aug 2016 22:31:46 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -23,7 +23,7 @@
   &lt;li&gt;Add your own &lt;code class=&quot;highlighter-rouge&quot;&gt;projects&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes/projects.html&lt;/code&gt;.&lt;/li&gt;
   &lt;li&gt;Change &lt;code class=&quot;highlighter-rouge&quot;&gt;domain name&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt;.&lt;/li&gt;
   &lt;li&gt;Add your own &lt;code class=&quot;highlighter-rouge&quot;&gt;disqus&lt;/code&gt; code in &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes/comments.html&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;The last two scripts in &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes/head.html&lt;/code&gt; offer Google Analysis and Baidu Fenxi. You can replace them with your own codes.&lt;/li&gt;
+  &lt;li&gt;The last two scripts in &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes/head.html&lt;/code&gt; offer Google Analytics and Baidu Fenxi. You can replace them with your own codes.&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Sat, 13 Aug 2016 15:52:30 +0800</pubDate>
@@ -37,9 +37,7 @@
         <category>front-end</category>
         
         
-        <category>jekyll</category>
-        
-        <category>theme</category>
+        <category>Front-end</category>
         
       </item>
     

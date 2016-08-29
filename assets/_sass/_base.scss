@@ -143,15 +143,16 @@ hr {
  */
 pre,
 code {
+    color:$blue;
     font-size: 15px;
     border: 1px solid $grey-color-light;
-    border-radius: 3px;
-    background-color: #eef;
+    border-radius: 5px;
+    background-color: lighten($light-blue,5%);
 }
 
 code {
     font:$base-font-weight #{$small-font-size}/#{$base-line-height*1.2} $base-font-family;
-    padding: 1px 5px;
+    padding: 2px 5px;
 }
 
 pre {
