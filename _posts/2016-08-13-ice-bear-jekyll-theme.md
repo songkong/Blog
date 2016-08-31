@@ -2,11 +2,11 @@
 layout: post
 title:  "Ice Bear Jekyll Theme"
 date:   2016-08-13 15:52:30 +0800
-categories: Front-end
+categories: [Front-end]
 excerpt: This is my first jekyll theme and this article describes how to use it.
 tags:
+  - EN
   - jekyll
-  - guide
   - front-end
 ---
 This is my first jekyll theme decorated by my favorite items -- blue and ice bear. It's welcomed to give me a star at github if you like it.
