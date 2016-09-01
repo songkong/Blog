@@ -118,11 +118,11 @@ blockquote {
     color: $blue;
     border-left: 0.5em solid $blue;
     @include border-radius(0.3em);
-    padding-left: $spacing-unit / 2;
+    padding: $spacing-unit / 2;
     font-size: 18px;
     letter-spacing: -1px;
     //font-style: italic;
-    background-color: $light-blue;
+    background-color: lighten($light-blue,5%);
     > :last-child {
         margin-bottom: 0;
     }
@@ -145,7 +145,7 @@ pre,
 code {
     color:$blue;
     font-size: 15px;
-    border: 1px solid $grey-color-light;
+    //border: 1px solid $grey-color-light;
     border-radius: 5px;
     background-color: lighten($light-blue,5%);
 }
@@ -170,8 +170,14 @@ pre {
  * p
  */
  
+
 p   {
-	text-indent: 2em;
+	text-align: justify;
+}
+.post-content {
+	p {
+		text-indent: 2em;
+	}
 }
 
 
