@@ -5,11 +5,11 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tag Archive</title>
-  <meta name="description" content="This is Song' home.">
+  <title>学习笔记之《JavaScript 高级程序设计》（上篇）</title>
+  <meta name="description" content="这篇文章归纳了书中第1到8章的相关知识点，留作日后复习。">
 
   <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
-  <link rel="canonical" href="kongsong.me/tags">
+  <link rel="canonical" href="kongsong.me/blog/javascript-reading-notes/">
   <link rel="alternate" type="application/rss+xml" title="Song" href="kongsong.me/feed.xml">
   <script src="/assets/js/jquery.min.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/js.js" | prepend: site.baseurl }}"></script>
@@ -85,96 +85,61 @@
 <section style="padding-bottom: 0">
   <article class="wrapper">
     <div class="post-header">
-      <h2 class="blue-title text-center">Tag Archive</h2>
-      <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+      <h2 class="red-title" >学习笔记之《JavaScript 高级程序设计》（上篇）</h2>
+      <ul class="tags">
+        
+        <li><a href="/tags#CN">CN</a></li>
+        
+        
+        <li><a href="/tags#front-end">front-end</a></li>
+        
+        
+        <li><a href="/tags#JavaScript">JavaScript</a></li>
+        
+        
+      </ul>
+      <div class="line-highlight">15 Sep 2016</div>
     </div>
     <div class="post-content">
-      
-<ul class="entry-meta">
-  
-  
-  <li><a href="#CN" class="tag"><span class="term">CN</span><span class="count">2</span></a></li>
-  
-  
-  <li><a href="#EN" class="tag"><span class="term">EN</span><span class="count">1</span></a></li>
-  
-  
-  <li><a href="#JavaScript" class="tag"><span class="term">JavaScript</span><span class="count">1</span></a></li>
-  
-  
-  <li><a href="#front-end" class="tag"><span class="term">front-end</span><span class="count">2</span></a></li>
-  
-  
-  <li><a href="#jekyll" class="tag"><span class="term">jekyll</span><span class="count">1</span></a></li>
-  
-  
-  <li><a href="#总结与规划" class="tag"><span class="term">总结与规划</span><span class="count">1</span></a></li>
-  
-  
-  <li><a href="#生活" class="tag"><span class="term">生活</span><span class="count">1</span></a></li>
-  
+      <h1 id="section">目录</h1>
+
+<blockquote>
+  <h4 id="javascriptchapter1-">第一章【 <a href="#chapter1">JavaScript简介</a> 】</h4>
+  <ol>
+    <li><a href="#chapter1-1">ECMAScript</a></li>
+    <li><a href="#chapter1-2">文档对象模型(DOM)</a></li>
+    <li><a href="#">浏览器对象模型(DOM)</a></li>
+  </ol>
+</blockquote>
+
+<h3 id="chapter1">第一章  JavaScript简介</h3>
+
+<p>一个完整的 JavaScript 实现由如下三个部分组成：</p>
+
+<ul>
+  <li>核心 (ECMAJavaScript)</li>
+  <li>文档对象模型 (DOM)</li>
+  <li>浏览器对象模型 (BOM)</li>
 </ul>
 
-<h3 id="CN" class="red-title">CN</h3>
-<ul>
-    
-    <li class="entry-title"><a href="/blog/javascript-reading-notes/" title="学习笔记之《JavaScript 高级程序设计》（上篇）">学习笔记之《JavaScript 高级程序设计》（上篇）</a></li>
-    
-    <li class="entry-title"><a href="/blog/review-and-plan/" title="写在学期初：年中总结与规划">写在学期初：年中总结与规划</a></li>
-    
-  </ul>
+<h4 id="chapter1-1">1.1 ECMAScript</h4>
 
-<h3 id="EN" class="red-title">EN</h3>
-<ul>
-    
-    <li class="entry-title"><a href="/blog/ice-bear-jekyll-theme/" title="Ice Bear Jekyll Theme">Ice Bear Jekyll Theme</a></li>
-    
-  </ul>
+<p>ECMAScript 是由 ECMA-262 定义的与<code class="highlighter-rouge">宿主环境</code>（如 Web 浏览器、Node 和 Adobe Flash 等）没有依赖关系的一门语言，该语言本身并不包括输入和输出定义。宿主环境不仅提供基本的 ECMAScript 实现，同时还会提供该语言的扩展，如 DOM。</p>
 
-<h3 id="JavaScript" class="red-title">JavaScript</h3>
-<ul>
-    
-    <li class="entry-title"><a href="/blog/javascript-reading-notes/" title="学习笔记之《JavaScript 高级程序设计》（上篇）">学习笔记之《JavaScript 高级程序设计》（上篇）</a></li>
-    
-  </ul>
+<p>ECMA-262 规定了这门语言的下列组成：语法、类型、语句、关键字、保留字、操作符、对象。</p>
 
-<h3 id="front-end" class="red-title">front-end</h3>
-<ul>
-    
-    <li class="entry-title"><a href="/blog/javascript-reading-notes/" title="学习笔记之《JavaScript 高级程序设计》（上篇）">学习笔记之《JavaScript 高级程序设计》（上篇）</a></li>
-    
-    <li class="entry-title"><a href="/blog/ice-bear-jekyll-theme/" title="Ice Bear Jekyll Theme">Ice Bear Jekyll Theme</a></li>
-    
-  </ul>
+<h4 id="chapter1-2">1.2 文档对象模型(DOM)</h4>
 
-<h3 id="jekyll" class="red-title">jekyll</h3>
-<ul>
-    
-    <li class="entry-title"><a href="/blog/ice-bear-jekyll-theme/" title="Ice Bear Jekyll Theme">Ice Bear Jekyll Theme</a></li>
-    
-  </ul>
+<p>文档对象模型(DOM)是针对 XML 但经过扩展用于 HTML 的 API。 DOM 把整个页面映射为一个多层节点结构，HTML 或 XML页面中的每个组成部分都是某种类型的节点，这些节点又包含着不同类型的数据。通过 DOM 创建的文档树形图并借助 DOM 提供的 API，可以轻松的对节点进行删除、添加、替换或修改等操作。</p>
 
-<h3 id="总结与规划" class="red-title">总结与规划</h3>
-<ul>
-    
-    <li class="entry-title"><a href="/blog/review-and-plan/" title="写在学期初：年中总结与规划">写在学期初：年中总结与规划</a></li>
-    
-  </ul>
-
-<h3 id="生活" class="red-title">生活</h3>
-<ul>
-    
-    <li class="entry-title"><a href="/blog/review-and-plan/" title="写在学期初：年中总结与规划">写在学期初：年中总结与规划</a></li>
-    
-  </ul>
 
     </div>
     
 <div style="margin-top:40px">
-    <a href="https://twitter.com/intent/tweet?text=kongsong.me/tags" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
-    <a href="https://plus.google.com/share?url=kongsong.me/tags" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
-    <a href="https://www.facebook.com/sharer/sharer.php?u=kongsong.me/tags" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
-    <a href="http://v.t.sina.com.cn/share/share.php?title=kongsong.me/tags" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+    <a href="https://twitter.com/intent/tweet?text=kongsong.me/blog/javascript-reading-notes/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=kongsong.me/blog/javascript-reading-notes/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=kongsong.me/blog/javascript-reading-notes/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=kongsong.me/blog/javascript-reading-notes/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
 </div>
 
 

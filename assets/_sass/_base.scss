@@ -73,13 +73,15 @@ figcaption {
 
 li {
     //list-style: none;
+    list-style-position: inside;
     > ul,
     > ol {
          margin-bottom: 0;
     }
 }
 .post-content li {
-    margin-left: 30px;
+    // The same as p
+    margin-left: 2em;
 }
 
 
@@ -115,14 +117,24 @@ h6 {
  * Blockquotes
  */
 blockquote {
-    color: $blue;
+    color: $grey-color;
+    font-weight: bold;
     border-left: 0.5em solid $blue;
     @include border-radius(0.3em);
     padding: $spacing-unit / 2;
-    font-size: 18px;
+    //font-size: 18px;
     letter-spacing: -1px;
     //font-style: italic;
     background-color: lighten($light-blue,5%);
+    li {
+        color: $blue;
+        margin-bottom: 0.5em;
+        list-style-position: outside;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        color: $grey-color;
+        text-shadow:  1px 1px $light-blue ,2px 2px $blue;
+    }
     > :last-child {
         margin-bottom: 0;
     }
@@ -144,21 +156,21 @@ hr {
 pre,
 code {
     color:$blue;
-    font-size: 15px;
+    //font-size: 15px;
     //border: 1px solid $grey-color-light;
-    border-radius: 5px;
+    border-radius: 0.5em;
     background-color: lighten($light-blue,5%);
 }
 
 code {
     font:$base-font-weight #{$small-font-size}/#{$base-line-height*1.2} $base-font-family;
     padding: 2px 5px;
+    margin: 0 2px;
 }
 
 pre {
     padding: 8px 12px;
     overflow-x: auto;
-
     > code {
         border: 0;
         padding-right: 0;

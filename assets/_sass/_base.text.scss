@@ -58,16 +58,6 @@
   color: $light-red;
   text-shadow: 1px 1px $dark-white,2px 2px $darker-white;
 }
-.entry-title {
-  list-style: none;
-  a {
-    color: $blue;
-    text-shadow: none;
-    &:hover {
-      border-bottom: 1px dashed $blue;
-    }
-  }
-}
 
 /**
  * Timeline
@@ -85,7 +75,7 @@
     left: 18px;
     height: 100%;
     width: 4px;
-    background: $background-timeline;
+    background: $light-blue;
   }
 }
 
@@ -112,7 +102,7 @@
   height: 40px;
   @include border-radius(50%);
   font-size: 16px;
-  border: 3px solid $background-timeline;
+  border: 3px solid $light-blue;
   text-align: center;
   background-color: $blue;
   color: $white;
@@ -131,7 +121,7 @@
 .vertical-timeline-content {
   position: relative;
   margin-left: 60px;
-  background: $background-timeline;
+  background: lighten($blue, 33%);
   @include border-radius(0.25em);
   padding: 1em;
   &:after {

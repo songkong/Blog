@@ -65,4 +65,22 @@ a {
   }
 }
 
+.entry-title {
+  color: $blue;
+  a {
+    color: $blue;
+    text-shadow: none;
+    &:hover {
+      border-bottom: 1px dashed $blue;
+    }
+  }
+}
+
+blockquote a {
+  color: $blue;
+  text-shadow: none;
+  &:hover {
+    border-bottom: 1px dashed $blue;
+  }
+}
 

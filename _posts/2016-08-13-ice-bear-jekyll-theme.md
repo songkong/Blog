@@ -19,4 +19,4 @@ This is my first jekyll theme decorated by my favorite items -- blue and ice bea
 * Add your own `projects` in `_includes/projects.html`.
 * Change `domain name` in `CNAME`.
 * Add your own `disqus` code in `_includes/comments.html`.
-* The last two scripts in `_includes/head.html` offer Google Analytics and Baidu Fenxi. You can replace them with your own codes.
+* The last two scripts in `assets/js/script.js` offer Google Analytics and Baidu Analytics. You can replace them with your own codes.
