@@ -60,9 +60,6 @@ a {
   &:hover {
     text-shadow: 1px 1px $dark-white, 2px 2px $light-blue;
   }
-  @include media-query($on-palm) {
-    max-width: 100%;
-  }
 }
 
 .entry-title {
