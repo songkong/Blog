@@ -8,25 +8,26 @@
 {% include header.html %}
 {% include banner.html %}
 <section style="padding-bottom: 0">
-  <article class="wrapper">
-    <div class="post-header">
-      <h2 class="red-title" >{{ page.title }}</h2>
-      <ul class="tags">
-        {% for tag in page.tags %}
-        <li><a href="/tags#{{ tag }}">{{ tag }}</a></li>
-        {% unless forloop.last %}
-        {% endunless %}
-        {% endfor %}
-      </ul>
-      <div class="line-highlight">{% if page.date %}{{ page.date | date: '%d %b %Y' }}{% else %}<i class="fa fa-paw" aria-hidden="true"></i>{% endif %}</div>
-    </div>
-    <div class="post-content">
-      {{ content }}
-    </div>
-    {% include share.html %}
-  </article>
+	<article class="wrapper">
+		<div class="post-header">
+		<h2 class="red-title" >{{ page.title }}</h2>
+		<ul class="tags">
+			{% for tag in page.tags %}
+			<li><a href="/tags#{{ tag }}">{{ tag }}</a></li>
+			{% unless forloop.last %}
+			{% endunless %}
+			{% endfor %}
+		</ul>
+		<div class="line-highlight">{% if page.date %}{{ page.date | date: '%d %b %Y' }}{% else %}<i class="fa fa-paw" aria-hidden="true"></i>{% endif %}</div>
+		</div>
+		<div class="post-content">
+		{{ content }}
+		</div>
+		{% include post-pagination.html %}
+		{% include share.html %}
+	</article>
 </section>
-{% include comments.html %}
-{% include footer.html %}
+	{% include comments.html %}
+	{% include footer.html %}
 </body>
 </html>

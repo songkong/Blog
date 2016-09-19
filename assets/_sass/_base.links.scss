@@ -5,6 +5,14 @@ a {
   text-shadow:  1px 1px $dark-white ,2px 2px $darker-white;
 }
 
+blockquote a {
+  color: $blue;
+  text-shadow: none;
+  &:hover {
+    border-bottom: 1px dashed $blue;
+  }
+}
+
 /**
  * btn
  */
@@ -51,6 +59,38 @@ a {
   right: 20px;
 }
 
+.btn-pagination {
+  color: $blue;
+  padding: 0.25em;
+  border: 2px solid $white;
+  border-bottom: 2px dashed $blue;
+  text-shadow: none;
+  @include border-radius(0.25em);
+  &:hover,
+  &:active {
+    border: 2px dashed $blue;
+  }
+}
+
+/**
+ * title
+ */
+
+
+.post-pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1.5em;
+  .disabled {
+    color: $grey-color;
+	border-bottom: 2px dashed $grey-color;
+	cursor: not-allowed;
+	&:hover {
+	  border: 2px dashed $grey-color;
+	}
+  }
+}
 
 .post-title {
   display: inline-block;
@@ -73,11 +113,4 @@ a {
   }
 }
 
-blockquote a {
-  color: $blue;
-  text-shadow: none;
-  &:hover {
-    border-bottom: 1px dashed $blue;
-  }
-}
 
