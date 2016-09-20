@@ -22,6 +22,7 @@ blockquote a {
   height: auto;
   padding: 5px 10px;
   @include border-radius(20px);
+  @include transition-duration(0.5s);
   text-shadow: none;
   border: 2px solid $blue;
   color: $blue;
@@ -35,10 +36,10 @@ blockquote a {
 .btn-blue {
   border: none;
   color: $white;
-  background-color: rgba(98, 179, 245, 0.9);
+  background-color: $blue;
   &:hover,
   &:active {
-    background-color: $blue;
+    background-color: $light-red;
   }
 }
 
@@ -62,20 +63,16 @@ blockquote a {
 .btn-pagination {
   color: $blue;
   padding: 0.25em;
-  border: 2px solid $white;
+  border: 2px dashed $white;
   border-bottom: 2px dashed $blue;
   text-shadow: none;
   @include border-radius(0.25em);
+  @include transition-duration(0.5s);
   &:hover,
   &:active {
     border: 2px dashed $blue;
   }
 }
-
-/**
- * title
- */
-
 
 .post-pagination {
   display: flex;
@@ -91,6 +88,10 @@ blockquote a {
 	}
   }
 }
+
+/**
+ * title
+ */
 
 .post-title {
   display: inline-block;

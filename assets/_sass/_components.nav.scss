@@ -1,4 +1,4 @@
-header {
+
   nav {
     float: right;
     margin: 3em 0 0 0;
@@ -11,7 +11,7 @@ header {
       }
     }
   }
-}
+
 
 
 .pag-holder {
@@ -52,5 +52,12 @@ header {
         }
       }
     }
+  }
+}
+
+.error-page {
+  nav {
+    float: none;
+	font-size: $large-font-size;
   }
 }

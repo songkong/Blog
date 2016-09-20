@@ -6,8 +6,14 @@
   font-size: $small-font-size;
   color: $white;
 }
-.description {
+.comment-desc {
+  margin-top: 1.5em;
+  font-size: $small-font-size;
   color: $grey-color;
+}
+.error-desc {
+  font-size: $large-font-size;
+  color: $white;
 }
 
 /**
@@ -55,6 +61,9 @@
 }
 .white-title {
   color: $white;
+}
+.error-page .white-title {
+  font-size: $base-font-size*10;
 }
 .red-title {
   color: $light-red;

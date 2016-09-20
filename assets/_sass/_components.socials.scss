@@ -6,6 +6,7 @@
 .social-btn {
   font-size:1em;
   @include border-radius(50%);
+  @include transition-duration(0.5s);
   padding: 0.3em;
   text-shadow: none;
 }
