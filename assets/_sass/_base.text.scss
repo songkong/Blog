@@ -18,13 +18,22 @@
 
 /**
  * halving rule
+ -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
  */
+ 
 .line-highlight {
+  @include flex();
   text-align: center;
+  justify-content: center;
+  -webkit-justify-content: center;
   margin: 20px 0;
   color: $blue;
-  @include flex();
   align-items: center;
+  -webkit-align-items: center;
   &:before {
     content: '';
     -webkit-box-flex: 1;
@@ -180,6 +189,10 @@
       font-size: 15px;
       padding-top: 10px;
     }
+  }
+  .jp-hidden+li {
+	  border-top: none;
+      padding-top: 0;
   }
 }
 //
