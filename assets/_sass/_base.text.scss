@@ -23,11 +23,7 @@
   text-align: center;
   margin: 20px 0;
   color: $blue;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
+  @include flex();
   align-items: center;
   &:before {
     content: '';
