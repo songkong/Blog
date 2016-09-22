@@ -19,8 +19,32 @@
     background-size: 80% 80%;
     &:hover {
 	animation: rotateAvatar 1s ease;
+	-webkit-animation: rotateAvatar 1s ease;	/* Safari and Chrome */
 	animation-fill-mode: forwards;
 	cursor: pointer;
     }
 }
 
+/**
+ * Animations for SVG
+ */
+@keyframes waveHand{
+
+	0% {
+        transform: rotate(-15deg);
+    }
+	50% {
+        transform: rotate(15deg);
+    }
+    100% {
+        transform: rotate(-15deg);
+    }
+}
+#bear-paw {
+	animation: waveHand 3s;
+	-webkit-animation: rotateSun 3s;	/* Safari and Chrome */
+	animation-iteration-count: infinite;
+	-webkit-animation-iteration-count: infinite;
+	transform-origin: 340px 400px;
+	-webkit-transform-origin: 340px 400px;
+}
