@@ -5,14 +5,17 @@
 $(window).bind("scroll",display);
 function display () {
     if($(document).scrollTop()>300) {
-        $("#top").show();
+        //$("#top").show();
+		$("#top").fadeIn(300);
     }else {
-        $("#top").hide();
+        //$("#top").hide();
+		$("#top").fadeOut(300);
     }
 }
 
+
 /* 
-* Baidu Fenxi
+* Baidu analytics
 */
 
 var _hmt = _hmt || [];
