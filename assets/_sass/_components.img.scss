@@ -6,6 +6,7 @@
 
     100% {
         transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
         background: url(../images/avatar.jpg) center no-repeat;
 		background-size: 100% 100%;
     }
@@ -32,19 +33,60 @@
 
 	0% {
         transform: rotate(-15deg);
+		-webkit-transform: rotate(-15deg);
     }
 	50% {
         transform: rotate(15deg);
+		-webkit-transform: rotate(15deg);
     }
     100% {
         transform: rotate(-15deg);
+		-webkit-transform: rotate(-15deg);
     }
 }
 #bear-paw {
-	animation: waveHand 3s;
-	-webkit-animation: rotateSun 3s;	/* Safari and Chrome */
-	animation-iteration-count: infinite;
-	-webkit-animation-iteration-count: infinite;
+	animation: waveHand 3s infinite;
+	-webkit-animation: waveHand 3s infinite;	/* Safari and Chrome */
 	transform-origin: 340px 400px;
 	-webkit-transform-origin: 340px 400px;
+}
+@keyframes rotateSun{
+
+	0% {
+        transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+    }
+	
+    100% {
+        transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+    }
+}
+#sun {
+	animation: rotateSun 3s linear infinite;
+	-webkit-animation: rotateSun 3s linear infinite;	/* Safari and Chrome */
+	transform-origin: 1400px 230px;
+	-webkit-transform-origin: 1400px 230px;
+}
+@keyframes moveCloud{
+
+	0% {
+        transform:  translate(0px,0px);
+		-webkit-transform: translate(0px,0px);
+    }
+	
+    50% {
+        transform:  translate(120px,0px);
+		-webkit-transform: translate(120px,0px);
+    }
+	100% {
+        transform:  translate(0px,0px);
+		-webkit-transform: translate(0px,0px);
+    }
+}
+#cloud {
+	animation: moveCloud 3s linear infinite;
+	-webkit-animation: moveCloud 3s linear infinite;	/* Safari and Chrome */
+	transform-origin: 0px 0px;
+	-webkit-transform-origin: 0px 0px;
 }
