@@ -14,7 +14,7 @@ section {
   padding: $spacing-unit 0;
 }
 
-.main-wrapper {
+.main-wrapper,.error- {
   min-height: 100%;
   height: auto;
   position: relative;
@@ -85,6 +85,8 @@ section {
   }
   .wrapper {
     position: relative;
+	background: url(../images/cloud.png) 15% bottom no-repeat;
+	background-size: 100px 73px;
     padding: 0;
     .content {
       position: relative;
