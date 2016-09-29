@@ -11,6 +11,7 @@
 		background-size: 100% 100%;
     }
 }
+
 .avatar {
     width: 150px;
     height: 150px;
@@ -29,24 +30,38 @@
 /**
  * Animations for SVG
  */
+ /*
 @keyframes waveHand{
 
 	0% {
         transform: rotate(-15deg);
-		-webkit-transform: rotate(-15deg);
     }
 	50% {
         transform: rotate(15deg);
-		-webkit-transform: rotate(15deg);
     }
     100% {
         transform: rotate(-15deg);
+    }
+}
+@-webkit-keyframes waveHand{
+
+	0% {
+		-webkit-transform: rotate(-15deg);
+    }
+	50% {
+		-webkit-transform: rotate(15deg);
+    }
+    100% {
 		-webkit-transform: rotate(-15deg);
     }
 }
 #bear-paw {
-	animation: waveHand 3s infinite;
-	-webkit-animation: waveHand 3s infinite;	/* Safari and Chrome */
+	animation-name: waveHand;
+	animation-duration: 3s;
+	animation-iteration-count: infinite;
+	-webkit-animation-name: waveHand;	
+	-webkit-animation-duration: 3s;
+	-webkit-animation-iteration-count: infinite;
 	transform-origin: 340px 400px;
 	-webkit-transform-origin: 340px 400px;
 }
@@ -64,7 +79,7 @@
 }
 #sun {
 	animation: rotateSun 3s linear infinite;
-	-webkit-animation: rotateSun 3s linear infinite;	/* Safari and Chrome */
+	-webkit-animation: rotateSun 3s linear infinite;	
 	transform-origin: 1400px 230px;
 	-webkit-transform-origin: 1400px 230px;
 }
@@ -86,7 +101,8 @@
 }
 #cloud {
 	animation: moveCloud 3s linear infinite;
-	-webkit-animation: moveCloud 3s linear infinite;	/* Safari and Chrome */
+	-webkit-animation: moveCloud 3s linear infinite;	
 	transform-origin: 0px 0px;
 	-webkit-transform-origin: 0px 0px;
 }
+*/
