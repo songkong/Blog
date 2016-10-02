@@ -138,6 +138,7 @@ blockquote {
     > :last-child {
         margin-bottom: 0;
     }
+	
 }
 
 /**
@@ -155,9 +156,7 @@ hr {
  */
 pre,
 code {
-    color:$blue;
-    //font-size: 15px;
-    //border: 1px solid $grey-color-light;
+	color: $blue;
     border-radius: 0.5em;
     background-color: lighten($light-blue,5%);
 }

@@ -5,9 +5,98 @@
     <description>This is Song&#39; home.</description>
     <link>kongsong.me/</link>
     <atom:link href="kongsong.me/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 29 Sep 2016 21:18:00 +0800</pubDate>
-    <lastBuildDate>Thu, 29 Sep 2016 21:18:00 +0800</lastBuildDate>
+    <pubDate>Sun, 02 Oct 2016 21:41:56 +0800</pubDate>
+    <lastBuildDate>Sun, 02 Oct 2016 21:41:56 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Ice Bear Jekyll Theme</title>
+        <description>&lt;p&gt;This is my first jekyll theme decorated by my favorite items – blue and ice bear. It’s welcomed to give me a star at github if you like it.&lt;/p&gt;
+
+&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/songkong/Blog/tree/gh-pages&quot; data-count-href=&quot;/songkong/Blog/stargazers&quot; data-count-api=&quot;/repos/songkong/Blog#stargazers_count&quot; data-count-aria-label=&quot;# stargazers on GitHub&quot; aria-label=&quot;Star songkong/Blog on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;installation&quot;&gt;Installation&lt;/h1&gt;
+&lt;hr /&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Fork the repository. &lt;a class=&quot;github-button&quot; href=&quot;https://github.com/songkong/Blog/fork&quot; data-count-href=&quot;/songkong/Blog/network&quot; data-count-api=&quot;/repos/songkong/Blog#forks_count&quot; data-count-aria-label=&quot;# forks on GitHub&quot; aria-label=&quot;Fork songkong/Blog on GitHub&quot;&gt;Fork&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Edit &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt; file.&lt;/li&gt;
+  &lt;li&gt;Edit &lt;code class=&quot;highlighter-rouge&quot;&gt;About me&lt;/code&gt; content in &lt;code class=&quot;highlighter-rouge&quot;&gt;index.html&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Add your own &lt;code class=&quot;highlighter-rouge&quot;&gt;projects&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes/projects.html&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Change &lt;code class=&quot;highlighter-rouge&quot;&gt;domain name&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Add your own &lt;code class=&quot;highlighter-rouge&quot;&gt;disqus&lt;/code&gt; code in &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes/comments.html&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;The last two scripts in &lt;code class=&quot;highlighter-rouge&quot;&gt;assets/js/script.js&lt;/code&gt; offer Google Analytics and Baidu Analytics. You can replace them with your own codes.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;style-test&quot;&gt;Style test&lt;/h1&gt;
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;heading-1&quot;&gt;Heading 1&lt;/h1&gt;
+
+&lt;h2 id=&quot;heading-2&quot;&gt;Heading 2&lt;/h2&gt;
+
+&lt;h3 id=&quot;heading-3&quot;&gt;Heading 3&lt;/h3&gt;
+
+&lt;h4 id=&quot;heading-4&quot;&gt;Heading 4&lt;/h4&gt;
+
+&lt;h5 id=&quot;heading-5&quot;&gt;Heading 5&lt;/h5&gt;
+
+&lt;h6 id=&quot;heading-6&quot;&gt;Heading 6&lt;/h6&gt;
+
+&lt;blockquote&gt;
+  &lt;h3 id=&quot;heading-3-in-blockquotes&quot;&gt;Heading 3 in Blockquotes&lt;/h3&gt;
+  &lt;p&gt;Normal Blockquotes text.&lt;/p&gt;
+
+  &lt;ul&gt;
+    &lt;li&gt;Unordered List in Blockquotes.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;Ordered List in Blockquotes.&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Unordered List.
+    &lt;ul&gt;
+      &lt;li&gt;Unordered List.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Ordered List
+    &lt;ol&gt;
+      &lt;li&gt;Ordered List&lt;/li&gt;
+      &lt;li&gt;Ordered List&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Ordered List&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;sr&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Ruby&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;codes&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;parallel&#39;&lt;/span&gt;
+
+&lt;span class=&quot;no&quot;&gt;Parallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lots_of_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;chunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;heavy_computation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;chunk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+</description>
+        <pubDate>Sat, 01 Oct 2016 15:52:30 +0800</pubDate>
+        <link>kongsong.me/blog/ice-bear-jekyll-theme/</link>
+        <guid isPermaLink="true">kongsong.me/blog/ice-bear-jekyll-theme/</guid>
+        
+        <category>EN</category>
+        
+        <category>jekyll</category>
+        
+        <category>front-end</category>
+        
+        
+        <category>Front-end</category>
+        
+      </item>
     
       <item>
         <title>学习笔记之《JavaScript 高级程序设计》（上篇）</title>
@@ -154,37 +243,6 @@
         
         
         <category>Life</category>
-        
-      </item>
-    
-      <item>
-        <title>Ice Bear Jekyll Theme</title>
-        <description>&lt;p&gt;This is my first jekyll theme decorated by my favorite items – blue and ice bear. It’s welcomed to give me a star at github if you like it.&lt;/p&gt;
-
-&lt;h3 id=&quot;installation&quot;&gt;Installation&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Fork the &lt;a href=&quot;https://github.com/songkong/Blog/tree/gh-pages&quot;&gt;repo&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;Edit &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt; file.&lt;/li&gt;
-  &lt;li&gt;Edit &lt;code class=&quot;highlighter-rouge&quot;&gt;About me&lt;/code&gt; content in &lt;code class=&quot;highlighter-rouge&quot;&gt;index.html&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Add your own &lt;code class=&quot;highlighter-rouge&quot;&gt;projects&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes/projects.html&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Change &lt;code class=&quot;highlighter-rouge&quot;&gt;domain name&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Add your own &lt;code class=&quot;highlighter-rouge&quot;&gt;disqus&lt;/code&gt; code in &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes/comments.html&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;The last two scripts in &lt;code class=&quot;highlighter-rouge&quot;&gt;assets/js/script.js&lt;/code&gt; offer Google Analytics and Baidu Analytics. You can replace them with your own codes.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Sat, 13 Aug 2016 15:52:30 +0800</pubDate>
-        <link>kongsong.me/blog/ice-bear-jekyll-theme/</link>
-        <guid isPermaLink="true">kongsong.me/blog/ice-bear-jekyll-theme/</guid>
-        
-        <category>EN</category>
-        
-        <category>jekyll</category>
-        
-        <category>front-end</category>
-        
-        
-        <category>Front-end</category>
         
       </item>
     

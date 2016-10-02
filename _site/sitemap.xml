@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>kongsong.me/blog/ice-bear-jekyll-theme/</loc>
+<lastmod>2016-10-01T15:52:30+08:00</lastmod>
+</url>
+<url>
 <loc>kongsong.me/blog/javascript-reading-notes/</loc>
 <lastmod>2016-09-15T13:40:30+08:00</lastmod>
 </url>
 <url>
 <loc>kongsong.me/blog/review-and-plan/</loc>
 <lastmod>2016-08-31T21:58:30+08:00</lastmod>
-</url>
-<url>
-<loc>kongsong.me/blog/ice-bear-jekyll-theme/</loc>
-<lastmod>2016-08-13T15:52:30+08:00</lastmod>
 </url>
 <url>
 <loc>kongsong.me/404.html</loc>

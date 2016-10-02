@@ -66,18 +66,23 @@ blockquote a {
   border: 2px dashed $white;
   border-bottom: 2px dashed $blue;
   text-shadow: none;
+  float: right;
   @include border-radius(0.25em);
   @include transition-duration(0.5s);
   &:hover,
   &:active {
     border: 2px dashed $blue;
   }
+  &:last-child {
+    margin-right: 1.5em;
+  }
 }
 
 .post-pagination {
-  @include flex();
-  flex-direction: row;
-  justify-content: space-between;
+  //@include flex();
+  //flex-direction: row;
+  //justify-content: space-between;
+  height: 1.5em;
   margin-top: 1.5em;
   .disabled {
     color: $grey-color;

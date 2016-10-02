@@ -17,6 +17,7 @@
   <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
   <script type="text/javascript">
     $(function(){
       /* initiate the plugin */
@@ -103,15 +104,18 @@
 				
 				
 			</ul>
-			<div class="line-highlight">13 Aug 2016</div>
+			<div class="line-highlight">01 Oct 2016</div>
 			</div>
 			<div class="post-content">
 				<p>This is my first jekyll theme decorated by my favorite items – blue and ice bear. It’s welcomed to give me a star at github if you like it.</p>
 
-<h3 id="installation">Installation</h3>
+<p><a class="github-button" href="https://github.com/songkong/Blog/tree/gh-pages" data-count-href="/songkong/Blog/stargazers" data-count-api="/repos/songkong/Blog#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star songkong/Blog on GitHub">Star</a></p>
+
+<h1 id="installation">Installation</h1>
+<hr />
 
 <ul>
-  <li>Fork the <a href="https://github.com/songkong/Blog/tree/gh-pages">repo</a>.</li>
+  <li>Fork the repository. <a class="github-button" href="https://github.com/songkong/Blog/fork" data-count-href="/songkong/Blog/network" data-count-api="/repos/songkong/Blog#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork songkong/Blog on GitHub">Fork</a></li>
   <li>Edit <code class="highlighter-rouge">_config.yml</code> file.</li>
   <li>Edit <code class="highlighter-rouge">About me</code> content in <code class="highlighter-rouge">index.html</code>.</li>
   <li>Add your own <code class="highlighter-rouge">projects</code> in <code class="highlighter-rouge">_includes/projects.html</code>.</li>
@@ -120,15 +124,70 @@
   <li>The last two scripts in <code class="highlighter-rouge">assets/js/script.js</code> offer Google Analytics and Baidu Analytics. You can replace them with your own codes.</li>
 </ul>
 
+<h1 id="style-test">Style test</h1>
+<hr />
+
+<h1 id="heading-1">Heading 1</h1>
+
+<h2 id="heading-2">Heading 2</h2>
+
+<h3 id="heading-3">Heading 3</h3>
+
+<h4 id="heading-4">Heading 4</h4>
+
+<h5 id="heading-5">Heading 5</h5>
+
+<h6 id="heading-6">Heading 6</h6>
+
+<blockquote>
+  <h3 id="heading-3-in-blockquotes">Heading 3 in Blockquotes</h3>
+  <p>Normal Blockquotes text.</p>
+
+  <ul>
+    <li>Unordered List in Blockquotes.</li>
+  </ul>
+
+  <ol>
+    <li>Ordered List in Blockquotes.</li>
+  </ol>
+</blockquote>
+
+<ul>
+  <li>Unordered List.
+    <ul>
+      <li>Unordered List.</li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>Ordered List
+    <ol>
+      <li>Ordered List</li>
+      <li>Ordered List</li>
+    </ol>
+  </li>
+  <li>Ordered List</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">//</span> <span class="no">Ruby</span> <span class="n">codes</span>
+
+<span class="nb">require</span> <span class="s1">'parallel'</span>
+
+<span class="no">Parallel</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="n">lots_of_data</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">chunk</span><span class="o">|</span>
+  <span class="n">heavy_computation</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+<span class="k">end</span></code></pre></figure>
+
+
 			</div>
 			
-<div class="post-pagination">
+<div class="post-pagination text-center">
   
-  <a href="#" class="btn-pagination disabled">previous</a>
+  <a href="#" class="btn-pagination disabled">Next</a>
   
   
-  <a href="/blog/review-and-plan/" class="btn-pagination" title="写在学期初：年中总结与规划
-">next</a>
+  <a href="/blog/javascript-reading-notes/" class="btn-pagination" title="学习笔记之《JavaScript 高级程序设计》（上篇）
+">Previous</a>
   
 </div>
 
@@ -149,7 +208,7 @@
         <h1 class="blue-title">Comments</h1>
         <div id="disqus_thread"></div>
 		<div class="comment-desc">Powered by Disqus. If your browser can't load comments successfully, maybe you need to use a vpn.</div>
-        <script async src="/assets/js/disqus-script.js" | prepend: site.baseurl }}"></script>
+        <script async defer src="/assets/js/disqus-script.js" | prepend: site.baseurl }}"></script>
 		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
     </div>
 </section>
