@@ -36,6 +36,7 @@ section {
   background-color: $light-blue;
   padding-bottom: 0;
   height: 330px;
+  overflow: hidden;
   .wrapper {
     height: 100%;
     position: relative;
@@ -82,6 +83,7 @@ section {
   height: auto;
   #sky {
     position: absolute;
+	max-height: 150px;
   }
   .wrapper {
     position: relative;
