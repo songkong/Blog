@@ -16,6 +16,11 @@ tags:
 >1. [ECMAScript](#chapter1-1)
 >2. [文档对象模型（DOM）](#chapter1-2)
 >3. [浏览器对象模型（BOM）](#chapter1-3)
+>
+>#### 第二章【 [在HTML中使用JavaScript](#chapter2) 】
+>1. [\<script\>与\<noscript\>元素](#chapter2-1)
+>2. [嵌入代码与外部文件](#chapter2-2)
+>3. [文档模式](#chapter2-3)
 
 ---
 
@@ -62,5 +67,56 @@ DOM3 级在 DOM 加载和保存（DOM Load and Save）模块中引入了以统�
 <h4 id="chapter1-3">1.3 浏览器对象模型（BOM）</h4>
 
 浏览器对象模型（BOM，Browser Object Model）提供访问和操作浏览器窗口的方法和接口。使用 BOM 可以控制浏览器显示的页面以外的部分。由于没有 BOM 标准可以遵循，因此每个浏览器都有自己的实现。
+
+---
+
+<h3 id="chapter2">第二章  在HTML中使用JavaScript</h3>
+
+<h4 id="chapter2-1">2.1 &lt;script&gt;与&lt;noscript&gt;元素</h4>
+
+\<script\>定义了6个属性：
+
+* async: 可选。只对外部脚本有效，用于实现异步脚本。表示应该立即下载脚本，但不应妨碍页面中的其他操作，如下载其他资源或等待加载其他脚本。标记为 async 的脚本不保证按照指定它们的先后顺序执行，因此，需要确保各个脚本之间互不依赖，同时建议不在加载期间修改 DOM。
+* charset: 可选，很少用。表示通过src属性指定的代码的字符集。
+* defer: 可选。只对外部脚本有效，用于实现延迟脚本。表示脚本可以延迟到文档完全被解析和显示之后再执行。延迟脚本会按照声明顺序执行，但在现实中，延迟脚本不一定会按照顺序执行，因此最好只包含一个延迟脚本。
+* language: 已废弃。
+* src: 可选。表示包含要执行代码的外部文件。带有src属性的\<script\>元素不应该在\<script\>和\</script\>标签之间再包含额外的 JavaScript 代码。若包含，则嵌入的代码会被忽略。
+* type: 可选。表示编写代码使用的`脚本语言的内容类型（MIME类型）`。考虑到约定俗成和最大限度的浏览器兼容性，type 属性的值一般为 text/javascript。
+
+\<noscript\>元素的作用是，当浏览器不支持脚本或脚本被禁用时，该标签之间的内容会被显示出来，其他情况下，浏览器均不会呈现\<noscript\>中的内容。
+
+---
+
+<h4 id="chapter2-2">2.2 嵌入代码与外部文件</h4>
+
+在 HTML 页面中嵌入执行 JavaScript 代码有两种方式：
+
+* 使用 javascript: 前缀构建执行 JavaScript 代码的 URL。如'<a href="javascript: alert('Hello world!')";></a>'。
+* 在\<script.../\>元素标签之间包含 JavaScript 代码。
+
+为了让 HTML 页面和 JavaScript 脚本更好的分离，我们将 JavaScript 脚本单独保存在 *.js 文件中，使用如下的语法格式导入外部脚本：
+
+{% highlight javascript %}
+<script src="test.js" type="text/javascript"></script>
+{% endhighlight %}
+
+使用外部文件的有点：
+
+* 可维护性：把 JavaScript 代码放在特定的文件中，有利于项目的维护。
+* 可缓存：浏览器能够根据具体的设置缓存链接的所有外部 JavaScript 文件，若有多个页面都使用同一文件，那么文件只需下载一次。
+* 适应未来。
+
+---
+
+<h4 id="chapter2-3">2.3 文档模式</h4>
+
+使用`文档类型（doctype）`可定义文档模式：`混杂模式（quirks mode）`和`标准模式（standards mode）`。如果在文档开始处没有进行文档类型声明，则浏览器会默认开启混杂模式，混杂模式是向后兼容的，在不同浏览器下的行为差异非常大，不推荐使用。
+
+可通过如下代码开启标准模式：
+
+{% highlight html %}
+<!-- HTML 5 -->
+<!DOCTYPE html>
+{% endhighlight %}
 
 
