@@ -5,8 +5,8 @@
     <description>This is Song&#39; home.</description>
     <link>kongsong.me/</link>
     <atom:link href="kongsong.me/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 01 Dec 2016 18:43:14 +0800</pubDate>
-    <lastBuildDate>Thu, 01 Dec 2016 18:43:14 +0800</lastBuildDate>
+    <pubDate>Thu, 01 Dec 2016 18:54:49 +0800</pubDate>
+    <lastBuildDate>Thu, 01 Dec 2016 18:54:49 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -181,12 +181,12 @@
 &lt;p&gt;&amp;lt;script&amp;gt;定义了6个属性：&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;async: 可选。只对外部脚本有效，用于实现异步脚本。表示应该立即下载脚本，但不应妨碍页面中的其他操作，如下载其他资源或等待加载其他脚本。标记为 async 的脚本不保证按照指定它们的先后顺序执行，因此，需要确保各个脚本之间互不依赖，同时建议不在加载期间修改 DOM。&lt;/li&gt;
+  &lt;li&gt;async: 可选。只对外部脚本有效，用于实现异步脚本。表示应该立即下载脚本，但不应妨碍页面中的其他操作，如下载其他资源或等待加载其他脚本。标记为 async 的脚本不保证按照指定它们的先后顺序执行。因此，需要确保各个脚本之间互不依赖，同时建议不在加载期间修改 DOM。&lt;/li&gt;
   &lt;li&gt;charset: 可选，很少用。表示通过src属性指定的代码的字符集。&lt;/li&gt;
   &lt;li&gt;defer: 可选。只对外部脚本有效，用于实现延迟脚本。表示脚本可以延迟到文档完全被解析和显示之后再执行。延迟脚本会按照声明顺序执行，但在现实中，延迟脚本不一定会按照顺序执行，因此最好只包含一个延迟脚本。&lt;/li&gt;
   &lt;li&gt;language: 已废弃。&lt;/li&gt;
   &lt;li&gt;src: 可选。表示包含要执行代码的外部文件。带有src属性的&amp;lt;script&amp;gt;元素不应该在&amp;lt;script&amp;gt;和&amp;lt;/script&amp;gt;标签之间再包含额外的 JavaScript 代码。若包含，则嵌入的代码会被忽略。&lt;/li&gt;
-  &lt;li&gt;type: 可选。表示编写代码使用的&lt;code class=&quot;highlighter-rouge&quot;&gt;脚本语言的内容类型（MIME类型）&lt;/code&gt;。考虑到约定俗成和最大限度的浏览器兼容性，type 属性的值一般为 text/javascript。&lt;/li&gt;
+  &lt;li&gt;type: 可选。表示编写代码使用的&lt;code class=&quot;highlighter-rouge&quot;&gt;脚本语言的内容类型（MIME类型）&lt;/code&gt;。考虑到约定俗成和最大限度的浏览器兼容性，type 属性的值一般为&lt;code class=&quot;highlighter-rouge&quot;&gt;text/javascript&lt;/code&gt;。&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&amp;lt;noscript&amp;gt;元素的作用是，当浏览器不支持脚本或脚本被禁用时，该标签之间的内容会被显示出来，其他情况下，浏览器均不会呈现&amp;lt;noscript&amp;gt;中的内容。&lt;/p&gt;
@@ -198,15 +198,15 @@
 &lt;p&gt;在 HTML 页面中嵌入执行 JavaScript 代码有两种方式：&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;使用 javascript: 前缀构建执行 JavaScript 代码的 URL。如’&amp;lt;a href=”javascript: alert(‘Hello world!’)”;&amp;gt;&amp;lt;/a&amp;gt;‘。&lt;/li&gt;
+  &lt;li&gt;使用 javascript: 前缀构建执行 JavaScript 代码的 URL。如&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;a href=&quot;javascript:alert(&#39;Hello world!&#39;);&quot;&amp;gt;&amp;lt;/a&amp;gt;&lt;/code&gt;。&lt;/li&gt;
   &lt;li&gt;在&amp;lt;script…/&amp;gt;元素标签之间包含 JavaScript 代码。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;为了让 HTML 页面和 JavaScript 脚本更好的分离，我们将 JavaScript 脚本单独保存在 *.js 文件中，使用如下的语法格式导入外部脚本：&lt;/p&gt;
+&lt;p&gt;为了让 HTML 页面和 JavaScript 脚本更好的分离，我们将 JavaScript 脚本单独保存在&lt;code class=&quot;highlighter-rouge&quot;&gt;*.js&lt;/code&gt;文件中，使用如下的语法格式导入外部脚本：&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;test.js&quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/script&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;使用外部文件的有点：&lt;/p&gt;
+&lt;p&gt;使用外部文件的优点：&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;可维护性：把 JavaScript 代码放在特定的文件中，有利于项目的维护。&lt;/li&gt;
