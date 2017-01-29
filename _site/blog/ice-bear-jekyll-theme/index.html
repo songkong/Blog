@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<head>
+  <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,8 +9,8 @@
   <meta name="description" content="This is my first jekyll theme and this article describes how to use it.">
 
   <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
-  <link rel="canonical" href="kongsong.me/blog/ice-bear-jekyll-theme/">
-  <link rel="alternate" type="application/rss+xml" title="水榭清松-Song Kong" href="kongsong.me/feed.xml">
+  <link rel="canonical" href="http://localhost:4000/blog/ice-bear-jekyll-theme/">
+  <link rel="alternate" type="application/rss+xml" title="水榭清松-Song Kong" href="http://localhost:4000/feed.xml">
   <script src="/assets/js/jquery.min.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/js.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
@@ -33,11 +33,11 @@
   </script>
 </head>
 
-
-<body>
-
-<div class="main-wrapper">
-	<header id="header">
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
   <div class="wrapper">
     <nav>
       
@@ -49,7 +49,7 @@
   </div>
 </header>
 
-	<section id="banner">
+		<section id="banner">
     <div class="wrapper">
 	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
 		
@@ -88,7 +88,7 @@
     </div>
 </section>
 
-	<section style="padding-bottom: 0">
+			<section style="padding-bottom: 0">
 		<article class="wrapper">
 			<div class="post-header">
 			<h2 class="red-title" >Ice Bear Jekyll Theme</h2>
@@ -194,29 +194,51 @@
 
 			
 <div style="margin-top:30px">
-    <a href="https://twitter.com/intent/tweet?text=kongsong.me/blog/ice-bear-jekyll-theme/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
-    <a href="https://plus.google.com/share?url=kongsong.me/blog/ice-bear-jekyll-theme/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
-    <a href="https://www.facebook.com/sharer/sharer.php?u=kongsong.me/blog/ice-bear-jekyll-theme/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
-    <a href="http://v.t.sina.com.cn/share/share.php?title=kongsong.me/blog/ice-bear-jekyll-theme/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+    <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/blog/ice-bear-jekyll-theme/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=http://localhost:4000/blog/ice-bear-jekyll-theme/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/blog/ice-bear-jekyll-theme/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=http://localhost:4000/blog/ice-bear-jekyll-theme/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
 </div>
 
 
 		</article>
 	</section>
-	<section id="comments">
+	
+		<section id="comments">
     <div class="wrapper">
         <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
         <h1 class="blue-title">Comments</h1>
-        <div id="disqus_thread"></div>
-		<div id="uyan_frame" style="margin-top: 30px"></div>
+		
+		
+		<div id="disqus_thread"></div>
 		<!--<div class="comment-desc">Powered by Disqus. If your browser can't load comments successfully, maybe you need to use a vpn.</div>-->
-        <script async defer src="/assets/js/disqus-script.js" | prepend: site.baseurl }}"></script>
-		<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2122392"></script>
+		<script>
+		/** * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS. * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+		/*
+		var disqus_config = function () { this.page.url = PAGE_URL;
+		// Replace PAGE_URL with your page's canonical URL variable this.page.identifier = PAGE_IDENTIFIER;
+		// Replace PAGE_IDENTIFIER with your page's unique identifier variable };
+		*/
+			(function() { // DON'T EDIT BELOW THIS LINE
+				var d = document, s = d.createElement('script');
+				s.src = '//kongsong.disqus.com/embed.js';
+				s.setAttribute('data-timestamp', +new Date());
+				(d.head || d.body).appendChild(s);
+			})();
+		</script>
 		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+		
+       	
+        <!--<script async defer src="/assets/js/disqus-script.js" | prepend: site.baseurl }}"></script>-->
+		
+		<div id="uyan_frame" style="margin-top: 30px"></div>
+		<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2122392"></script>
+		
     </div>
 </section>
 
-	<footer id="footer">
+		<footer id="footer">
   <div class="footer-border"></div>
   <div class="footer-content">
     <div class="social-wrapper text-center">
@@ -253,7 +275,35 @@
     <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
   </div>
 </footer>
-</div>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
 
-</body>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-82494501-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?5b31ffbbdc6cff18727f3adf75a03777";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
 </html>

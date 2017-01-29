@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>水榭清松-Song Kong</title>
-    <description>This is Song&#39; home.</description>
-    <link>kongsong.me/</link>
-    <atom:link href="kongsong.me/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 01 Jan 2017 20:10:07 +0800</pubDate>
-    <lastBuildDate>Sun, 01 Jan 2017 20:10:07 +0800</lastBuildDate>
-    <generator>Jekyll v3.1.6</generator>
+    <description>This is Song' home.</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 29 Jan 2017 20:50:34 +0800</pubDate>
+    <lastBuildDate>Sun, 29 Jan 2017 20:50:34 +0800</lastBuildDate>
+    <generator>Jekyll v3.4.0</generator>
     
       <item>
         <title>CSS实现移动端图片点击的遮罩效果</title>
@@ -59,10 +59,10 @@
 
 &lt;p&gt;相应的JS代码（使用了 Zepto.js）：&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$photo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;.photo&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$photo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'.photo'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$photo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
 &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$photo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;.mask&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;marginLeft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'.mask'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;marginLeft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;移动端 active 失效的问题，在 Stack Overflow 上找到了答案，将遮罩层的 html 修改成以下形式就可以了：&lt;/p&gt;
 
@@ -71,8 +71,8 @@
 &lt;p&gt;经过上述修改，就可以实现移动端点击图片出现遮罩层的效果啦。在开发的过程中，还曾经尝试给遮罩层绑定&lt;code class=&quot;highlighter-rouge&quot;&gt;touchstart&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;touchend&lt;/code&gt;事件，以此来修改它的透明度，但由于图片墙是可以滚动的，在滚动界面而非点击图片时，图片也会出现遮罩层的效果，因此这种方法被放弃了。&lt;/p&gt;
 </description>
         <pubDate>Sat, 24 Dec 2016 22:12:30 +0800</pubDate>
-        <link>kongsong.me/blog/photo-mask/</link>
-        <guid isPermaLink="true">kongsong.me/blog/photo-mask/</guid>
+        <link>http://localhost:4000/blog/photo-mask/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/photo-mask/</guid>
         
         <category>CN</category>
         
@@ -154,7 +154,7 @@
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;sr&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Ruby&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;codes&lt;/span&gt;
 
-&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;parallel&#39;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'parallel'&lt;/span&gt;
 
 &lt;span class=&quot;no&quot;&gt;Parallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lots_of_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;chunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;heavy_computation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;chunk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
@@ -162,8 +162,8 @@
 
 </description>
         <pubDate>Mon, 03 Oct 2016 15:52:30 +0800</pubDate>
-        <link>kongsong.me/blog/ice-bear-jekyll-theme/</link>
-        <guid isPermaLink="true">kongsong.me/blog/ice-bear-jekyll-theme/</guid>
+        <link>http://localhost:4000/blog/ice-bear-jekyll-theme/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/ice-bear-jekyll-theme/</guid>
         
         <category>EN</category>
         
@@ -178,17 +178,17 @@
     
       <item>
         <title>学习笔记之《JavaScript 高级程序设计》（上篇）</title>
-        <description>&lt;h1 id=&quot;section&quot;&gt;目录&lt;/h1&gt;
+        <description>&lt;h1 id=&quot;目录&quot;&gt;目录&lt;/h1&gt;
 
 &lt;blockquote&gt;
-  &lt;h4 id=&quot;javascriptchapter1-&quot;&gt;第一章【 &lt;a href=&quot;#chapter1&quot;&gt;JavaScript简介&lt;/a&gt; 】&lt;/h4&gt;
+  &lt;h4 id=&quot;第一章-javascript简介-&quot;&gt;第一章【 &lt;a href=&quot;#chapter1&quot;&gt;JavaScript简介&lt;/a&gt; 】&lt;/h4&gt;
   &lt;ol&gt;
     &lt;li&gt;&lt;a href=&quot;#chapter1-1&quot;&gt;ECMAScript&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href=&quot;#chapter1-2&quot;&gt;文档对象模型（DOM）&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href=&quot;#chapter1-3&quot;&gt;浏览器对象模型（BOM）&lt;/a&gt;&lt;/li&gt;
   &lt;/ol&gt;
 
-  &lt;h4 id=&quot;htmljavascriptchapter2-&quot;&gt;第二章【 &lt;a href=&quot;#chapter2&quot;&gt;在HTML中使用JavaScript&lt;/a&gt; 】&lt;/h4&gt;
+  &lt;h4 id=&quot;第二章-在html中使用javascript-&quot;&gt;第二章【 &lt;a href=&quot;#chapter2&quot;&gt;在HTML中使用JavaScript&lt;/a&gt; 】&lt;/h4&gt;
   &lt;ol&gt;
     &lt;li&gt;&lt;a href=&quot;#chapter2-1&quot;&gt;&amp;lt;script&amp;gt;与&amp;lt;noscript&amp;gt;元素&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href=&quot;#chapter2-2&quot;&gt;嵌入代码与外部文件&lt;/a&gt;&lt;/li&gt;
@@ -276,7 +276,7 @@
 &lt;p&gt;在 HTML 页面中嵌入执行 JavaScript 代码有两种方式：&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;使用 javascript: 前缀构建执行 JavaScript 代码的 URL。如&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;a href=&quot;javascript:alert(&#39;Hello world!&#39;);&quot;&amp;gt;&amp;lt;/a&amp;gt;&lt;/code&gt;。&lt;/li&gt;
+  &lt;li&gt;使用 javascript: 前缀构建执行 JavaScript 代码的 URL。如&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;a href=&quot;javascript:alert('Hello world!');&quot;&amp;gt;&amp;lt;/a&amp;gt;&lt;/code&gt;。&lt;/li&gt;
   &lt;li&gt;在&amp;lt;script…/&amp;gt;元素标签之间包含 JavaScript 代码。&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -305,8 +305,8 @@
 
 </description>
         <pubDate>Thu, 15 Sep 2016 13:40:30 +0800</pubDate>
-        <link>kongsong.me/blog/javascript-reading-notes/</link>
-        <guid isPermaLink="true">kongsong.me/blog/javascript-reading-notes/</guid>
+        <link>http://localhost:4000/blog/javascript-reading-notes/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/javascript-reading-notes/</guid>
         
         <category>CN</category>
         
@@ -323,7 +323,7 @@
         <title>写在学期初：年中总结与规划</title>
         <description>&lt;p&gt;今天在小群里感慨，已经四年没有秋天回过家了，着实很伤感。过了片刻就反应过来，其实是五年了，自己已经研二了呀！就越加伤感了。明年就要加入找工作大军，未来的一年很重要，遂决定给自己列个 To do 时间表，时刻督促自己不要懈怠。顺便再为上学期做个总结吧。自己的第一篇中文博客，貌似很有意义。&lt;/p&gt;
 
-&lt;h3 id=&quot;section&quot;&gt;半年总结&lt;/h3&gt;
+&lt;h3 id=&quot;半年总结&quot;&gt;半年总结&lt;/h3&gt;
 
 &lt;p&gt;年初接触前端，到现在已经半年啦。自己在这半年中还是收获颇丰的。&lt;/p&gt;
 
@@ -352,7 +352,7 @@
   &lt;/ul&gt;
 &lt;/blockquote&gt;
 
-&lt;h3 id=&quot;section-1&quot;&gt;下半年规划&lt;/h3&gt;
+&lt;h3 id=&quot;下半年规划&quot;&gt;下半年规划&lt;/h3&gt;
 
 &lt;p&gt;为了明年校招的时候自己能够从容淡定些，接下来的半年，需要把该考的证、该掌握的基础知识、该做的项目都搞定。算下来时间也是挺紧的，给自己划几个时间节点，希望可以圆满完成！&lt;/p&gt;
 
@@ -370,8 +370,8 @@
 
 </description>
         <pubDate>Wed, 31 Aug 2016 21:58:30 +0800</pubDate>
-        <link>kongsong.me/blog/review-and-plan/</link>
-        <guid isPermaLink="true">kongsong.me/blog/review-and-plan/</guid>
+        <link>http://localhost:4000/blog/review-and-plan/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/review-and-plan/</guid>
         
         <category>CN</category>
         

@@ -2,17 +2,17 @@
 <html>
 
   {% include head.html %}
-
+  
   <body>
 	
 	<div class="main-wrapper">
 		{% include header.html %}
 		{% include banner.html %}
-		{% include about.html %}
-		{% include blog.html %}
-		{% include projects.html %}
+		{{content}}
+		{% include comments.html %}
 		{% include footer.html %}
 	</div>
 	
   </body>
+  {% include analytics.html %}
 </html>

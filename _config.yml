@@ -19,6 +19,22 @@ sass:
   sass_dir:         assets/_sass
   style:            compressed
 
+# Comment
+comment:
+  disqus: kongsong  
+# youyan uid  
+  youyan: 2122392 
+
+# Website analytics
+google_analytics: UA-82494501-1
+baidu_analytics: 5b31ffbbdc6cff18727f3adf75a03777    #from //hm.baidu.com/hm.js?***
+
+# Author information:
+author:
+  resume: /resume
+  name: Song Kong     #the name of Blog section
+  about_me: I'm Song Kong, a student from BUPT. This is my online home & blog, where I share thoughts about front-end development, my daily life and other insteresting topics. Feel free to contact me by email if you have any question.
+ 
 # Social Links
 email:               hi@kongsong.me
 #google.plus:        username

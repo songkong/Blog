@@ -4,11 +4,13 @@
             <h1 class="blue-title">About me</h1>
 	    <div class="avatar"></div>
             <div class="content text-center">
-                {{content}}
+                {{ site.author.about_me }}
             </div>
             <div style="margin: 10px 0">
                 <a class="btn-primary btn-blue" href="mailto:{{ site.email }}" target="_blank">Email me</a>
-                <a class="btn-primary btn-blue" href="/resume">Resume</a>
+				{% if site.author.resume %}
+				<a class="btn-primary btn-blue" href="{{ site.author.resume }}" target="_blank">Resume</a>
+				{% endif %}
             </div>
         </div>
     </div>
