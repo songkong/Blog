@@ -9,7 +9,9 @@
 		{% include header.html %}
 		{% include banner.html %}
 		{{content}}
-		{% include comments.html %}
+		{% if !page.comment %}
+			{% include comments.html %}
+		{% endif %}
 		{% include footer.html %}
 	</div>
 	

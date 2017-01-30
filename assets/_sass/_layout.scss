@@ -14,7 +14,8 @@ section {
   padding: $spacing-unit 0;
 }
 
-.main-wrapper,.error- {
+.main-wrapper,.error-wrapper {
+  min-width: 320px;
   min-height: 100%;
   height: auto;
   position: relative;
