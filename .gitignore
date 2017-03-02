@@ -2,3 +2,4 @@ archive
 node_modules
 .idea
 .sass-cache
+.git

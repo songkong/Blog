@@ -5,8 +5,8 @@
     <description>This is Song' home.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 01 Mar 2017 18:52:14 +0800</pubDate>
-    <lastBuildDate>Wed, 01 Mar 2017 18:52:14 +0800</lastBuildDate>
+    <pubDate>Thu, 02 Mar 2017 13:53:17 +0800</pubDate>
+    <lastBuildDate>Thu, 02 Mar 2017 13:53:17 +0800</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
     
       <item>
@@ -15,9 +15,8 @@
 
 &lt;p&gt;项目中，需要实现四个组件：CanvasComponent、InputComponent、ListComponent 和 MenuComponent。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.com/songkong/Blog/tree/gh-pages/assets/images/posts/selector_first.jpg&quot; width=&quot;194&quot; height=&quot;344&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/songkong/Blog/tree/gh-pages/assets/images/posts/selector_second.jpg&quot; width=&quot;194&quot; height=&quot;344&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/selector_first.jpg&quot; width=&quot;194&quot; height=&quot;344&quot; /&gt;
+&lt;img src=&quot;http://kongsong.me/assets/images/posts/selector_second.jpg&quot; width=&quot;194&quot; height=&quot;344&quot; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;redux&quot;&gt;Redux&lt;/h1&gt;
 

@@ -15,9 +15,8 @@ tags:
 
 项目中，需要实现四个组件：CanvasComponent、InputComponent、ListComponent 和 MenuComponent。
 
-<img src="https://github.com/songkong/Blog/tree/gh-pages/assets/images/posts/selector_first.jpg" width="194" height="344"/>
-
-<img src="https://github.com/songkong/Blog/tree/gh-pages/assets/images/posts/selector_second.jpg" width="194" height="344"/>
+<img src="http://kongsong.me/assets/images/posts/selector_first.jpg" width="194" height="344"/>
+<img src="http://kongsong.me/assets/images/posts/selector_second.jpg" width="194" height="344"/>
 
 # Redux
 

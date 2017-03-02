@@ -21,9 +21,8 @@ sass:
 
 # Comment
 comment:
-  disqus: kongsong  
-# youyan uid  
-  youyan: 2122392 
+  disqus: kongsong    
+  duoshuo: kongsong
 
 # Website analytics
 google_analytics: UA-82494501-1
