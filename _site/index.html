@@ -11,8 +11,7 @@
   <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
   <link rel="canonical" href="http://localhost:4000/">
   <link rel="alternate" type="application/rss+xml" title="水榭清松-Song Kong" href="http://localhost:4000/feed.xml">
-  <script src="/assets/js/jquery.min.js" | prepend: site.baseurl }}"></script>
-  <script src="/assets/js/js.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
@@ -21,13 +20,16 @@
   <script type="text/javascript">
     $(function(){
       /* initiate the plugin */
-      $("div.pag-holder").jPages({
+      $("div.page-holder").jPages({
         containerID  : "pag-itemContainer",
+		previous: "«",
+        next: "»",
         perPage      : 5,  /* num of items per page */
         startPage    : 1,
         startRange   : 1,
         midRange     : 4,
-        endRange     : 1
+        endRange     : 1,
+		direction    : "auto"
       });
     });
   </script>

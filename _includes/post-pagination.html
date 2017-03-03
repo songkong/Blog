@@ -1,14 +1,10 @@
 {% if page.previous or page.next %}
-<div class="post-pagination text-center">
-  {% if page.next %}
-  <a href="{{ page.next.url }}" class="btn-pagination" title="{{ page.next.title | markdownify | strip_html }}">Next</a>
-  {% else %}
-  <a href="#" class="btn-pagination disabled">Next</a>
-  {% endif %}
+<div class="post-pagination">
   {% if page.previous %}
-  <a href="{{ page.previous.url }}" class="btn-pagination" title="{{ page.previous.title | markdownify | strip_html }}">Previous</a>
-  {% else %}
-  <a href="#" class="btn-pagination disabled">Previous</a>
+  <a href="{{ page.previous.url }}" class="btn-pagination prev" title="{{ page.previous.title | markdownify | strip_html }}"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  {% endif %}
+  {% if page.next %}
+  <a href="{{ page.next.url }}" class="btn-pagination next" title="{{ page.next.title | markdownify | strip_html }}">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
   {% endif %}
 </div>
 {% endif %}

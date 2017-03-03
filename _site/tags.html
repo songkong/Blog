@@ -11,8 +11,7 @@
   <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
   <link rel="canonical" href="http://localhost:4000/tags">
   <link rel="alternate" type="application/rss+xml" title="水榭清松-Song Kong" href="http://localhost:4000/feed.xml">
-  <script src="/assets/js/jquery.min.js" | prepend: site.baseurl }}"></script>
-  <script src="/assets/js/js.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
@@ -21,13 +20,16 @@
   <script type="text/javascript">
     $(function(){
       /* initiate the plugin */
-      $("div.pag-holder").jPages({
+      $("div.page-holder").jPages({
         containerID  : "pag-itemContainer",
+		previous: "«",
+        next: "»",
         perPage      : 5,  /* num of items per page */
         startPage    : 1,
         startRange   : 1,
         midRange     : 4,
-        endRange     : 1
+        endRange     : 1,
+		direction    : "auto"
       });
     });
   </script>
@@ -99,7 +101,7 @@
 <ul class="entry-meta">
   
   
-  <li><a href="#CN" class="tag"><span class="term">CN</span><span class="count">4</span></a></li>
+  <li><a href="#CN" class="tag"><span class="term">CN</span><span class="count">5</span></a></li>
   
   
   <li><a href="#CSS" class="tag"><span class="term">CSS</span><span class="count">1</span></a></li>
@@ -114,13 +116,13 @@
   <li><a href="#MT" class="tag"><span class="term">MT</span><span class="count">1</span></a></li>
   
   
-  <li><a href="#React" class="tag"><span class="term">React</span><span class="count">1</span></a></li>
+  <li><a href="#React" class="tag"><span class="term">React</span><span class="count">2</span></a></li>
   
   
-  <li><a href="#Redux" class="tag"><span class="term">Redux</span><span class="count">1</span></a></li>
+  <li><a href="#Redux" class="tag"><span class="term">Redux</span><span class="count">2</span></a></li>
   
   
-  <li><a href="#front-end" class="tag"><span class="term">front-end</span><span class="count">4</span></a></li>
+  <li><a href="#front-end" class="tag"><span class="term">front-end</span><span class="count">5</span></a></li>
   
   
   <li><a href="#jekyll" class="tag"><span class="term">jekyll</span><span class="count">1</span></a></li>
@@ -137,6 +139,8 @@
 <ul>
     
     <li class="entry-title"><a href="/blog/react-selector/" title="React + Redux实战：Selector App">React + Redux实战：Selector App</a></li>
+    
+    <li class="entry-title"><a href="/blog/react-selector-%E5%89%AF%E6%9C%AC/" title="React + Redux实战：Selector App">React + Redux实战：Selector App</a></li>
     
     <li class="entry-title"><a href="/blog/photo-mask/" title="CSS实现移动端图片点击的遮罩效果">CSS实现移动端图片点击的遮罩效果</a></li>
     
@@ -179,6 +183,8 @@
     
     <li class="entry-title"><a href="/blog/react-selector/" title="React + Redux实战：Selector App">React + Redux实战：Selector App</a></li>
     
+    <li class="entry-title"><a href="/blog/react-selector-%E5%89%AF%E6%9C%AC/" title="React + Redux实战：Selector App">React + Redux实战：Selector App</a></li>
+    
   </ul>
 
 <h3 id="Redux" class="red-title">Redux</h3>
@@ -186,12 +192,16 @@
     
     <li class="entry-title"><a href="/blog/react-selector/" title="React + Redux实战：Selector App">React + Redux实战：Selector App</a></li>
     
+    <li class="entry-title"><a href="/blog/react-selector-%E5%89%AF%E6%9C%AC/" title="React + Redux实战：Selector App">React + Redux实战：Selector App</a></li>
+    
   </ul>
 
 <h3 id="front-end" class="red-title">front-end</h3>
 <ul>
     
     <li class="entry-title"><a href="/blog/react-selector/" title="React + Redux实战：Selector App">React + Redux实战：Selector App</a></li>
+    
+    <li class="entry-title"><a href="/blog/react-selector-%E5%89%AF%E6%9C%AC/" title="React + Redux实战：Selector App">React + Redux实战：Selector App</a></li>
     
     <li class="entry-title"><a href="/blog/photo-mask/" title="CSS实现移动端图片点击的遮罩效果">CSS实现移动端图片点击的遮罩效果</a></li>
     

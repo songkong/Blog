@@ -62,37 +62,56 @@ blockquote a {
 
 .btn-pagination {
   color: $blue;
-  padding: 0.25em;
-  border: 2px dashed $white;
-  border-bottom: 2px dashed $blue;
-  text-shadow: none;
-  float: right;
-  @include border-radius(0.25em);
-  @include transition-duration(0.5s);
   &:hover,
   &:active {
-    border: 2px dashed $blue;
-  }
-  &:last-child {
-    margin-right: 1.5em;
+    color: $light-red;
   }
 }
 
 .post-pagination {
-  //@include flex();
-  //flex-direction: row;
-  //justify-content: space-between;
   height: 1.5em;
   margin-top: 1.5em;
-  .disabled {
-    color: $grey-color;
-	border-bottom: 2px dashed $grey-color;
-	cursor: not-allowed;
-	&:hover {
-	  border: 2px dashed $grey-color;
-	}
+  .next {
+    float: right;
   }
 }
+
+.page-holder {
+	text-align: center;
+	a {
+		color: $blue;
+		text-align: center;
+		cursor: pointer;
+        display: inline-block;
+        height: 25px;
+        width: 25px;
+		&:not(:last-child) {
+			margin-right: 5px;
+		}
+	}
+	span {
+		color: $blue;
+		font-weight: $base-font-bold;
+        text-shadow:  1px 1px $dark-white ,2px 2px $darker-white;
+        margin: 0 5px;
+	}
+	.jp-current {
+        pointer-events: none;
+        cursor: auto;
+        @include border-radius(0.3em);
+        background-color: $blue;
+        text-shadow: none;
+        color: $white;
+        box-shadow: 1px 1px 0 1px $darker-white;
+        -webkit-box-shadow: 1px 1px 0 1px $darker-white;
+    }
+	.jp-disabled {
+		color: $grey-color;
+		cursor: auto;
+		event-pointers:none;
+	}
+}
+
 
 /**
  * title

@@ -15,8 +15,8 @@
       defaults = {
         containerID: "",
         first: false,
-        previous: false,
-        next:false,
+        previous: "← previous",
+        next: "next →",
         last: false,
         links: "numeric", // blank || title
         startPage: 1,
@@ -48,7 +48,6 @@
 
     this._holder = $(element);
     this._nav = {};
-    // this._nav = {"  <ul class="pagination">"};
 
     this._first = $(this.options.first);
     this._previous = $(this.options.previous);
@@ -136,22 +135,14 @@
 
     writeNav : function() {
       var i = 1, navhtml;
-      navhtml = ''
-      navhtml = '<nav><ul class="pagination">'
-      navhtml += this.writeBtn("first") + this.writeBtn("previous");
-      // navhtml = "<ul class="pagination">" + this.writeBtn("first") + this.writeBtn("previous");
+      navhtml = this.writeBtn("first") + this.writeBtn("previous");
 
       for (; i <= this._numPages; i++) {
         if (i === 1 && this.options.startRange === 0) navhtml += "<span>...</span>";
-        // if (i === 1 && this.options.startRange === 0) navhtml += "<li><span>...</span></li>";
         if (i > this.options.startRange && i <= this._numPages - this.options.endRange)
-          // navhtml += "<a href='#' class='jp-hidden'>";
-          navhtml += "<li><a href='#' class='jp-hidden'>";
-          // navhtml += "<a type="button" class="btn btn-white jp-hidden" href="#" >"
+          navhtml += "<a href='#' class='jp-hidden'>";
         else
-          // navhtml += "<a>";
-          navhtml += "<li><a>";
-          // navhtml += "<a type="button" class="btn btn-white">";
+          navhtml += "<a>";
 
         switch (this.options.links) {
           case "numeric":
@@ -165,23 +156,18 @@
             break;
         }
 
-        // navhtml += "</a>";
-        navhtml += "</a></li>";
+        navhtml += "</a>";
         if (i === this.options.startRange || i === this._numPages - this.options.endRange)
-          // navhtml += "<span>...</span>";
-          navhtml += "<li><span>...</span></li>";
+          navhtml += "<span>...</span>";
       }
       navhtml += this.writeBtn("next") + this.writeBtn("last") + "</div>";
-      // navhtml += this.writeBtn("next") + this.writeBtn("last") + "</div>" + "</ul>";
-      navhtml += '</ul></nav>'
       return navhtml;
     },
 
     writeBtn : function(which) {
 
       return this.options[which] !== false && !$(this["_" + which]).length ?
-      // "<a class='jp-" + which + "'>" + this.options[which] + "</a>" : "";
-      "<li class=''><a class='jp-" + which + "'>" + this.options[which] + "</a></li>" : "";
+      "<a class='jp-" + which + "'>" + this.options[which] + "</a>" : "";
 
     },
 
@@ -451,26 +437,26 @@
 
     updateBtns : function(nav, page) {
       if (page === 1) {
-        nav.first.parent().addClass("active");
-        nav.previous.parent().addClass("active");
+        nav.first.addClass("jp-disabled");
+        nav.previous.addClass("jp-disabled");
       }
       if (page === this._numPages) {
-        nav.next.parent().addClass("active");
-        nav.last.parent().addClass("active");
+        nav.next.addClass("jp-disabled");
+        nav.last.addClass("jp-disabled");
       }
       if (this._currentPageNum === 1 && page > 1) {
-        nav.first.parent().removeClass("active");
-        nav.previous.parent().removeClass("active");
+        nav.first.removeClass("jp-disabled");
+        nav.previous.removeClass("jp-disabled");
       }
       if (this._currentPageNum === this._numPages && page < this._numPages) {
-        nav.next.parent().removeClass("active");
-        nav.last.parent().removeClass("active");
+        nav.next.removeClass("jp-disabled");
+        nav.last.removeClass("jp-disabled");
       }
     },
 
     updateCurrentPage : function(nav, page) {
-      nav.currentPage.removeClass("active");
-      nav.currentPage = nav.pages.eq(page - 1).parent().addClass("active");
+      nav.currentPage.removeClass("jp-current");
+      nav.currentPage = nav.pages.eq(page - 1).addClass("jp-current");
     },
 
     updatePagesShowing : function(nav, interval) {
