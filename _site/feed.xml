@@ -5,8 +5,8 @@
     <description>This is Song' home.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 14 Mar 2017 15:00:28 +0800</pubDate>
-    <lastBuildDate>Tue, 14 Mar 2017 15:00:28 +0800</lastBuildDate>
+    <pubDate>Tue, 14 Mar 2017 15:21:14 +0800</pubDate>
+    <lastBuildDate>Tue, 14 Mar 2017 15:21:14 +0800</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
     
       <item>
@@ -71,7 +71,7 @@
   &lt;p&gt;简单地说就是通过一个 https 的链接，完成从浏览器直接跳转到 App 或者在没安装 App 的情况下跳转到指定页面。没有是否要进入 App 的弹窗，没有微信客户端限制跳转。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;NA 端如何实现 Universal Link，可以&lt;a href=&quot;'http://www.cocoachina.com/ios/20150902/13321.html'&quot;&gt;查看这里&lt;/a&gt;。当你的 NA 小伙伴已经开发好后，就可以直接使用相应的协议啦。&lt;/p&gt;
+&lt;p&gt;NA 端如何实现 Universal Link，可以&lt;a href=&quot;http://www.cocoachina.com/ios/20150902/13321.html&quot;&gt;查看这里&lt;/a&gt;。当你的 NA 小伙伴已经开发好后，就可以直接使用相应的协议啦。&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/iPhone OS 9|iPhone OS 10/i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ua&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;href&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'这里是你和 NA 小伙伴商量好的协议'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;

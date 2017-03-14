@@ -73,7 +73,7 @@ $(document.body).append(iframeHtml);
 > ###### Universal Link 是什么？
 > 简单地说就是通过一个 https 的链接，完成从浏览器直接跳转到 App 或者在没安装 App 的情况下跳转到指定页面。没有是否要进入 App 的弹窗，没有微信客户端限制跳转。
 
-NA 端如何实现 Universal Link，可以[查看这里]('http://www.cocoachina.com/ios/20150902/13321.html')。当你的 NA 小伙伴已经开发好后，就可以直接使用相应的协议啦。
+NA 端如何实现 Universal Link，可以[查看这里](http://www.cocoachina.com/ios/20150902/13321.html)。当你的 NA 小伙伴已经开发好后，就可以直接使用相应的协议啦。
 
 {% highlight javascript %}
 if (/iPhone OS 9|iPhone OS 10/i.test(ua)) {

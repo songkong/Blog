@@ -172,7 +172,7 @@
   <p>简单地说就是通过一个 https 的链接，完成从浏览器直接跳转到 App 或者在没安装 App 的情况下跳转到指定页面。没有是否要进入 App 的弹窗，没有微信客户端限制跳转。</p>
 </blockquote>
 
-<p>NA 端如何实现 Universal Link，可以<a href="'http://www.cocoachina.com/ios/20150902/13321.html'">查看这里</a>。当你的 NA 小伙伴已经开发好后，就可以直接使用相应的协议啦。</p>
+<p>NA 端如何实现 Universal Link，可以<a href="http://www.cocoachina.com/ios/20150902/13321.html">查看这里</a>。当你的 NA 小伙伴已经开发好后，就可以直接使用相应的协议啦。</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">if</span> <span class="p">(</span><span class="sr">/iPhone OS 9|iPhone OS 10/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">ua</span><span class="p">))</span> <span class="p">{</span>
     <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="s1">'这里是你和 NA 小伙伴商量好的协议'</span><span class="p">;</span>
