@@ -224,6 +224,7 @@ p   {
 /**
  * Icons
  */
+ 
 .icon {
 
     > svg {
@@ -236,4 +237,29 @@ p   {
             fill: $grey-color;
         }
     }
+}
+
+/**
+ * Table
+ */
+ 
+table {
+	border-collapse: collapse;
+	font-size: $small-font-size;
+	border:solid $light-blue; 
+	border-width:1px 0px 0px 1px;
+	margin-bottom: 15px;
+	th {
+		color: $grey-color;
+		background-color: $light-blue;
+		padding: 5px;
+		border:solid $light-blue; 
+		border-width:0px 1px 1px 0px;
+	}
+	td {
+		padding: 5px;
+		border:solid $light-blue; 
+		border-width:0px 1px 1px 0px;
+	}
+    
 }

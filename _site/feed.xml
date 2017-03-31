@@ -5,9 +5,141 @@
     <description>This is Song' home.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 14 Mar 2017 15:21:14 +0800</pubDate>
-    <lastBuildDate>Tue, 14 Mar 2017 15:21:14 +0800</lastBuildDate>
+    <pubDate>Fri, 31 Mar 2017 13:14:50 +0800</pubDate>
+    <lastBuildDate>Fri, 31 Mar 2017 13:14:50 +0800</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
+    
+      <item>
+        <title>基于JS的移动端滑动插件对比</title>
+        <description>&lt;p&gt;之前开发一个移动端的图片墙功能，需要实现图片的滑动、缩放功能，因此研究了一下目前比较流行的几个开源插件，这里总结一下。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;TouchSlide&lt;/li&gt;
+  &lt;li&gt;FlexSlider&lt;/li&gt;
+  &lt;li&gt;Swiper&lt;/li&gt;
+  &lt;li&gt;iScroll&lt;/li&gt;
+  &lt;li&gt;iSlider&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在选择插件的时候，主要考虑三方面因素：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;因为是移动端，插件大小尽可能小，节省流量。&lt;/li&gt;
+  &lt;li&gt;API 足够丰富，能够满足基本开发需求。&lt;/li&gt;
+  &lt;li&gt;移动端流畅度较好。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;各插件基本介绍&quot;&gt;各插件基本介绍&lt;/h4&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;插件名&lt;/th&gt;
+      &lt;th&gt;相关链接&lt;/th&gt;
+      &lt;th&gt;主要功能&lt;/th&gt;
+      &lt;th&gt;优点&lt;/th&gt;
+      &lt;th&gt;缺点&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;TouchSlide&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;http://www.superslide2.com/TouchSlide/param.html&quot;&gt;Link&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;触屏焦点图、触屏Tab切换、触屏多图切换&lt;/td&gt;
+      &lt;td&gt;体积小、专为移动端设计&lt;/td&gt;
+      &lt;td&gt;仅支持两个回调函数&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;FlexSlider&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://woocommerce.com/flexslider/&quot;&gt;Link&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;图片轮播效果、焦点图效果、图文混排滚动&lt;/td&gt;
+      &lt;td&gt;体积较小&lt;/td&gt;
+      &lt;td&gt;API 比 TouchSlider 丰富，但也比较少&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Swiper&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;http://www.swiper.com.cn/api/index.html&quot;&gt;Link&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;触屏焦点图、触屏Tab切换、触屏多图切换&lt;/td&gt;
+      &lt;td&gt;API 丰富、自带放大功能&lt;/td&gt;
+      &lt;td&gt;体积过大&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;iScroll&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;http://cubiq.org/iscroll-5&quot;&gt;Link&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;CSS 动画、缩放、拉动刷新、捕捉元素&lt;/td&gt;
+      &lt;td&gt;体积小、API 丰富&lt;/td&gt;
+      &lt;td&gt;Android 中端机中，提供的部分参数值不准确&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;iSlider&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;http://be-fe.github.io/iSlider/demo/&quot;&gt;Link&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;图片和 DOM 的滑动、可自定义插件&lt;/td&gt;
+      &lt;td&gt;体积较小、API 丰富&lt;/td&gt;
+      &lt;td&gt;需要额外引入 CSS 文件&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;各插件缩放对比&quot;&gt;各插件缩放对比&lt;/h4&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;由于&lt;code class=&quot;highlighter-rouge&quot;&gt;TouchSlide&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;FlexSlider&lt;/code&gt;支持回调函数过少、本身无缩放功能，这里不再讨论这两个插件。&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;插件名&lt;/th&gt;
+      &lt;th&gt;所需文件&lt;/th&gt;
+      &lt;th&gt;文件大小&lt;/th&gt;
+      &lt;th&gt;缩放存在的问题&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Swiper&lt;/td&gt;
+      &lt;td&gt;swiper.min.js, swiper.min.css&lt;/td&gt;
+      &lt;td&gt;94.2KB + 17.3KB&lt;/td&gt;
+      &lt;td&gt;放大后，无法移动到屏幕之外的地方&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;iScroll&lt;/td&gt;
+      &lt;td&gt;iscroll-zoom.js&lt;/td&gt;
+      &lt;td&gt;58.4KB&lt;/td&gt;
+      &lt;td&gt;图片滑动需设置屏幕捕捉，当前图片放大后，滑动一下，会出现两张图片各占屏幕一半的情况&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;iSlider&lt;/td&gt;
+      &lt;td&gt;slider.min.js, slider.min.css&lt;/td&gt;
+      &lt;td&gt;20.5KB + 1.5KB&lt;/td&gt;
+      &lt;td&gt;第一次放大后，继续放大灵敏度低&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;总结：个人比较倾向&lt;code class=&quot;highlighter-rouge&quot;&gt;iScroll&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;iSlider&lt;/code&gt;两个插件，但这些插件在缩放上的交互与原生相差较大，还需继续努力。&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 31 Mar 2017 11:00:30 +0800</pubDate>
+        <link>http://localhost:4000/blog/mobile-slide-plugin/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/mobile-slide-plugin/</guid>
+        
+        <category>CN</category>
+        
+        <category>front-end</category>
+        
+        <category>Mobile</category>
+        
+        <category>Plugin</category>
+        
+        <category>JavaScript</category>
+        
+        
+        <category>Front-end</category>
+        
+      </item>
     
       <item>
         <title>JS 实现页面调起原生 APP</title>
