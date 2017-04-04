@@ -22,7 +22,8 @@ sass:
 # Comment
 comment:
   disqus: kongsong    
-  duoshuo: kongsong
+  # duoshuo: kongsong
+  youyan: 2122392
 
 # Website analytics
 google_analytics: UA-82494501-1
