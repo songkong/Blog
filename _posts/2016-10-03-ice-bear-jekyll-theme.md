@@ -27,6 +27,8 @@ This is my first jekyll theme decorated by my favorite items -- blue and ice bea
 # Style test
 ---
 
+_italic_. **bold**. ***italic and bold***. ~~delete line~~. [link](http://kongsong.me).
+
 # Heading 1
 
 ## Heading 2
@@ -64,6 +66,8 @@ Parallel.map(lots_of_data) do |chunk|
 end
 {% endhighlight %}
 
-
-
+table | table | table | table | table
+----|------|---- | ---- | ---- 
+This is table | This is table | This is table | This is table | This is table
+This is table | This is table | This is table | This is table | This is table
 
