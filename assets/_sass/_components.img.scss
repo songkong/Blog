@@ -7,7 +7,7 @@
     100% {
         transform: rotate(360deg);
 		-webkit-transform: rotate(360deg);
-        background: url(../images/avatar.jpg) center no-repeat;
+        background: url(../images/cartoon-avatar.jpg) center no-repeat;
 		background-size: 100% 100%;
     }
 }
@@ -27,6 +27,18 @@
     }
 }
 
+/**
+ * Images in post
+ */
+ 
+.post-content img {
+	margin-left: -2em;
+	clear: both; 
+	display: block; 
+	margin: auto;
+}
+ 
+ 
 /**
  * Animations for SVG
  */

@@ -140,9 +140,9 @@ JS 中的数据访问包括直接量 (字符串、正则表达式 )、变量、�
 
 一般来说，样式的写操作之后，如果有下面这些属性的读操作，都会引发浏览器立即重新渲染。
 
-> * offsetTop/offsetLeft/offsetWidth/offsetHeight
-> * scrollTop/scrollLeft/scrollWidth/scrollHeight
-> * clientTop/clientLeft/clientWidth/clientHeight
+> * offsetTop/Left/Width/Height
+> * scrollTop/Left/Width/Height
+> * clientTop/Left/Width/Height
 > * getComputedStyle()
 
 因此，减少重排和重绘的一般规则为：
@@ -254,15 +254,15 @@ cookie 包含在每次请求和响应中，太大的 cookie 会严重影响数�
 
 ### 4 参考文献
 
-[12 steps to a faster web app](https://auth0.com/blog/12-steps-to-a-faster-web-app/)
+[a. 12 steps to a faster web app](https://auth0.com/blog/12-steps-to-a-faster-web-app/)
 
-[网页性能管理详解](http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html)
+[b. 网页性能管理详解](http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html)
 
-[Best Practices for Speeding Up Your Web Site](https://developer.yahoo.com/performance/rules.html)
+[c. Best Practices for Speeding Up Your Web Site](https://developer.yahoo.com/performance/rules.html)
 
-[利用 Chrom Dev Tools 分析运行时性能](https://developers.google.com/web/tools/chrome-devtools/rendering-tools/?utm_source=dcc&utm_medium=redirect&utm_campaign=2016q3)
+[d. 利用 Chrom Dev Tools 分析运行时性能](https://developers.google.com/web/tools/chrome-devtools/rendering-tools/?utm_source=dcc&utm_medium=redirect&utm_campaign=2016q3)
 
-[web 前端性能优化总结](http://blog.csdn.net/mahoking/article/details/51472697)
+[e. web 前端性能优化总结](http://blog.csdn.net/mahoking/article/details/51472697)
 
 
 

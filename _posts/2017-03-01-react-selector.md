@@ -3,7 +3,7 @@ layout: post
 title:  "React + Redux实战：Selector App"
 date:   2017-03-01 18:00:30 +0800
 categories: [Front-end]
-excerpt: Selector 能够帮你化解生活中的选择困难问题，比如‘吃什么’、‘去哪玩’。
+excerpt: Selector 能够帮你化解生活中的选择困难问题，比如`吃什么`，`去哪玩`。
 tags:
   - CN
   - front-end
@@ -13,10 +13,11 @@ tags:
 
 开发中使用到的技术：React + Redux + Gulp + Browserify。利用`Browserify`，可以将`JSX`转化为`JS`代码，同时允许使用`require`实现项目的模块化。`Gulp`完成代码的打包。`Browserify`和`Gulp`的相关代码在`gulpFile.js`中，比较简单，不在此赘述。
 
+![selector_first](http://kongsong.me/assets/images/posts/selector_first.jpg)
+
 项目中，需要实现四个组件：CanvasComponent、InputComponent、ListComponent 和 MenuComponent。
 
-<img src="http://kongsong.me/assets/images/posts/selector_first.jpg" width="194" height="344"/>
-<img src="http://kongsong.me/assets/images/posts/selector_second.jpg" width="194" height="344"/>
+![selector_second](http://kongsong.me/assets/images/posts/selector_second.jpg)
 
 # Redux
 
@@ -119,16 +120,25 @@ var local = {
     remove: function (key) {
         localStorage.removeItem(key);
     },
+    // Copy the data to menuList
     clone: function () {
         var copy = [];
-        for (var i=localStorage.length-1; i>=0; i--) {
+        var keySet = [];
+        for (var i = localStorage.length-1; i >= 0; i--) {
             var key = localStorage.key(i);
             if (key != 'nextId') {
-                copy.push({
-                    id: key,
-                    value: this.get(key)
-                });
+                keySet.push(key);
             }
+        }
+        // Reverse order to make the inserted item at the top of the list
+        keySet.sort(function (pre, next) {
+            return -(pre - next);
+        });
+        for (var j = 0; j < keySet.length; j++) {
+            copy.push({
+                id: keySet[j],
+                value: this.get(keySet[j])
+            });
         }
         return copy;
     }
@@ -137,18 +147,18 @@ var local = {
 /* state = {
         beginSelect: false,
         isMenuShowed: false,
-        isBlankTextShowed: false,
+        isEmptyTextShowed: false,
         menuList: [{id: '123', 'value': 'abc'}]
    }
 */
-function updateState(beginSelect, isMenuShowed, isBlankTextShowed) {
+function updateState(beginSelect, isMenuShowed, isEmptyTextShowed) {
     if (local.isEmpty()){
         local.initLocal(menuList);
     }
     return {
         beginSelect: beginSelect,
         isMenuShowed: isMenuShowed,
-        isBlankTextShowed: isBlankTextShowed,
+        isEmptyTextShowed: isEmptyTextShowed,
         menuList: local.clone()
     };
 }
@@ -163,19 +173,22 @@ function reducer(state, action) {
     }
     switch(action.type){
         case type.TOGGLE_BTN:
-            if (state.menuList.length) {
-                return updateState(!state.beginSelect, state.isMenuShowed, false);
-            } else {
-                return updateState(state.beginSelect, state.isMenuShowed, true);
+            if (!state.isMenuShowed) {
+                if (state.menuList.length) {
+                    return updateState(!state.beginSelect, state.isMenuShowed, false);
+                } else {
+                    return updateState(state.beginSelect, state.isMenuShowed, true);
+                }
             }
+            break;
         case type.DISPLAY_MENU:
             if (!state.beginSelect){
-                return updateState(state.beginSelect, !state.isMenuShowed, state.isBlankTextShowed);
+                return updateState(state.beginSelect, !state.isMenuShowed, state.isEmptyTextShowed);
             }
             break;
         case type.DELETE_ITEM:
             local.remove(action.id);
-            return updateState(state.beginSelect, state.isMenuShowed, state.isBlankTextShowed);
+            return updateState(state.beginSelect, state.isMenuShowed, state.isEmptyTextShowed);
         case type.INSERT_ITEM:
             local.set(local.get('nextId'), action.value);
             local.set('nextId', parseInt(local.get('nextId')) + 1);
@@ -224,8 +237,8 @@ var CanvasComponent = React.createClass({
             self.timer = setInterval(function () {
                 self.initCanvas({count: count++, text: self.props.menuList[Math.floor(Math.random() * menuLength)].value, smile: false});
             },100);
-        } else if(self.props.isBlankTextShowed) {
-            self.initCanvas({count: 0, text: self.props.blankText, smile: false});
+        } else if(self.props.isEmptyTextShowed) {
+            self.initCanvas({count: 0, text: self.props.emptyText, smile: false});
         } else if(self.timer){
             clearInterval(self.timer);
             self.timer = null;
@@ -310,7 +323,7 @@ var CanvasComponent = React.createClass({
 function mapStateToProps(state)  {
     return {
         beginSelect: state.beginSelect,
-        isBlankTextShowed: state.isBlankTextShowed,
+        isEmptyTextShowed: state.isEmptyTextShowed,
         menuList: state.menuList
     };
 }
@@ -479,7 +492,7 @@ ReactDOM.render(
     <Provider store={store}>
         <div>
             <MenuComponent />
-            <CanvasComponent className = 'canvas-wrapper' btnText = {/{start: 'Start', stop: 'Stop'}/} initText = '吃什么?' blankText = "菜单空空如也"/>
+            <CanvasComponent className = 'canvas-wrapper' btnText = {/{start: 'Start', stop: 'Stop'}/} initText = '吃什么?' emptyText = "菜单空空如也"/>
         </div>
     </Provider>
     , document.getElementById('main-wrapper'));

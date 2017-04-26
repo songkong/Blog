@@ -50,6 +50,9 @@ img {
     max-width: 100%;
     vertical-align: middle;
 }
+p img {
+	margin-left: -2em;
+}
 
 
 
@@ -119,23 +122,22 @@ h6 {
 blockquote {
     color: $grey-color;
     font-weight: bold;
-    border-left: 0.5em solid $blue;
-    @include border-radius(0.3em);
+    border-left: 0.3em solid $blue;
     padding: $spacing-unit / 2;
-    //font-size: 18px;
-    letter-spacing: -1px;
-    //font-style: italic;
     background-color: lighten($light-blue,5%);
     li {
         color: $blue;
         margin-bottom: 0.5em;
         list-style-position: outside;
     }
+	li:last-child {
+		margin-bottom: 0;
+	}
     h1, h2, h3, h4, h5, h6 {
         color: $grey-color;
         text-shadow:  1px 1px $light-blue ,2px 2px $blue;
     }
-    > :last-child {
+    >:last-child {
         margin-bottom: 0;
     }
 	
@@ -158,11 +160,10 @@ pre,
 code {
 	color: $blue;
     border-radius: 0.5em;
-    background-color: lighten($light-blue,5%);
 }
 
 code {
-    font:$base-font-weight #{$small-font-size}/#{$base-line-height*1.2} $base-font-family;
+    font:$base-font-weight #{$small-font-size}/#{$base-line-height*1.2} $base-font-code;
     padding: 2px 5px;
     margin: 0 2px;
 }
@@ -170,8 +171,8 @@ code {
 pre {
     padding: 8px 12px;
     overflow-x: auto;
+	border: 2px solid lighten($light-blue,5%);
     > code {
-        border: 0;
         padding-right: 0;
         padding-left: 0;
     }
