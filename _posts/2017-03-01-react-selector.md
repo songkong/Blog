@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "React + Redux实战：Selector App"
+title:  "React + Redux 实战：Selector App"
 date:   2017-03-01 18:00:30 +0800
-categories: [Front-end]
+categories: [Tech]
 excerpt: Selector 能够帮你化解生活中的选择困难问题，比如`吃什么`，`去哪玩`。
 tags:
   - CN

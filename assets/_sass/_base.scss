@@ -50,9 +50,6 @@ img {
     max-width: 100%;
     vertical-align: middle;
 }
-p img {
-	margin-left: -2em;
-}
 
 
 
@@ -166,12 +163,13 @@ code {
     font:$base-font-weight #{$small-font-size}/#{$base-line-height*1.2} $base-font-code;
     padding: 2px 5px;
     margin: 0 2px;
+	word-break:break-all;
 }
 
 pre {
     padding: 8px 12px;
     overflow-x: auto;
-	border: 2px solid lighten($light-blue,5%);
+	border: 2px solid $light-blue;
     > code {
         padding-right: 0;
         padding-left: 0;
@@ -185,6 +183,7 @@ pre {
 
 p   {
 	text-align: justify;
+	word-wrap: break-word;
 }
 .post-content {
 	p {

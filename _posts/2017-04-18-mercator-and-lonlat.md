@@ -2,7 +2,7 @@
 layout: post
 title:  "JS 实现墨卡托坐标到经纬度坐标的转换"
 date:   2017-04-18 20:00:30 +0800
-categories: [Front-end]
+categories: [Tech]
 excerpt: 在调用百度地图 API 时发现，墨卡托到经纬度的转换，利用转换公式得到的结果误差较大。本篇文章利用 JS 实现了高精度的转换。
 tags:
   - CN

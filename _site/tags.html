@@ -20,8 +20,19 @@
   <script type="text/javascript">
     $(function(){
       /* initiate the plugin */
-      $("div.page-holder").jPages({
-        containerID  : "pag-itemContainer",
+      $("div.page-holder-one").jPages({
+        containerID  : "pag-itemContainer-one",
+		previous: "«",
+        next: "»",
+        perPage      : 5,  /* num of items per page */
+        startPage    : 1,
+        startRange   : 1,
+        midRange     : 4,
+        endRange     : 1,
+		direction    : "auto"
+      });
+	  $("div.page-holder-two").jPages({
+        containerID  : "pag-itemContainer-two",
 		previous: "«",
         next: "»",
         perPage      : 5,  /* num of items per page */
@@ -148,13 +159,13 @@
     
     <li class="entry-title"><a href="/blog/mercator-and-lonlat/" title="JS 实现墨卡托坐标到经纬度坐标的转换">JS 实现墨卡托坐标到经纬度坐标的转换</a></li>
     
-    <li class="entry-title"><a href="/blog/mobile-slide-plugin/" title="基于JS的移动端滑动插件对比">基于JS的移动端滑动插件对比</a></li>
+    <li class="entry-title"><a href="/blog/mobile-slide-plugin/" title="基于 JS 的移动端滑动插件对比">基于 JS 的移动端滑动插件对比</a></li>
     
     <li class="entry-title"><a href="/blog/web-call-app/" title="JS 实现页面调起原生 APP">JS 实现页面调起原生 APP</a></li>
     
-    <li class="entry-title"><a href="/blog/react-selector/" title="React + Redux实战：Selector App">React + Redux实战：Selector App</a></li>
+    <li class="entry-title"><a href="/blog/react-selector/" title="React + Redux 实战：Selector App">React + Redux 实战：Selector App</a></li>
     
-    <li class="entry-title"><a href="/blog/photo-mask/" title="CSS实现移动端图片点击的遮罩效果">CSS实现移动端图片点击的遮罩效果</a></li>
+    <li class="entry-title"><a href="/blog/photo-mask/" title="CSS 实现移动端图片点击的遮罩效果">CSS 实现移动端图片点击的遮罩效果</a></li>
     
     <li class="entry-title"><a href="/blog/javascript-reading-notes/" title="学习笔记之《JavaScript 高级程序设计》（上篇）">学习笔记之《JavaScript 高级程序设计》（上篇）</a></li>
     
@@ -165,7 +176,7 @@
 <h3 id="CSS" class="red-title">CSS</h3>
 <ul>
     
-    <li class="entry-title"><a href="/blog/photo-mask/" title="CSS实现移动端图片点击的遮罩效果">CSS实现移动端图片点击的遮罩效果</a></li>
+    <li class="entry-title"><a href="/blog/photo-mask/" title="CSS 实现移动端图片点击的遮罩效果">CSS 实现移动端图片点击的遮罩效果</a></li>
     
   </ul>
 
@@ -181,7 +192,7 @@
     
     <li class="entry-title"><a href="/blog/mercator-and-lonlat/" title="JS 实现墨卡托坐标到经纬度坐标的转换">JS 实现墨卡托坐标到经纬度坐标的转换</a></li>
     
-    <li class="entry-title"><a href="/blog/mobile-slide-plugin/" title="基于JS的移动端滑动插件对比">基于JS的移动端滑动插件对比</a></li>
+    <li class="entry-title"><a href="/blog/mobile-slide-plugin/" title="基于 JS 的移动端滑动插件对比">基于 JS 的移动端滑动插件对比</a></li>
     
     <li class="entry-title"><a href="/blog/web-call-app/" title="JS 实现页面调起原生 APP">JS 实现页面调起原生 APP</a></li>
     
@@ -192,32 +203,32 @@
 <h3 id="Mobile" class="red-title">Mobile</h3>
 <ul>
     
-    <li class="entry-title"><a href="/blog/mobile-slide-plugin/" title="基于JS的移动端滑动插件对比">基于JS的移动端滑动插件对比</a></li>
+    <li class="entry-title"><a href="/blog/mobile-slide-plugin/" title="基于 JS 的移动端滑动插件对比">基于 JS 的移动端滑动插件对比</a></li>
     
     <li class="entry-title"><a href="/blog/web-call-app/" title="JS 实现页面调起原生 APP">JS 实现页面调起原生 APP</a></li>
     
-    <li class="entry-title"><a href="/blog/photo-mask/" title="CSS实现移动端图片点击的遮罩效果">CSS实现移动端图片点击的遮罩效果</a></li>
+    <li class="entry-title"><a href="/blog/photo-mask/" title="CSS 实现移动端图片点击的遮罩效果">CSS 实现移动端图片点击的遮罩效果</a></li>
     
   </ul>
 
 <h3 id="Plugin" class="red-title">Plugin</h3>
 <ul>
     
-    <li class="entry-title"><a href="/blog/mobile-slide-plugin/" title="基于JS的移动端滑动插件对比">基于JS的移动端滑动插件对比</a></li>
+    <li class="entry-title"><a href="/blog/mobile-slide-plugin/" title="基于 JS 的移动端滑动插件对比">基于 JS 的移动端滑动插件对比</a></li>
     
   </ul>
 
 <h3 id="React" class="red-title">React</h3>
 <ul>
     
-    <li class="entry-title"><a href="/blog/react-selector/" title="React + Redux实战：Selector App">React + Redux实战：Selector App</a></li>
+    <li class="entry-title"><a href="/blog/react-selector/" title="React + Redux 实战：Selector App">React + Redux 实战：Selector App</a></li>
     
   </ul>
 
 <h3 id="Redux" class="red-title">Redux</h3>
 <ul>
     
-    <li class="entry-title"><a href="/blog/react-selector/" title="React + Redux实战：Selector App">React + Redux实战：Selector App</a></li>
+    <li class="entry-title"><a href="/blog/react-selector/" title="React + Redux 实战：Selector App">React + Redux 实战：Selector App</a></li>
     
   </ul>
 
@@ -228,13 +239,13 @@
     
     <li class="entry-title"><a href="/blog/mercator-and-lonlat/" title="JS 实现墨卡托坐标到经纬度坐标的转换">JS 实现墨卡托坐标到经纬度坐标的转换</a></li>
     
-    <li class="entry-title"><a href="/blog/mobile-slide-plugin/" title="基于JS的移动端滑动插件对比">基于JS的移动端滑动插件对比</a></li>
+    <li class="entry-title"><a href="/blog/mobile-slide-plugin/" title="基于 JS 的移动端滑动插件对比">基于 JS 的移动端滑动插件对比</a></li>
     
     <li class="entry-title"><a href="/blog/web-call-app/" title="JS 实现页面调起原生 APP">JS 实现页面调起原生 APP</a></li>
     
-    <li class="entry-title"><a href="/blog/react-selector/" title="React + Redux实战：Selector App">React + Redux实战：Selector App</a></li>
+    <li class="entry-title"><a href="/blog/react-selector/" title="React + Redux 实战：Selector App">React + Redux 实战：Selector App</a></li>
     
-    <li class="entry-title"><a href="/blog/photo-mask/" title="CSS实现移动端图片点击的遮罩效果">CSS实现移动端图片点击的遮罩效果</a></li>
+    <li class="entry-title"><a href="/blog/photo-mask/" title="CSS 实现移动端图片点击的遮罩效果">CSS 实现移动端图片点击的遮罩效果</a></li>
     
     <li class="entry-title"><a href="/blog/ice-bear-jekyll-theme/" title="Ice Bear Jekyll Theme">Ice Bear Jekyll Theme</a></li>
     
@@ -352,7 +363,7 @@
         
       </ul>
     </div>
-    <div class="copyright text-center">Copyright © 2016 Song Kong. Powered by Jekyll.</div>
+    <div class="copyright text-center">Copyright © 2017 Song Kong. Powered by Jekyll.</div>
   </div>
   <div id="top" class="btn-top" style="display:none">
     <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>

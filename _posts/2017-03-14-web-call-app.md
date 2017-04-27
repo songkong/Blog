@@ -2,7 +2,7 @@
 layout: post
 title:  "JS 实现页面调起原生 APP"
 date:   2017-03-14 12:00:30 +0800
-categories: [Front-end]
+categories: [Tech]
 excerpt: IOS 9 和 10 利用 Universal Link 调起原生 App，告别系统体验极差的弹窗。其它版本 IOS 和安卓利用 iframe 调起 App。
 tags:
   - CN

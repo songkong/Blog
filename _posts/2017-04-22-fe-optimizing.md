@@ -2,7 +2,7 @@
 layout: post
 title:  "前端性能优化总结"
 date:   2017-04-21 20:00:30 +0800
-categories: [Front-end]
+categories: [Tech]
 excerpt: 随着前端技术的飞速发展，性能问题越来越受到重视，本文从代码和网络性能两部分，总结了常用的前端优化方法。
 tags:
   - CN

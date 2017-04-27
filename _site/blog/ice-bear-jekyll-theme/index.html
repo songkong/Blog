@@ -20,8 +20,19 @@
   <script type="text/javascript">
     $(function(){
       /* initiate the plugin */
-      $("div.page-holder").jPages({
-        containerID  : "pag-itemContainer",
+      $("div.page-holder-one").jPages({
+        containerID  : "pag-itemContainer-one",
+		previous: "«",
+        next: "»",
+        perPage      : 5,  /* num of items per page */
+        startPage    : 1,
+        startRange   : 1,
+        midRange     : 4,
+        endRange     : 1,
+		direction    : "auto"
+      });
+	  $("div.page-holder-two").jPages({
+        containerID  : "pag-itemContainer-two",
 		previous: "«",
         next: "»",
         perPage      : 5,  /* num of items per page */
@@ -219,7 +230,7 @@
 "><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
   
   
-  <a href="/blog/photo-mask/" class="btn-pagination next" title="CSS实现移动端图片点击的遮罩效果
+  <a href="/blog/photo-mask/" class="btn-pagination next" title="CSS 实现移动端图片点击的遮罩效果
 ">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
   
 </div>
@@ -303,7 +314,7 @@
         
       </ul>
     </div>
-    <div class="copyright text-center">Copyright © 2016 Song Kong. Powered by Jekyll.</div>
+    <div class="copyright text-center">Copyright © 2017 Song Kong. Powered by Jekyll.</div>
   </div>
   <div id="top" class="btn-top" style="display:none">
     <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>

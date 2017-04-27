@@ -5,8 +5,8 @@
     <description>This is Song' home.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 27 Apr 2017 10:24:55 +0800</pubDate>
-    <lastBuildDate>Thu, 27 Apr 2017 10:24:55 +0800</lastBuildDate>
+    <pubDate>Thu, 27 Apr 2017 21:05:27 +0800</pubDate>
+    <lastBuildDate>Thu, 27 Apr 2017 21:05:27 +0800</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
     
       <item>
@@ -299,7 +299,7 @@
         <category>性能优化</category>
         
         
-        <category>Front-end</category>
+        <category>Tech</category>
         
       </item>
     
@@ -351,12 +351,12 @@ y = ln(tan(45° + Φ/2))&lt;/p&gt;
         <category>JavaScript</category>
         
         
-        <category>Front-end</category>
+        <category>Tech</category>
         
       </item>
     
       <item>
-        <title>基于JS的移动端滑动插件对比</title>
+        <title>基于 JS 的移动端滑动插件对比</title>
         <description>&lt;p&gt;之前开发一个移动端的图片墙功能，需要实现图片的滑动、缩放功能，因此研究了一下目前比较流行的几个开源插件，这里总结一下。&lt;/p&gt;
 
 &lt;ul&gt;
@@ -483,7 +483,7 @@ y = ln(tan(45° + Φ/2))&lt;/p&gt;
         <category>JavaScript</category>
         
         
-        <category>Front-end</category>
+        <category>Tech</category>
         
       </item>
     
@@ -588,12 +588,12 @@ y = ln(tan(45° + Φ/2))&lt;/p&gt;
         <category>JavaScript</category>
         
         
-        <category>Front-end</category>
+        <category>Tech</category>
         
       </item>
     
       <item>
-        <title>React + Redux实战：Selector App</title>
+        <title>React + Redux 实战：Selector App</title>
         <description>&lt;p&gt;开发中使用到的技术：React + Redux + Gulp + Browserify。利用&lt;code class=&quot;highlighter-rouge&quot;&gt;Browserify&lt;/code&gt;，可以将&lt;code class=&quot;highlighter-rouge&quot;&gt;JSX&lt;/code&gt;转化为&lt;code class=&quot;highlighter-rouge&quot;&gt;JS&lt;/code&gt;代码，同时允许使用&lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt;实现项目的模块化。&lt;code class=&quot;highlighter-rouge&quot;&gt;Gulp&lt;/code&gt;完成代码的打包。&lt;code class=&quot;highlighter-rouge&quot;&gt;Browserify&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;Gulp&lt;/code&gt;的相关代码在&lt;code class=&quot;highlighter-rouge&quot;&gt;gulpFile.js&lt;/code&gt;中，比较简单，不在此赘述。&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/selector_first.jpg&quot; alt=&quot;selector_first&quot; /&gt;&lt;/p&gt;
@@ -1086,12 +1086,12 @@ y = ln(tan(45° + Φ/2))&lt;/p&gt;
         <category>Redux</category>
         
         
-        <category>Front-end</category>
+        <category>Tech</category>
         
       </item>
     
       <item>
-        <title>CSS实现移动端图片点击的遮罩效果</title>
+        <title>CSS 实现移动端图片点击的遮罩效果</title>
         <description>&lt;p&gt;最近在做一个移动端的图片墙，遇到这样一个需求：点击墙中的图片，图片上出现一个颜色为 #999，不透明度为 0.3 的遮罩层。页面中每张图片大致以如下 HTML 结构呈现：&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;photo-wrapper&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
@@ -1164,7 +1164,7 @@ y = ln(tan(45° + Φ/2))&lt;/p&gt;
         <category>Mobile</category>
         
         
-        <category>Front-end</category>
+        <category>Tech</category>
         
       </item>
     
@@ -1283,7 +1283,7 @@ y = ln(tan(45° + Φ/2))&lt;/p&gt;
         <category>front-end</category>
         
         
-        <category>Front-end</category>
+        <category>Tech</category>
         
       </item>
     
@@ -1426,7 +1426,7 @@ y = ln(tan(45° + Φ/2))&lt;/p&gt;
         <category>JavaScript</category>
         
         
-        <category>Front-end</category>
+        <category>Tech</category>
         
       </item>
     

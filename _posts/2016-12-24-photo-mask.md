@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "CSS实现移动端图片点击的遮罩效果"
+title:  "CSS 实现移动端图片点击的遮罩效果"
 date:   2016-12-24 22:12:30 +0800
-categories: [Front-end]
+categories: [Tech]
 excerpt: 如何在移动端实现图片点击时出现一个遮罩层的效果？最近踩了些坑，特此总结一下。
 tags:
   - CN

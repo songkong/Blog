@@ -29,7 +29,7 @@
         {% if site.hackernews %}<li><a class="social-btn btn-white" href="https://news.ycombinator.com/user?id={{ site.hackernews }}" target="_blank" rel="noopener noreferrer" title="Follow me on Hackernews"><i class="fa fa-fw fa-hacker-news"></i></a></li>{% endif %}
       </ul>
     </div>
-    <div class="copyright text-center">Copyright © 2016 {{ site.author.name }}. Powered by Jekyll.</div>
+    <div class="copyright text-center">Copyright © {{ 'now' | date: "%Y" }} {{ site.author.name }}. Powered by Jekyll.</div>
   </div>
   <div id="top" class="btn-top" style="display:none">
     <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>

@@ -2,7 +2,7 @@
 layout: post
 title:  "Ice Bear Jekyll Theme"
 date:   2016-10-03 15:52:30 +0800
-categories: [Front-end]
+categories: [Tech]
 excerpt: This is my first jekyll theme and this article describes how to use it.
 tags:
   - EN

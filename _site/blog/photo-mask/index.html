@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CSS实现移动端图片点击的遮罩效果</title>
+  <title>CSS 实现移动端图片点击的遮罩效果</title>
   <meta name="description" content="如何在移动端实现图片点击时出现一个遮罩层的效果？最近踩了些坑，特此总结一下。">
 
   <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
@@ -20,8 +20,19 @@
   <script type="text/javascript">
     $(function(){
       /* initiate the plugin */
-      $("div.page-holder").jPages({
-        containerID  : "pag-itemContainer",
+      $("div.page-holder-one").jPages({
+        containerID  : "pag-itemContainer-one",
+		previous: "«",
+        next: "»",
+        perPage      : 5,  /* num of items per page */
+        startPage    : 1,
+        startRange   : 1,
+        midRange     : 4,
+        endRange     : 1,
+		direction    : "auto"
+      });
+	  $("div.page-holder-two").jPages({
+        containerID  : "pag-itemContainer-two",
 		previous: "«",
         next: "»",
         perPage      : 5,  /* num of items per page */
@@ -93,7 +104,7 @@
 			<section style="padding-bottom: 0">
 		<article class="wrapper">
 			<div class="post-header">
-			<h2 class="red-title" >CSS实现移动端图片点击的遮罩效果</h2>
+			<h2 class="red-title" >CSS 实现移动端图片点击的遮罩效果</h2>
 			<ul class="tags">
 				
 				<li><a href="/tags#CN">CN</a></li>
@@ -179,7 +190,7 @@
 "><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
   
   
-  <a href="/blog/react-selector/" class="btn-pagination next" title="React + Redux实战：Selector App
+  <a href="/blog/react-selector/" class="btn-pagination next" title="React + Redux 实战：Selector App
 ">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
   
 </div>
@@ -263,7 +274,7 @@
         
       </ul>
     </div>
-    <div class="copyright text-center">Copyright © 2016 Song Kong. Powered by Jekyll.</div>
+    <div class="copyright text-center">Copyright © 2017 Song Kong. Powered by Jekyll.</div>
   </div>
   <div id="top" class="btn-top" style="display:none">
     <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>

@@ -2,7 +2,7 @@
 layout: post
 title:  "学习笔记之《JavaScript 高级程序设计》（上篇）"
 date:   2016-09-15 13:40:30 +0800
-categories: [Front-end]
+categories: [Tech]
 excerpt: 这篇文章归纳了书中第1到8章的相关知识点，留作日后复习。
 tags:
   - CN

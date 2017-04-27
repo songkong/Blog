@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>基于JS的移动端滑动插件对比</title>
+  <title>基于 JS 的移动端滑动插件对比</title>
   <meta name="description" content="对比分析了目前几个主流的 JS 移动端滑动插件。">
 
   <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
@@ -20,8 +20,19 @@
   <script type="text/javascript">
     $(function(){
       /* initiate the plugin */
-      $("div.page-holder").jPages({
-        containerID  : "pag-itemContainer",
+      $("div.page-holder-one").jPages({
+        containerID  : "pag-itemContainer-one",
+		previous: "«",
+        next: "»",
+        perPage      : 5,  /* num of items per page */
+        startPage    : 1,
+        startRange   : 1,
+        midRange     : 4,
+        endRange     : 1,
+		direction    : "auto"
+      });
+	  $("div.page-holder-two").jPages({
+        containerID  : "pag-itemContainer-two",
 		previous: "«",
         next: "»",
         perPage      : 5,  /* num of items per page */
@@ -93,7 +104,7 @@
 			<section style="padding-bottom: 0">
 		<article class="wrapper">
 			<div class="post-header">
-			<h2 class="red-title" >基于JS的移动端滑动插件对比</h2>
+			<h2 class="red-title" >基于 JS 的移动端滑动插件对比</h2>
 			<ul class="tags">
 				
 				<li><a href="/tags#CN">CN</a></li>
@@ -318,7 +329,7 @@
         
       </ul>
     </div>
-    <div class="copyright text-center">Copyright © 2016 Song Kong. Powered by Jekyll.</div>
+    <div class="copyright text-center">Copyright © 2017 Song Kong. Powered by Jekyll.</div>
   </div>
   <div id="top" class="btn-top" style="display:none">
     <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>

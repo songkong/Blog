@@ -20,8 +20,19 @@
   <script type="text/javascript">
     $(function(){
       /* initiate the plugin */
-      $("div.page-holder").jPages({
-        containerID  : "pag-itemContainer",
+      $("div.page-holder-one").jPages({
+        containerID  : "pag-itemContainer-one",
+		previous: "«",
+        next: "»",
+        perPage      : 5,  /* num of items per page */
+        startPage    : 1,
+        startRange   : 1,
+        midRange     : 4,
+        endRange     : 1,
+		direction    : "auto"
+      });
+	  $("div.page-holder-two").jPages({
+        containerID  : "pag-itemContainer-two",
 		previous: "«",
         next: "»",
         perPage      : 5,  /* num of items per page */
@@ -94,9 +105,13 @@
 		<div class="wrapper">
 			<div class="text-center">
 				<h1 class="blue-title">Posts</h1>
-				<div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+				<!--<div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>-->
 			</div>
-			<ul class="posts-list" id="pag-itemContainer">
+			<div class="posts-tabs">
+				<span class="posts-tab-item tab-one active">Tech</span>
+				<span class="posts-tab-item tab-two">Life</span>
+			</div>
+			<ul class="posts-list tab-one-list" id="pag-itemContainer-one">
 				
 				
 				
@@ -151,7 +166,7 @@
 				<li>
 					<h2>
 						<a href="/blog/mobile-slide-plugin/" class="post-title">
-							<span>基于JS的移动端滑动插件对比
+							<span>基于 JS 的移动端滑动插件对比
 </span>
 						</a>
 						<span class="date">31 Mar 2017</span>
@@ -208,7 +223,7 @@
 				<li>
 					<h2>
 						<a href="/blog/react-selector/" class="post-title">
-							<span>React + Redux实战：Selector App
+							<span>React + Redux 实战：Selector App
 </span>
 						</a>
 						<span class="date">01 Mar 2017</span>
@@ -235,7 +250,7 @@
 				<li>
 					<h2>
 						<a href="/blog/photo-mask/" class="post-title">
-							<span>CSS实现移动端图片点击的遮罩效果
+							<span>CSS 实现移动端图片点击的遮罩效果
 </span>
 						</a>
 						<span class="date">24 Dec 2016</span>
@@ -306,6 +321,10 @@
 					</ul>
 				</li>
 				
+			</ul>
+			<ul class="posts-list tab-two-list tab-hidden" id="pag-itemContainer-two">
+				
+				
 				
 				<li>
 					<h2>
@@ -332,9 +351,13 @@
 				
 			</ul>
 			
+			
     <div>
-		<div class="page-holder"></div>
+		<div class="page-holder page-holder-one"></div>
 	</div>
+
+
+
 
 
 
@@ -410,7 +433,7 @@
         
       </ul>
     </div>
-    <div class="copyright text-center">Copyright © 2016 Song Kong. Powered by Jekyll.</div>
+    <div class="copyright text-center">Copyright © 2017 Song Kong. Powered by Jekyll.</div>
   </div>
   <div id="top" class="btn-top" style="display:none">
     <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
