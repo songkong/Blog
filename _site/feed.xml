@@ -5,8 +5,8 @@
     <description>This is Song' home.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 28 Apr 2017 22:10:15 +0800</pubDate>
-    <lastBuildDate>Fri, 28 Apr 2017 22:10:15 +0800</lastBuildDate>
+    <pubDate>Fri, 28 Apr 2017 22:23:10 +0800</pubDate>
+    <lastBuildDate>Fri, 28 Apr 2017 22:23:10 +0800</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
     
       <item>
