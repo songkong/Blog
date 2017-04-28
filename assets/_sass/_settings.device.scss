@@ -24,4 +24,11 @@
     background: url(../images/cloud.png) 5% bottom no-repeat;
 	background-size: 80px 58px;
   }
+  .posts-tabs i {
+	margin-left: 0.8em;
+	margin-right: 0.8em;
+	&:first-of-type {
+		margin-left: 1.2em;
+	}
+  }
 }

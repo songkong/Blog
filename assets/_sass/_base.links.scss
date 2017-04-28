@@ -112,19 +112,25 @@ blockquote a {
 	}
 }
 
+/**
+* Post Tab
+**/
+
 .posts-tabs {
 	border-bottom: 2px solid $blue;
 	margin-bottom: 20px;
+	color: $grey-color;
+	max-height: 2em;
+	overflow: hidden;
 	.posts-tab-item {
-		font: $base-font-weight $large-font-size $base-font-code;
-		cursor: pointer;
 		display: inline-block;
 		width: 4em;
-		text-align: center;
-		color: $blue;
 		margin-right: 0.5em;
 		padding-top: 0.2em;
 		padding-bottom: 0.2em;
+		color: $blue;
+		cursor: pointer;
+		text-align: center;
 		border: 2px solid $blue;
 		border-bottom: none;
 		border-radius: 0.5em 0.5em 0 0;
@@ -133,7 +139,26 @@ blockquote a {
 			background-color: $blue;
 		}
 	}
+	i {
+		position: relative;
+		margin-left: 1.6em;
+		margin-right: 1.6em;
+	}
+	i:first-of-type {
+		margin-left: 2.4em;
+	}
+	i:nth-of-type(2n) {
+		bottom: 0.5em;
+		transform: rotate(80deg);	
+	}
+	i:nth-of-type(2n+1) {
+		transform: rotate(100deg);	
+	}
 }
+.tab-hidden {
+	display: none;
+}
+
 
 /**
  * title
