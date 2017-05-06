@@ -16,34 +16,7 @@
   <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <script type="text/javascript">
-    $(function(){
-      /* initiate the plugin */
-      $("div.page-holder-one").jPages({
-        containerID  : "pag-itemContainer-one",
-		previous: "«",
-        next: "»",
-        perPage      : 5,  /* num of items per page */
-        startPage    : 1,
-        startRange   : 1,
-        midRange     : 4,
-        endRange     : 1,
-		direction    : "auto"
-      });
-	  $("div.page-holder-two").jPages({
-        containerID  : "pag-itemContainer-two",
-		previous: "«",
-        next: "»",
-        perPage      : 5,  /* num of items per page */
-        startPage    : 1,
-        startRange   : 1,
-        midRange     : 4,
-        endRange     : 1,
-		direction    : "auto"
-      });
-    });
-  </script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 
   
@@ -138,9 +111,11 @@
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">ua</span> <span class="o">=</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">userAgent</span><span class="p">;</span>
 
-<span class="c1">// 微信或微博内提示在浏览器打开</span>
+<span class="c1">// 微信或微博内提示在浏览器打开
+</span>
 <span class="k">if</span> <span class="p">(</span><span class="sr">/MicroMessenger|Weibo/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">ua</span><span class="p">))</span> <span class="p">{</span>
-    <span class="c1">// 这里做些处理，如现实一个提示在浏览器打开的灰色蒙板</span>
+    <span class="c1">// 这里做些处理，如现实一个提示在浏览器打开的灰色蒙板
+</span>
 	<span class="k">return</span>
 <span class="p">}</span></code></pre></figure>
 
@@ -148,7 +123,8 @@
 
 <hr />
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// 使用了 Zepto.js，jQuery 同理</span>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// 使用了 Zepto.js，jQuery 同理
+</span>
 <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s1">'#open_app'</span><span class="p">).</span><span class="nx">size</span><span class="p">())</span> <span class="p">{</span>
     <span class="nx">$</span><span class="p">(</span><span class="s1">'#open_app'</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
 <span class="p">}</span>
@@ -164,7 +140,8 @@
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"> <span class="kd">var</span> <span class="nx">startTime</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">();</span>
  <span class="kd">var</span> <span class="nx">delayDownload</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-	<span class="c1">// 做一下延迟</span>
+	<span class="c1">// 做一下延迟
+</span>
 	<span class="k">if</span> <span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">-</span> <span class="nx">startTime</span> <span class="o">&lt;</span> <span class="mi">2000</span><span class="p">)</span> <span class="p">{</span>
         <span class="kd">var</span> <span class="nx">isIos</span> <span class="o">=</span> <span class="p">(</span><span class="sr">/iphone|ipad|ipod/i</span><span class="p">).</span><span class="nx">test</span><span class="p">(</span><span class="nx">ua</span><span class="p">);</span>
 		<span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">isIos</span><span class="p">?</span> <span class="s1">'这里是你的 App 在 Appstore 中的下载链接'</span> <span class="p">:</span> <span class="s1">'这里是你的 App 安卓的下载地址'</span><span class="p">;</span>

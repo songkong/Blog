@@ -16,34 +16,7 @@
   <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <script type="text/javascript">
-    $(function(){
-      /* initiate the plugin */
-      $("div.page-holder-one").jPages({
-        containerID  : "pag-itemContainer-one",
-		previous: "«",
-        next: "»",
-        perPage      : 5,  /* num of items per page */
-        startPage    : 1,
-        startRange   : 1,
-        midRange     : 4,
-        endRange     : 1,
-		direction    : "auto"
-      });
-	  $("div.page-holder-two").jPages({
-        containerID  : "pag-itemContainer-two",
-		previous: "«",
-        next: "»",
-        perPage      : 5,  /* num of items per page */
-        startPage    : 1,
-        startRange   : 1,
-        midRange     : 4,
-        endRange     : 1,
-		direction    : "auto"
-      });
-    });
-  </script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 
   
@@ -133,10 +106,12 @@ y = ln(tan(45° + Φ/2))</p>
 
 <p>根据上述公式，将墨卡托转为经纬度时，纬度的误差高达 0.2 几。为了实现高精度的转换，使用多项式展开的方式。</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// 摩卡托转经纬度</span>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// 摩卡托转经纬度
+</span>
 <span class="kd">function</span> <span class="nx">mercator2lonLat</span><span class="p">(</span><span class="nx">merX</span><span class="p">,</span> <span class="nx">merY</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">band</span> <span class="o">=</span> <span class="p">[</span><span class="mf">12890594.86</span><span class="p">,</span> <span class="mf">8362377.87</span><span class="p">,</span> <span class="mi">5591021</span><span class="p">,</span> <span class="mf">3481989.83</span><span class="p">,</span> <span class="mf">1678043.12</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
-	<span class="c1">// 多项式系数</span>
+	<span class="c1">// 多项式系数
+</span>
     <span class="kd">var</span> <span class="nx">MC2LL</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">1.410526172116255</span><span class="nx">e</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mf">0.00000898305509648872</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.9939833816331</span><span class="p">,</span> <span class="mf">200.9824383106796</span><span class="p">,</span> <span class="o">-</span><span class="mf">187.2403703815547</span><span class="p">,</span> <span class="mf">91.6087516669843</span><span class="p">,</span> <span class="o">-</span><span class="mf">23.38765649603339</span><span class="p">,</span> <span class="mf">2.57121317296198</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.03801003308653</span><span class="p">,</span> <span class="mf">17337981.2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">7.435856389565537</span><span class="nx">e</span><span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="mf">0.000008983055097726239</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.78625201886289</span><span class="p">,</span> <span class="mf">96.32687599759846</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.85204757529826</span><span class="p">,</span> <span class="o">-</span><span class="mf">59.36935905485877</span><span class="p">,</span> <span class="mf">47.40033549296737</span><span class="p">,</span> <span class="o">-</span><span class="mf">16.50741931063887</span><span class="p">,</span> <span class="mf">2.28786674699375</span><span class="p">,</span> <span class="mf">10260144.86</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">3.030883460898826</span><span class="nx">e</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mf">0.00000898305509983578</span><span class="p">,</span> <span class="mf">0.30071316287616</span><span class="p">,</span> <span class="mf">59.74293618442277</span><span class="p">,</span> <span class="mf">7.357984074871</span><span class="p">,</span> <span class="o">-</span><span class="mf">25.38371002664745</span><span class="p">,</span> <span class="mf">13.45380521110908</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.29883767235584</span><span class="p">,</span> <span class="mf">0.32710905363475</span><span class="p">,</span> <span class="mf">6856817.37</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.981981304930552</span><span class="nx">e</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mf">0.000008983055099779535</span><span class="p">,</span> <span class="mf">0.03278182852591</span><span class="p">,</span> <span class="mf">40.31678527705744</span><span class="p">,</span> <span class="mf">0.65659298677277</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.44255534477492</span><span class="p">,</span> <span class="mf">0.85341911805263</span><span class="p">,</span> <span class="mf">0.12923347998204</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.04625736007561</span><span class="p">,</span> <span class="mf">4482777.06</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.09191371068437</span><span class="nx">e</span><span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="mf">0.000008983055096812155</span><span class="p">,</span> <span class="mf">0.00006995724062</span><span class="p">,</span> <span class="mf">23.10934304144901</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00023663490511</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6321817810242</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00663494467273</span><span class="p">,</span> <span class="mf">0.03430082397953</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00466043876332</span><span class="p">,</span> <span class="mf">2555164.4</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.890871144776878</span><span class="nx">e</span><span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="mf">0.000008983055095805407</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.068298</span><span class="nx">e</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mf">7.47137025468032</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00000353937994</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.02145144861037</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00001234426596</span><span class="p">,</span> <span class="mf">0.00010322952773</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00000323890364</span><span class="p">,</span> <span class="mf">826088.5</span><span class="p">]];</span>
     <span class="kd">var</span> <span class="nx">params</span><span class="p">;</span>
     <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">band</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
@@ -150,7 +125,8 @@ y = ln(tan(45° + Φ/2))</p>
     <span class="nx">lat</span> <span class="o">=</span> <span class="nx">params</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="nx">params</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="nx">lat</span> <span class="o">+</span> <span class="nx">params</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">lat</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nx">params</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">lat</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="nx">params</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">lat</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="nx">params</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">lat</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="nx">params</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">lat</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
     <span class="nx">lng</span> <span class="o">*=</span> <span class="p">(</span><span class="nx">merX</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">?</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="mi">1</span><span class="p">);</span>
     <span class="nx">lat</span> <span class="o">*=</span> <span class="p">(</span><span class="nx">merY</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">?</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="mi">1</span><span class="p">);</span>
-	<span class="c1">// 输出 '纬度,经度' 的格式，可调</span>
+	<span class="c1">// 输出 '纬度,经度' 的格式，可调
+</span>
     <span class="k">return</span> <span class="nx">lat</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="s1">','</span> <span class="o">+</span> <span class="nx">lng</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">6</span><span class="p">);</span>
 <span class="p">}</span></code></pre></figure>
 

@@ -3,3 +3,5 @@ node_modules
 .idea
 .sass-cache
 .git
+.DS_Store
+Blog.xcworkspace

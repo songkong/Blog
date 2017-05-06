@@ -39,3 +39,32 @@ $(document).ready(function () {
 		$(".page-holder-two").removeClass("tab-hidden");
 	}
 })
+
+/*
+ * Pagination
+ */
+$(function(){
+  /* initiate the plugin */
+  $("div.page-holder-one").jPages({
+      containerID  : "pag-itemContainer-one",
+      previous: "«",
+      next: "»",
+      perPage      : 5,  /* num of items per page */
+      startPage    : 1,
+      startRange   : 1,
+      midRange     : 4,
+      endRange     : 1,
+      direction    : "auto"
+  });
+  $("div.page-holder-two").jPages({
+      containerID  : "pag-itemContainer-two",
+      previous: "«",
+      next: "»",
+      perPage      : 5,  /* num of items per page */
+      startPage    : 1,
+      startRange   : 1,
+      midRange     : 4,
+      endRange     : 1,
+      direction    : "auto"
+  });
+});

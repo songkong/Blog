@@ -1,4 +1,4 @@
-window.onload = function () {
+$(document).ready(function () {
     var bearPaw = Snap("#bear-paw");
 	if (bearPaw) {
 		var rotatePaw = function () {
@@ -24,4 +24,4 @@ window.onload = function () {
 		rotateSun();
 		setInterval(rotateSun,2500);
 	}
-};
+});
