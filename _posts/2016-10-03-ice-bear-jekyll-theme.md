@@ -24,6 +24,8 @@ This is my first jekyll theme decorated by my favorite items -- blue and ice bea
 * Change `avatar.jpg` and `cartoon-avatar.jpg` in `assets/images`.
 * Edit `LICENSE.md` and `README.md`.
 
+> I use two categories for posts in my blog, `Tech` and `Life`. If you want to add other categories, remember to modify `_includes/post-list-pagination`, `_layouts/post-list.html` and `assets/js/script.js` to add `Tabs` and `Paginations` for every category posts. 
+
 # Style test
 ---
 
