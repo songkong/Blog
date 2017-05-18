@@ -5,9 +5,105 @@
     <description>This is Song' home.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 07 May 2017 22:10:54 +0800</pubDate>
-    <lastBuildDate>Sun, 07 May 2017 22:10:54 +0800</lastBuildDate>
+    <pubDate>Thu, 18 May 2017 17:41:11 +0800</pubDate>
+    <lastBuildDate>Thu, 18 May 2017 17:41:11 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>移动端 Web 页面调试指南</title>
+        <description>&lt;p&gt;本篇文章主要分为以下部分：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;利用 Chrome 模拟移动端开发（Windows、Mac）&lt;/li&gt;
+  &lt;li&gt;利用 Chrome 进行 Android 真机调试（Windows、Mac）&lt;/li&gt;
+  &lt;li&gt;在 Mac 上利用 Safari 进行 iPhone 真机调试&lt;/li&gt;
+  &lt;li&gt;在 Mac 上利用 Safari 模拟移动端开发&lt;/li&gt;
+  &lt;li&gt;在 Mac 上利用 iOS 模拟器进行 Hybrid 开发&lt;/li&gt;
+  &lt;li&gt;在手机上用浏览器查看页面效果（Android、iPhone）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;利用-chrome-模拟移动端开发&quot;&gt;利用 Chrome 模拟移动端开发&lt;/h4&gt;
+
+&lt;p&gt;作为一个前端工程师，每日与 Chrome 打交道，相信大家对 Chrome 的调试方法早已轻车熟路。在这里就简单提下。&lt;/p&gt;
+
+&lt;p&gt;在 Chrome 中打开待调试页面，&lt;code class=&quot;highlighter-rouge&quot;&gt;F12&lt;/code&gt;开启开发者工具（Mac中是&lt;code class=&quot;highlighter-rouge&quot;&gt;cmd+alt+i&lt;/code&gt;）。点击开发者工具左上角的第二个图标（下图中被红色框选中的），待调试页面就会切换到移动终端屏幕展示模式。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/1.jpeg&quot; alt=&quot;mobile-debug1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;点击左上角的移动设备名称（如 iPhone6），可以切换设备。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/2.png&quot; alt=&quot;mobile-debug2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;同时，&lt;code class=&quot;highlighter-rouge&quot;&gt;Edit&lt;/code&gt;支持自定义设备，可以自己添加一些特殊分辨率的屏幕。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/3.png&quot; alt=&quot;mobile-debug3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Chrome 最主要的还是模拟移动设备的屏幕尺寸，由于各种手机厂商会对手机浏览器进行不同程度的定制，真机中的效果可能会与 Chrome 中看到的不同，在不同型号的手机中便会出现形形色色的 Bug。因此，本方法比较适合日常的开发，开发完毕后需要在真机中查看具体效果。若遇到各种兼容性 Bug，就需要真机调试或模拟器调试了。&lt;/p&gt;
+
+&lt;h4 id=&quot;利用-chrome-进行-android-真机调试&quot;&gt;利用 Chrome 进行 Android 真机调试&lt;/h4&gt;
+
+&lt;p&gt;利用 Chrome 可以对 Android 上的 Web 页面、原生 App 中的 WebView 进行调试。方法很简单，在 PC 和 Android 手机上安装最新版的 Chrome 浏览器，将手机与 PC 用数据线连接，手机开启 USB 调试功能，不同机型开启调试功能的方法不一样，请自行百度。在 PC 端的 Chrome 地址栏中输入 &lt;code class=&quot;highlighter-rouge&quot;&gt;chrome://inspect/#devices&lt;/code&gt;，选中&lt;code class=&quot;highlighter-rouge&quot;&gt;Discover USB devices&lt;/code&gt;，若页面中显示出了你的设备名称，表示 Chrome 成功连接到了你的手机。若没有连接成功，请检查数据线是否完好、浏览器是否是新版。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/4.png&quot; alt=&quot;mobile-debug4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;连接成功后，用手机的 Chrome 打开想调试的 Web 页面，PC 端的 inspect 页面会同步出现相应的页面信息，点击&lt;code class=&quot;highlighter-rouge&quot;&gt;inspect&lt;/code&gt;即可开始调试。若想调试某 App 中的 WebView 页面，手机中需安装该 App 的 debug 版本，进入 App 中的相应 WebView 页面，PC 端的 Chrome 便会成功获取该页面信息。&lt;/p&gt;
+
+&lt;h4 id=&quot;在-mac-上利用-safari-进行-iphone-真机调试&quot;&gt;在 Mac 上利用 Safari 进行 iPhone 真机调试&lt;/h4&gt;
+
+&lt;p&gt;iPhone 的真机调试与 Android 相似。首先，为 Safari 开启开发者工具，打开 Safari，&lt;code class=&quot;highlighter-rouge&quot;&gt;cmd+,&lt;/code&gt;打开偏好设置，在&lt;code class=&quot;highlighter-rouge&quot;&gt;高级&lt;/code&gt;选项的最下边，选中&lt;code class=&quot;highlighter-rouge&quot;&gt;在菜单中显示开发菜单&lt;/code&gt;。此时，Safari 的菜单栏中就会出现&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;选项。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/5.png&quot; alt=&quot;mobile-debug5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;接着，将 iPhone 与 Mac 用数据线连接，在 PC 端 Safari 的&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;中会出现&lt;code class=&quot;highlighter-rouge&quot;&gt;iPhone&lt;/code&gt;选项，选中之后即可看到手机中开启的 Web 页面。&lt;/p&gt;
+
+&lt;p&gt;当出现与 iOS 版本相关的 Bug 时，比如在 iOS 8.x 版本的 iPhone5 中出现了一些问题，采用本方法比较合适，直接连上测试机就可以定位问题了。但对于更普遍的 Bug、或者仅仅想看下页面在真机中的效果，还是采用 iOS 模拟器比较方便。&lt;/p&gt;
+
+&lt;h4 id=&quot;在-mac-上利用-safari-模拟移动端开发&quot;&gt;在 Mac 上利用 Safari 模拟移动端开发&lt;/h4&gt;
+
+&lt;p&gt;Safari 也像 Chrome 一样可以模拟移动端开发。在&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;中选中&lt;code class=&quot;highlighter-rouge&quot;&gt;用户代理&lt;/code&gt;-&lt;code class=&quot;highlighter-rouge&quot;&gt;iPhone&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/6.png&quot; alt=&quot;mobile-debug6&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;接着选中&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;中的&lt;code class=&quot;highlighter-rouge&quot;&gt;进入响应式设计模式&lt;/code&gt;，页面就会切成移动显示模式了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/7.png&quot; alt=&quot;mobile-debug7&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;作为一个 Chrome 党，平时开发从来没有用过这种方法，好不好用就不做评价啦。&lt;/p&gt;
+
+&lt;h4 id=&quot;在-mac-上利用-ios-模拟器进行-hybrid-开发&quot;&gt;在 Mac 上利用 iOS 模拟器进行 Hybrid 开发&lt;/h4&gt;
+
+&lt;p&gt;iOS 模拟器（iOS Simulator）捆绑在了 Xcode 里，但其本身也是一个独立程序，启动 iOS 模拟器后，可以在 Dock 中看到模拟器的图标。右键选择图标，在&lt;code class=&quot;highlighter-rouge&quot;&gt;选项&lt;/code&gt;中选择&lt;code class=&quot;highlighter-rouge&quot;&gt;在 Dock 中保留&lt;/code&gt;，这样即使关闭模拟器，图标也会出现在 Dock 中，方便以后开发调试。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/8.png&quot; alt=&quot;mobile-debug8&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;启动模拟器后，可以在模拟器中的 Safari 打开想调试的页面，再打开 Mac 上的 Safari，在&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;-&lt;code class=&quot;highlighter-rouge&quot;&gt;Simulator&lt;/code&gt;中监听相应页面。但这完全没有必要，这和直接用 Mac 上的 Safari 开发没有什么区别。iOS 模拟器主要是用来调试原生 App 中的 WebView 页面的。&lt;/p&gt;
+
+&lt;p&gt;想要用模拟器调试 WebView 页面，你需要找 NA 的小伙伴给你一个基于源代码打包出来的 App Bundle，因为模拟器上没有 App Store，同时也不支持下载 ipa 文件进行安装。拿到了 App Bundle 后（我的 Bundle 名字叫 IphoneCom.app），打开终端，执行如下语句&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun simctl install /Users/ks/Documents/IphoneCom.app&lt;/code&gt;。&lt;code class=&quot;highlighter-rouge&quot;&gt;/Users/ks/Documents/&lt;/code&gt;是你的 App Bundle 所处的位置，如果不知道位置，可以先在终端输入&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun simctl install &lt;/code&gt;后，注意后面有个空格，不要输入回车，直接把自己的 App Bundle 拖入终端，终端会自动识别它所在的位置，输入回车，模拟器中就会有相应的 App 了。&lt;/p&gt;
+
+&lt;p&gt;现在可以在模拟器的 App 中打开自己要调试的 WebView 页面啦，可以使用&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun&lt;/code&gt;命令开启相应的页面，我不太喜欢输入页面 URL，所以比较习惯直接对 App 进行操作，从而访问相应的页面。感兴趣的同学可自行百度&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun&lt;/code&gt;的用法。&lt;/p&gt;
+
+&lt;p&gt;打开待调试的页面后，在 Mac 上的 Safari—开发—Simulator 中即可看到相应的 WebView 页面，这样就可以开始相应的调试啦。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/9.png&quot; alt=&quot;mobile-debug9&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;在手机上用浏览器查看页面效果androidiphone&quot;&gt;在手机上用浏览器查看页面效果（Android、iPhone）&lt;/h4&gt;
+
+&lt;p&gt;最后，如果你只是想用 Android 或 iPhone 的浏览器看看本地代码的效果，在本地开启一个 server 后，比如&lt;code class=&quot;highlighter-rouge&quot;&gt;localhost:8080&lt;/code&gt;，在手机浏览器中将&lt;code class=&quot;highlighter-rouge&quot;&gt;localhost&lt;/code&gt;替换成电脑的 IP 地址即可看到本地的页面啦。&lt;/p&gt;
+</description>
+        <pubDate>Thu, 18 May 2017 17:00:30 +0800</pubDate>
+        <link>http://localhost:4000/blog/web-debug-in-mobile/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/web-debug-in-mobile/</guid>
+        
+        <category>CN</category>
+        
+        <category>front-end</category>
+        
+        <category>Mobile</category>
+        
+        
+        <category>Tech</category>
+        
+      </item>
     
       <item>
         <title>数据库知识点总结</title>
@@ -155,6 +251,19 @@
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;物理独立性&lt;/code&gt;：物理独立性是指用户的应用程序与存储在磁盘上的数据库中数据是相互独立的。即，数据在磁盘上怎样存储由 DBMS 管理，用户程序不需要了解，应用程序要处理的只是数据的逻辑结构，这样当数据的物理存储改变了，应用程序不用改变。&lt;/li&gt;
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;逻辑独立性&lt;/code&gt;：逻辑独立性是指用户的应用程序与数据库的逻辑结构是相互独立的，即，当数据的逻辑结构改变时，用户程序也可以不变。&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h6 id=&quot;关系代数基本操作符&quot;&gt;关系代数基本操作符&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;选择操作符&lt;/code&gt;：选择表中符合条件的元组（行），\(\sigma_{p}(R)\)，\(p\)表示选择条件，\(R\)表示表格。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;投影操作符&lt;/code&gt;：选择表中符合条件的（属性）列，\(\Pi_{A,B,…}(R)\)，右下角表示表的域（每一列的表头）。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;并操作符&lt;/code&gt;：\(\cap\)。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;差操作符&lt;/code&gt;：\(-\)。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;笛卡儿积&lt;/code&gt;：\(\times\)。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;自然连接&lt;/code&gt;：\(\infty\)。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default&quot;&gt;&lt;/script&gt;
 
 </description>
         <pubDate>Sun, 07 May 2017 15:00:30 +0800</pubDate>
@@ -1606,71 +1715,6 @@ y = ln(tan(45° + Φ/2))&lt;/p&gt;
         
         
         <category>Tech</category>
-        
-      </item>
-    
-      <item>
-        <title>写在学期初：年中总结与规划</title>
-        <description>&lt;p&gt;今天在小群里感慨，已经四年没有秋天回过家了，着实很伤感。过了片刻就反应过来，其实是五年了，自己已经研二了呀！就越加伤感了。明年就要加入找工作大军，未来的一年很重要，遂决定给自己列个 To do 时间表，时刻督促自己不要懈怠。顺便再为上学期做个总结吧。自己的第一篇中文博客，貌似很有意义。&lt;/p&gt;
-
-&lt;h3 id=&quot;半年总结&quot;&gt;半年总结&lt;/h3&gt;
-
-&lt;p&gt;年初接触前端，到现在已经半年啦。自己在这半年中还是收获颇丰的。&lt;/p&gt;
-
-&lt;p&gt;二月的时候，自己花了一周的时间啃完了一本前端入门书，然后用原生 JS 写了几个小游戏 demo，功能和界面都完成的不错，但过了半年再回去看当时的代码，真的惨不忍睹。好在可以安慰自己，说明自己进步了！&lt;/p&gt;
-
-&lt;p&gt;三月开学之后，一边忙着做实验室课题的研究，一边做百度前端技术学院的 task。本来有三个队友，奈何他们都忙着找工作，自己只能花更多的时间独立解决遇到的问题（期间自己并不知道能够独立提交代码，所以自己的任务提交记录为零，好心塞）。做到三月底，CSS 和 JS 的基础得到了不小的提高！果然不可以纸上谈兵呀，看着很简单的网页，用CSS实现起来竟然有那么多问题。&lt;/p&gt;
-
-&lt;p&gt;四月，自己作为一只菜鸟前端的生活正式开始啦！（此处省略几千字，会有一篇独立博文描述O(∩_∩)O）。从那时起，我才发现，原来 Chrome 的 F12 是这样用的！！！以前只会傻傻的 alert！审查元素调 CSS 逆天！Network 各种 Response 看花眼！Source 各种断点 F8 解决无数 bug ！自己仿佛开启了新世界的大门！&lt;/p&gt;
-
-&lt;p&gt;六月，让人无奈的考试周到临，好在学期课不多。两门英语，听说和写译。自己非常喜欢听说课，老师非常幽默，还有一点点帅。他非常关心各种社会问题，也对它们有自己独到的见解。我和队友关于校园暴力与欺凌的 presentation 得到了他很高的评价，自己超级开心。其实题目我和队友半分钟之内就决定了，当时我刚看完 &lt;a href=&quot;https://movie.douban.com/subject/25954475/&quot;&gt;Spotlight&lt;/a&gt; 不久，被神父性侵青少年的案件深深震撼，虽然神父不会在中国如此猖獗，但相似的青少年受欺凌事件在中国屡见不鲜，恰好定题目的时候也发生了一件这样非常有社会影响的案子，我就非常果断的选了这个题目。这次的 presentation，与其他组一人宣讲一半 PPT 的形式不同，我和队友是全班唯一以节目访谈方式进行的，老师又对我们话题感兴趣，提了非常多的问题，涉及法律、新媒体、教育等多方面，专业名词很多，问题也很犀利，很多我用中文都不一定能够阐述清楚，但我们还是用英文坚持了一个多小时。到最后，老师很满意，我自己也很震惊，就像他说的，不做，我们永远不知道自己能做的多好。&lt;/p&gt;
-
-&lt;p&gt;期末复习其实是非常轻松的，两门英语不需要复习，一门嵌入式开发交大作业就行，只剩一门需要考试的信息论，作为本科唯二拿到满分的课程之一，我对它还是很有信心的。七月初考完试，想着巩固一个月的 JS 基础，暑假再开始搭博客。偶然看到一篇博文，说是搭博客这件事，越拖越晚。于是自己一狠心，就买了域名，开启了自己搭博客的旅程。&lt;/p&gt;
-
-&lt;p&gt;作为一名非设计师，PS、AI 水平入门级别，没有设计稿，完全按着脑海中的样子开始写代码。第一个小 demo 走纯蓝色清新风，效果不是很满意，接着转战商务大片风，被老毕吐槽直男审美，扬言要和我领证。最终还是选择走纯色清新风。逛了很久 &lt;a href=&quot;https://dribbble.com&quot;&gt;Dribbble&lt;/a&gt;，看了不少别人的博客，觉得哪里设计的妙，就仔细研究，最后终于有了现在这个博客。虽然目前适配等方面做的还不够好，一些 style 的实现用了比较笨的方法，主页的 svg 其实可以用 AI 实现，但作为自己的第一个 Jekyll 博客，我已经算是满意了。毕竟日子还长，这些问题我会在后续慢慢解决，同时也会新增一些功能。希望我的博客可以变得越来越好。&lt;/p&gt;
-
-&lt;p&gt;七月还有一件开心的事，paper 中了！虽然后来由于种种原因，在注册的阶段不得不 withdraw 我的 paper 改投其他会，但第一次中论文，还是很欣慰的。&lt;/p&gt;
-
-&lt;p&gt;啰嗦那么多，归纳起来上半年实现了这么几件大事:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;ul&gt;
-    &lt;li&gt;完成了学生生涯的所有课程。&lt;/li&gt;
-    &lt;li&gt;发了小论文。&lt;/li&gt;
-    &lt;li&gt;第一次参与前端大型项目。&lt;/li&gt;
-    &lt;li&gt;独立完成博客的搭建。&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;下半年规划&quot;&gt;下半年规划&lt;/h3&gt;
-
-&lt;p&gt;为了明年校招的时候自己能够从容淡定些，接下来的半年，需要把该考的证、该掌握的基础知识、该做的项目都搞定。算下来时间也是挺紧的，给自己划几个时间节点，希望可以圆满完成！&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;ul&gt;
-    &lt;li&gt;9月初-9月底，复习计算机三级网络技术，完成考试。&lt;/li&gt;
-    &lt;li&gt;10月初-10月底，复习银行从业相关知识，完成考试。&lt;/li&gt;
-    &lt;li&gt;9月开始，学习 React、React Native，和飞哥着手开始做 APP，deadline 大概是今年年底。&lt;/li&gt;
-    &lt;li&gt;平时多看看 JS 相关的基础知识和算法，年底之前把屯的书看完。&lt;/li&gt;
-    &lt;li&gt;每天学英语！12月再考一次六级，希望可以考过600分。&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;目前想到这么多，明天开始，不辜负每一天。明年夏天，遇见最好的自己。&lt;/p&gt;
-
-</description>
-        <pubDate>Wed, 31 Aug 2016 21:58:30 +0800</pubDate>
-        <link>http://localhost:4000/blog/review-and-plan/</link>
-        <guid isPermaLink="true">http://localhost:4000/blog/review-and-plan/</guid>
-        
-        <category>CN</category>
-        
-        <category>生活</category>
-        
-        <category>总结与规划</category>
-        
-        
-        <category>Life</category>
         
       </item>
     
