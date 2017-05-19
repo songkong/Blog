@@ -156,7 +156,7 @@ hr {
 pre,
 code {
 	color: $blue;
-    border-radius: 0.5em;
+    @include border-radius(0.5em);
 }
 
 code {

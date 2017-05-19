@@ -83,6 +83,8 @@ iOS 模拟器（iOS Simulator）捆绑在了 Xcode 里，但其本身也是一�
 
 ![mobile-debug9](http://kongsong.me/assets/images/posts/web-debug-in-mobile/9.png)
 
+每次 App Bundle 中有代码修改时，都需要重新在模拟器中安装 App，选择`Simulator`—`Reset Content and Settings`重置模拟器，再执行`xcrun simctl install /Users/ks/Documents/IphoneCom.app`安装 App。
+
 #### 在手机上用浏览器查看页面效果（Android、iPhone）
 
 最后，如果你只是想用 Android 或 iPhone 的浏览器看看本地代码的效果，在本地开启一个 server 后，比如`localhost:8080`，在手机浏览器中将`localhost`替换成电脑的 IP 地址即可看到本地的页面啦。

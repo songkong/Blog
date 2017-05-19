@@ -36,6 +36,8 @@
 	clear: both; 
 	display: block; 
 	margin: auto;
+    border: 0.2em solid $light-blue;
+    @include border-radius(0.5em);
 }
  
  
