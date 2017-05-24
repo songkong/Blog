@@ -75,7 +75,7 @@ iOS 模拟器（iOS Simulator）捆绑在了 Xcode 里，但其本身也是一�
 
 启动模拟器后，可以在模拟器中的 Safari 打开想调试的页面，再打开 Mac 上的 Safari，在`开发`-`Simulator`中监听相应页面。但这完全没有必要，这和直接用 Mac 上的 Safari 开发没有什么区别。iOS 模拟器主要是用来调试原生 App 中的 WebView 页面的。
 
-想要用模拟器调试 WebView 页面，你需要找 NA 的小伙伴给你一个基于源代码打包出来的 App Bundle，因为模拟器上没有 App Store，同时也不支持下载 ipa 文件进行安装。拿到了 App Bundle 后（我的 Bundle 名字叫 IphoneCom.app），打开终端，执行如下语句`xcrun simctl install /Users/ks/Documents/IphoneCom.app`。`/Users/ks/Documents/`是你的 App Bundle 所处的位置，如果不知道位置，可以先在终端输入`xcrun simctl install `后，注意后面有个空格，不要输入回车，直接把自己的 App Bundle 拖入终端，终端会自动识别它所在的位置，输入回车，模拟器中就会有相应的 App 了。
+想要用模拟器调试 WebView 页面，你需要找 NA 的小伙伴给你一个基于源代码打包出来的 App Bundle，因为模拟器上没有 App Store，同时也不支持下载 ipa 文件进行安装。拿到了 App Bundle 后（我的 Bundle 名字叫 IphoneCom.app），打开终端，执行如下语句`xcrun simctl install booted /Users/ks/Documents/IphoneCom.app`。`/Users/ks/Documents/`是你的 App Bundle 所处的位置，如果不知道位置，可以先在终端输入`xcrun simctl install booted `后，注意后面有个空格，不要输入回车，直接把自己的 App Bundle 拖入终端，终端会自动识别它所在的位置，输入回车，模拟器中就会有相应的 App 了。
 
 现在可以在模拟器的 App 中打开自己要调试的 WebView 页面啦，可以使用`xcrun`命令开启相应的页面，我不太喜欢输入页面 URL，所以比较习惯直接对 App 进行操作，从而访问相应的页面。感兴趣的同学可自行百度`xcrun`的用法。
 
@@ -83,7 +83,7 @@ iOS 模拟器（iOS Simulator）捆绑在了 Xcode 里，但其本身也是一�
 
 ![mobile-debug9](http://kongsong.me/assets/images/posts/web-debug-in-mobile/9.png)
 
-每次 App Bundle 中有代码修改时，都需要重新在模拟器中安装 App，选择`Simulator`—`Reset Content and Settings`重置模拟器，再执行`xcrun simctl install /Users/ks/Documents/IphoneCom.app`安装 App。
+每次 App Bundle 中有代码修改时，都需要重新在模拟器中安装 App，选择`Simulator`—`Reset Content and Settings`重置模拟器，再执行`xcrun simctl install booted /Users/ks/Documents/IphoneCom.app`安装 App。
 
 #### 在手机上用浏览器查看页面效果（Android、iPhone）
 
