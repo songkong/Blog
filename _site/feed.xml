@@ -5,8 +5,8 @@
     <description>This is Song' home.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 19 May 2017 12:13:32 +0800</pubDate>
-    <lastBuildDate>Fri, 19 May 2017 12:13:32 +0800</lastBuildDate>
+    <pubDate>Fri, 26 May 2017 12:39:37 +0800</pubDate>
+    <lastBuildDate>Fri, 26 May 2017 12:39:37 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -78,7 +78,7 @@
 
 &lt;p&gt;启动模拟器后，可以在模拟器中的 Safari 打开想调试的页面，再打开 Mac 上的 Safari，在&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;-&lt;code class=&quot;highlighter-rouge&quot;&gt;Simulator&lt;/code&gt;中监听相应页面。但这完全没有必要，这和直接用 Mac 上的 Safari 开发没有什么区别。iOS 模拟器主要是用来调试原生 App 中的 WebView 页面的。&lt;/p&gt;
 
-&lt;p&gt;想要用模拟器调试 WebView 页面，你需要找 NA 的小伙伴给你一个基于源代码打包出来的 App Bundle，因为模拟器上没有 App Store，同时也不支持下载 ipa 文件进行安装。拿到了 App Bundle 后（我的 Bundle 名字叫 IphoneCom.app），打开终端，执行如下语句&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun simctl install /Users/ks/Documents/IphoneCom.app&lt;/code&gt;。&lt;code class=&quot;highlighter-rouge&quot;&gt;/Users/ks/Documents/&lt;/code&gt;是你的 App Bundle 所处的位置，如果不知道位置，可以先在终端输入&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun simctl install &lt;/code&gt;后，注意后面有个空格，不要输入回车，直接把自己的 App Bundle 拖入终端，终端会自动识别它所在的位置，输入回车，模拟器中就会有相应的 App 了。&lt;/p&gt;
+&lt;p&gt;想要用模拟器调试 WebView 页面，你需要找 NA 的小伙伴给你一个基于源代码打包出来的 App Bundle，因为模拟器上没有 App Store，同时也不支持下载 ipa 文件进行安装。拿到了 App Bundle 后（我的 Bundle 名字叫 IphoneCom.app），打开终端，执行如下语句&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun simctl install booted /Users/ks/Documents/IphoneCom.app&lt;/code&gt;。&lt;code class=&quot;highlighter-rouge&quot;&gt;/Users/ks/Documents/&lt;/code&gt;是你的 App Bundle 所处的位置，如果不知道位置，可以先在终端输入&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun simctl install booted &lt;/code&gt;后，注意后面有个空格，不要输入回车，直接把自己的 App Bundle 拖入终端，终端会自动识别它所在的位置，输入回车，模拟器中就会有相应的 App 了。&lt;/p&gt;
 
 &lt;p&gt;现在可以在模拟器的 App 中打开自己要调试的 WebView 页面啦，可以使用&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun&lt;/code&gt;命令开启相应的页面，我不太喜欢输入页面 URL，所以比较习惯直接对 App 进行操作，从而访问相应的页面。感兴趣的同学可自行百度&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun&lt;/code&gt;的用法。&lt;/p&gt;
 
@@ -86,7 +86,7 @@
 
 &lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/9.png&quot; alt=&quot;mobile-debug9&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;每次 App Bundle 中有代码修改时，都需要重新在模拟器中安装 App，选择&lt;code class=&quot;highlighter-rouge&quot;&gt;Simulator&lt;/code&gt;—&lt;code class=&quot;highlighter-rouge&quot;&gt;Reset Content and Settings&lt;/code&gt;重置模拟器，再执行&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun simctl install /Users/ks/Documents/IphoneCom.app&lt;/code&gt;安装 App。&lt;/p&gt;
+&lt;p&gt;每次 App Bundle 中有代码修改时，都需要重新在模拟器中安装 App，选择&lt;code class=&quot;highlighter-rouge&quot;&gt;Simulator&lt;/code&gt;—&lt;code class=&quot;highlighter-rouge&quot;&gt;Reset Content and Settings&lt;/code&gt;重置模拟器，再执行&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun simctl install booted /Users/ks/Documents/IphoneCom.app&lt;/code&gt;安装 App。&lt;/p&gt;
 
 &lt;h4 id=&quot;在手机上用浏览器查看页面效果androidiphone&quot;&gt;在手机上用浏览器查看页面效果（Android、iPhone）&lt;/h4&gt;
 
