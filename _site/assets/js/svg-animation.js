@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var bearPaw = Snap("#bear-paw");
+    var bearPaw = Snap("#bear-paw-left");
 	if (bearPaw) {
 		var rotatePaw = function () {
 			Snap.animate(-20, 20, function (val) {
