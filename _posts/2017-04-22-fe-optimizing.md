@@ -204,7 +204,7 @@ Http 协议是无状态的应用层协议，意味着每次 Http 请求都需要
 
 #### 3.4 使用负载均衡方案
 
-##### 3.4.1 使用 CDN（contentdistribute network，内容分发网络）
+##### 3.4.1 使用 CDN（content distribute network，内容分发网络）
 
 使用 CDN 的本质仍然是一个缓存，而且将数据缓存在离用户最近的地方，使用户以最快速度获取数据，即所谓网络访问第一跳。
 
@@ -253,6 +253,8 @@ cookie 包含在每次请求和响应中，太大的 cookie 会严重影响数�
 外链的 CSS 或者 JS 文件出现问题返回 404 时，会破坏浏览器对文件的并行加载。并且浏览器会把试图在返回的 404 响应内容中找到可能有用的部分当作 JS 代码来执行。
 
 ### 4 参考文献
+
+---
 
 [a. 12 steps to a faster web app](https://auth0.com/blog/12-steps-to-a-faster-web-app/)
 
