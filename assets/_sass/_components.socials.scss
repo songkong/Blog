@@ -4,10 +4,14 @@
   }
 }
 .social-btn {
-  font-size:1em;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  font-size: 1.25em;
+  text-align: center;
   @include border-radius(50%);
   @include transition-duration(0.5s);
-  padding: 0.2em;
+  padding: 0.15em 0;
   text-shadow: none;
 }
 .share-btn {

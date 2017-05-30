@@ -29,18 +29,11 @@ blockquote a {
   background-color: transparent;
   &:hover,
   &:active {
-    background-color: rgba(98, 179, 245, 0.1);
+    background-color: rgba(98, 179, 245, 0.2);
   }
 }
 
 .btn-blue {
-  border: none;
-  color: $white;
-  background-color: $blue;
-  &:hover,
-  &:active {
-    background-color: $light-red;
-  }
 }
 
 .btn-white {
@@ -52,7 +45,12 @@ blockquote a {
     background-color: rgba(255, 255, 255, 0.2);
   }
 }
-
+.btn-left {
+    border-radius: 1em 1em 1em 0;
+}
+.btn-right {
+    border-radius: 1em 1em 0 1em;
+}
 .btn-top {
   font-size: 3em;
   position: fixed;
@@ -138,12 +136,6 @@ blockquote a {
 			background-color: $blue;
 		}
 	}
-    .tab-item-left {
-        border-radius: 1em 1em 1em 0;
-    }
-    .tab-item-right {
-        border-radius: 1em 1em 0 1em;
-    }
 	i {
 		position: relative;
 		margin-left: 1.6em;
