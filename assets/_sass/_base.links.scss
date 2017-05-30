@@ -133,12 +133,17 @@ blockquote a {
 		text-align: center;
 		border: 2px solid $blue;
 		border-bottom: none;
-		border-radius: 0.5em 0.5em 0 0;
 		&.active {
 			color: $white;
 			background-color: $blue;
 		}
 	}
+    .tab-item-left {
+        border-radius: 1em 1em 1em 0;
+    }
+    .tab-item-right {
+        border-radius: 1em 1em 0 1em;
+    }
 	i {
 		position: relative;
 		margin-left: 1.6em;
