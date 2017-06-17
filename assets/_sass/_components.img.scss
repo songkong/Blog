@@ -39,7 +39,16 @@
     border: 0.2em solid $light-blue;
     @include border-radius(0.5em);
 }
- 
+
+/**
+ * Images in projects
+ */
+
+.vertical-timeline-block img {
+  max-width: 100%;
+  border: 0.2em solid $light-blue;
+  @include border-radius(0.5em);
+}
  
 /**
  * Animations for SVG
