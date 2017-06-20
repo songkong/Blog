@@ -5,9 +5,102 @@
     <description>This is Song' home.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 17 Jun 2017 10:25:33 +0800</pubDate>
-    <lastBuildDate>Sat, 17 Jun 2017 10:25:33 +0800</lastBuildDate>
+    <pubDate>Tue, 20 Jun 2017 15:24:52 +0800</pubDate>
+    <lastBuildDate>Tue, 20 Jun 2017 15:24:52 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>口袋天气微信小程序开发总结</title>
+        <description>&lt;p&gt;自从小程序对个人开发者开放，就一直心痒痒的想做个小程序练练手，偶然发现&lt;a href=&quot;http://lbsyun.baidu.com/index.php?title=wxjsapi&quot;&gt;百度地图开放平台&lt;/a&gt;提供了几个小程序 API，于是经过几天的调研，决定做一个天气查询的小程序。&lt;/p&gt;
+
+&lt;h3 id=&quot;功能设计&quot;&gt;功能设计&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;在微信小程序入口搜索天气关键词，可以看到不少相关小程序，那么同样是天气查询，我要做的小程序和他们相比有什么优势呢，对用户来说有什么特别的意义呢？&lt;/p&gt;
+
+&lt;p&gt;于是我花了一些时间体验检索列表中 Top 20 的小程序，发现如下问题：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;切换城市大都需要输入城市名字&lt;/li&gt;
+  &lt;li&gt;内容过多，重点不够突出&lt;/li&gt;
+  &lt;li&gt;服务不稳定，一些固定文案已经展示，动态数据却还在加载，加载失败时也没有断网提示&lt;/li&gt;
+  &lt;li&gt;设计风格相近，大多是蓝色背景加灰色蒙版，配上白色字体的商务风&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;针对上面几个自己比较在意的问题，我对自己的小程序做了如下的功能规划：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;减少用户的输入，采用点选操作&lt;/li&gt;
+  &lt;li&gt;首页只展示最关键的信息，包括温度、空气质量、天气状况和日期，非关键信息，如穿衣、洗车等放在下拉页面&lt;/li&gt;
+  &lt;li&gt;断网、loading 等提示，确保用户体验&lt;/li&gt;
+  &lt;li&gt;采用自己喜欢的纯色风格设计小程序&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;界面设计&quot;&gt;界面设计&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;作为一个程序媛，PS、AE 都是 just so so 水平，每次思考要把产品做成什么样子的时候，都很头疼。在 Dribbble 看过那么多太美的作品，脑海中也总构思自己可以做一个这样或那样的东西。然而，理想很丰满，现实太骨感，能把自己的 idea 重现真的有点难呀。搭建这个 Blog 时也是改了好几版才终于比较满意。等毕业之后，没有科研压力了，自己一定要利用业余时间好好学设计~&lt;/p&gt;
+
+&lt;p&gt;回归正题，自己一直喜欢纯色系的设计方案，简约大方。那么采用什么配色方案呢，毫无疑问，蓝色啊（捂脸遁，真的是太爱蓝色了，其实中间尝试过粉色和绿色的配色，但还是觉得蓝色最好看，而且小程序会根据早晚切换背景颜色，浅蓝和深蓝也更能体现夜空）。&lt;/p&gt;
+
+&lt;p&gt;确定设计方案后一切就比较简单啦，按照设计稿开始码代码！&lt;/p&gt;
+
+&lt;h3 id=&quot;写代码-ing&quot;&gt;写代码 ing&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;这部分只想写一下自己的思路，我要慢慢摆脱贴代码这个习惯！&lt;/p&gt;
+
+&lt;p&gt;由于微信小程序支持 ES6 转码，自己刚好也没有太多的 ES6 实践基础，于是果断选择用 ES6 语法完成代码的编写。编写之前需要熟悉小程序的官方开发文档，这里不再赘述，相信对于一个 FE 来说都不是问题啦。&lt;/p&gt;
+
+&lt;p&gt;编写第一步就是数据的获取，这里按照百度地图 API 的文档说明很容易就可以实现。由于地图 API 的封装问题，目前不能通过城市名进行数据请求，只支持根据经纬度获取天气信息，因此自己写了个脚本抓取每个城市的中心点坐标，再根据坐标请求相应的天气数据。由于请求数据有一定的耗时，因此需要在请求前加一个 loading 的动作，在请求失败时跳转失败页面。&lt;/p&gt;
+
+&lt;p&gt;获取到数据后，需要对数据进行处理，再将其渲染到前端页面。这一步需要判断当前为白天还是黑夜、根据当前 PM 2.5 值设置进度条的位置、根据天气状况设置天气动画等。值得一提的是 PM 2.5 的设置，系统默认最大值为1000，当用户所在城市空气质量爆表之后，把最大值存储在&lt;code class=&quot;highlighter-rouge&quot;&gt;localStorage&lt;/code&gt;中，并更新滚动条的取值范围。&lt;/p&gt;
+
+&lt;h3 id=&quot;测试&quot;&gt;测试&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;大致开发完了，我们开始测试吧！首先可以在微信小程序开发工具的模拟器中大致测试下功能，断网提示、请求失败、文本截断、部分异常值的处理等等。没有什么功能性 Bug 之后，可以扫码进行真机测试，看看一些 CSS 样式是否存在兼容性问题。我主要用 iPhone 6P、7、华为大屏、中屏手机进行了测试，修改了两个样式上的问题。&lt;/p&gt;
+
+&lt;h3 id=&quot;发布线上&quot;&gt;发布线上&lt;/h3&gt;
+
+&lt;p&gt;自测完毕后，就可以在开发工具中提交代码啦。接着就是给自己的小程序起一个辨识度高的名字、设置一个好看的 Logo、添加几个标签，完成这些内容后，就可以在微信开放平台中申请审核。审核期大概是两天，审核通过后直接发布线上！大功告成。&lt;/p&gt;
+
+&lt;p&gt;下面是口袋天气的小程序码，可以直接使用微信扫一扫打开小程序，或在&lt;code class=&quot;highlighter-rouge&quot;&gt;微信&lt;/code&gt;-&lt;code class=&quot;highlighter-rouge&quot;&gt;发现&lt;/code&gt;-&lt;code class=&quot;highlighter-rouge&quot;&gt;小程序&lt;/code&gt;中搜索&lt;code class=&quot;highlighter-rouge&quot;&gt;口袋天气&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/pocket-weather.jpg&quot; alt=&quot;pocket-weather&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;后期版本规划&quot;&gt;后期版本规划&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;初版已经上线了，后续会继续对口袋天气进行优化，目前有如下计划：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在支持城市点选的同时，引入地图选点，使天气信息更加精准&lt;/li&gt;
+  &lt;li&gt;支持常用城市收藏&lt;/li&gt;
+  &lt;li&gt;优化天气动画&lt;/li&gt;
+  &lt;li&gt;增加更多背景色，如雾霾天为灰色等&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Tue, 20 Jun 2017 12:00:30 +0800</pubDate>
+        <link>http://localhost:4000/blog/pocket-weather/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/pocket-weather/</guid>
+        
+        <category>CN</category>
+        
+        <category>front-end</category>
+        
+        <category>微信小程序</category>
+        
+        
+        <category>Tech</category>
+        
+      </item>
     
       <item>
         <title>明光以北，蓟门以南</title>
@@ -1493,129 +1586,6 @@ y = ln(tan(45° + Φ/2))&lt;/p&gt;
         <category>CSS</category>
         
         <category>Mobile</category>
-        
-        
-        <category>Tech</category>
-        
-      </item>
-    
-      <item>
-        <title>Ice Bear Jekyll Theme</title>
-        <description>&lt;p&gt;This is my first jekyll theme decorated by my favorite items – blue and ice bear. It’s welcomed to give me a star at github if you like it.&lt;/p&gt;
-
-&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/songkong/Blog/tree/gh-pages&quot; data-count-href=&quot;/songkong/Blog/stargazers&quot; data-count-api=&quot;/repos/songkong/Blog#stargazers_count&quot; data-count-aria-label=&quot;# stargazers on GitHub&quot; aria-label=&quot;Star songkong/Blog on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;installation&quot;&gt;Installation&lt;/h1&gt;
-&lt;hr /&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Fork the repository. &lt;a class=&quot;github-button&quot; href=&quot;https://github.com/songkong/Blog/fork&quot; data-count-href=&quot;/songkong/Blog/network&quot; data-count-api=&quot;/repos/songkong/Blog#forks_count&quot; data-count-aria-label=&quot;# forks on GitHub&quot; aria-label=&quot;Fork songkong/Blog on GitHub&quot;&gt;Fork&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Edit &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt; file.&lt;/li&gt;
-  &lt;li&gt;Add your own &lt;code class=&quot;highlighter-rouge&quot;&gt;projects&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes/projects.html&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Change &lt;code class=&quot;highlighter-rouge&quot;&gt;domain name&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Replace &lt;code class=&quot;highlighter-rouge&quot;&gt;favicon.ico&lt;/code&gt; with your website icon.&lt;/li&gt;
-  &lt;li&gt;Change &lt;code class=&quot;highlighter-rouge&quot;&gt;avatar.jpg&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;cartoon-avatar.jpg&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;assets/images&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Edit &lt;code class=&quot;highlighter-rouge&quot;&gt;LICENSE.md&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;README.md&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;I use two categories for posts in my blog, &lt;code class=&quot;highlighter-rouge&quot;&gt;Tech&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Life&lt;/code&gt;. If you want to add other categories, remember to modify &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes/post-list-pagination&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;_layouts/post-list.html&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;assets/js/script.js&lt;/code&gt; to add &lt;code class=&quot;highlighter-rouge&quot;&gt;Tabs&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Paginations&lt;/code&gt; for every category posts.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&quot;style-test&quot;&gt;Style test&lt;/h1&gt;
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;em&gt;italic&lt;/em&gt;. &lt;strong&gt;bold&lt;/strong&gt;. &lt;strong&gt;&lt;em&gt;italic and bold&lt;/em&gt;&lt;/strong&gt;. &lt;del&gt;delete line&lt;/del&gt;. &lt;a href=&quot;http://kongsong.me&quot;&gt;link&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h1 id=&quot;heading-1&quot;&gt;Heading 1&lt;/h1&gt;
-
-&lt;h2 id=&quot;heading-2&quot;&gt;Heading 2&lt;/h2&gt;
-
-&lt;h3 id=&quot;heading-3&quot;&gt;Heading 3&lt;/h3&gt;
-
-&lt;h4 id=&quot;heading-4&quot;&gt;Heading 4&lt;/h4&gt;
-
-&lt;h5 id=&quot;heading-5&quot;&gt;Heading 5&lt;/h5&gt;
-
-&lt;h6 id=&quot;heading-6&quot;&gt;Heading 6&lt;/h6&gt;
-
-&lt;blockquote&gt;
-  &lt;h3 id=&quot;heading-3-in-blockquotes&quot;&gt;Heading 3 in Blockquotes&lt;/h3&gt;
-  &lt;p&gt;Normal Blockquotes text.&lt;/p&gt;
-
-  &lt;ul&gt;
-    &lt;li&gt;Unordered List in Blockquotes.&lt;/li&gt;
-  &lt;/ul&gt;
-
-  &lt;ol&gt;
-    &lt;li&gt;Ordered List in Blockquotes.&lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Unordered List.
-    &lt;ul&gt;
-      &lt;li&gt;Unordered List.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Ordered List
-    &lt;ol&gt;
-      &lt;li&gt;Ordered List&lt;/li&gt;
-      &lt;li&gt;Ordered List&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Ordered List&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;sr&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Ruby&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;codes&lt;/span&gt;
-
-&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'parallel'&lt;/span&gt;
-
-&lt;span class=&quot;no&quot;&gt;Parallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lots_of_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;chunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;heavy_computation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;chunk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;table&lt;/th&gt;
-      &lt;th&gt;table&lt;/th&gt;
-      &lt;th&gt;table&lt;/th&gt;
-      &lt;th&gt;table&lt;/th&gt;
-      &lt;th&gt;table&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;This is table&lt;/td&gt;
-      &lt;td&gt;This is table&lt;/td&gt;
-      &lt;td&gt;This is table&lt;/td&gt;
-      &lt;td&gt;This is table&lt;/td&gt;
-      &lt;td&gt;This is table&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;This is table&lt;/td&gt;
-      &lt;td&gt;This is table&lt;/td&gt;
-      &lt;td&gt;This is table&lt;/td&gt;
-      &lt;td&gt;This is table&lt;/td&gt;
-      &lt;td&gt;This is table&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-</description>
-        <pubDate>Mon, 03 Oct 2016 15:52:30 +0800</pubDate>
-        <link>http://localhost:4000/blog/ice-bear-jekyll-theme/</link>
-        <guid isPermaLink="true">http://localhost:4000/blog/ice-bear-jekyll-theme/</guid>
-        
-        <category>EN</category>
-        
-        <category>jekyll</category>
-        
-        <category>front-end</category>
         
         
         <category>Tech</category>

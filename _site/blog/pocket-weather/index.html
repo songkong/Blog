@@ -5,11 +5,11 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>明光以北，蓟门以南</title>
-  <meta name="description" content="那一年我十八岁，这一年我二十四岁，在我一生的黄金时代，我学会了淡漠、但也记得抗争。站在这里，明光以北、蓟门以南，我望着天上半明半的暗云，离开这里，该有留恋吗？">
+  <title>口袋天气微信小程序开发总结</title>
+  <meta name="description" content="最近把自己开发的第一个微信小程序上线了，特此总结一下从0到1的完整思路~">
 
   <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
-  <link rel="canonical" href="http://localhost:4000/blog/byr-bbs-memory/">
+  <link rel="canonical" href="http://localhost:4000/blog/pocket-weather/">
   <link rel="alternate" type="application/rss+xml" title="水榭清松-Song Kong" href="http://localhost:4000/feed.xml">
   <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
@@ -81,66 +81,114 @@
 			<section style="padding-bottom: 0">
 		<article class="wrapper">
 			<div class="post-header">
-			<h2 class="red-title" >明光以北，蓟门以南</h2>
+			<h2 class="red-title" >口袋天气微信小程序开发总结</h2>
 			<ul class="tags">
 				
 				<li><a href="/tags#CN">CN</a></li>
 				
 				
-				<li><a href="/tags#生活">生活</a></li>
+				<li><a href="/tags#front-end">front-end</a></li>
+				
+				
+				<li><a href="/tags#微信小程序">微信小程序</a></li>
 				
 				
 			</ul>
-			<div class="line-highlight">29 May 2017</div>
+			<div class="line-highlight">20 Jun 2017</div>
 			</div>
 			<div class="post-content">
-				<blockquote>
-  <p>那一年我十八岁，<br />
-这一年我二十五岁，<br />
-在我一生的黄金时代，<br />
-我学会了淡漠、但也记得抗争。<br />
-站在这里，<br />
-明光以北、蓟门以南，<br />
-我望着天上半明半暗的云，<br />
-离开这里，<br />
-该有留恋吗？</p>
-</blockquote>
+				<p>自从小程序对个人开发者开放，就一直心痒痒的想做个小程序练练手，偶然发现<a href="http://lbsyun.baidu.com/index.php?title=wxjsapi">百度地图开放平台</a>提供了几个小程序 API，于是经过几天的调研，决定做一个天气查询的小程序。</p>
 
-<p>没有想到，人生的反转，会来得比电视中的反转剧还滑稽。</p>
+<h3 id="功能设计">功能设计</h3>
 
-<p>25日，踩着高跟鞋走了两万多步的我，十点钟的时候终于洗了个舒舒服服的澡，潦草的做了个护肤。我想，终于可以安静的在床上挺尸了，直到我打开微信。朋友圈清一色的北邮人BT、论坛关闭通告，我慌张的点开链接，迅速的扫完了文章。了解原尾后，我的手有些发抖，我大声的和室友吐槽，希望可以宣泄心中的委屈与愤怒。</p>
+<hr />
 
-<p>就在两天前，坐在去往上地的公交上，我在想，当我明年毕业了，我会留恋什么呢？从十八岁踏入北邮校园，到我二十四岁，大概就是王小波口中的黄金时代吧。六年多的时间，我就生活在三环以里的这块地方，我经历了很多，我成熟了不少，我从那个敢说敢做、爱憎分明的水瓶，变成了懂得暗示自己算了吧的大人。时间总是催着我奔跑，我就只能匆匆的拾起那么丁点回忆，这其中，北邮人论坛和北邮人 BT 就占了一大部。</p>
+<p>在微信小程序入口搜索天气关键词，可以看到不少相关小程序，那么同样是天气查询，我要做的小程序和他们相比有什么优势呢，对用户来说有什么特别的意义呢？</p>
 
-<p>犹记得大一结束的那个暑假，回到本部的我终于注册了论坛和 BT。那时还是个萌新，只是偶尔水水论坛，回家过了个暑假，竟连帐号名都忘记了，无奈只能重新注册一个，为了不再忘记账号名，我用了名字的全拼做 ID，后来总被人认出真身，也就有了几次啼笑皆非的经历。后来，我下载了「贵邮」，那是我第一次看到<code class="highlighter-rouge">明光以北，蓟门以南</code>这八个字，不知道是谁如此睿智的用它来形容北邮，光是念着，心中就暖暖的漾起了归属感。再后来，就算学校发生了许多不愉快的事情，想想论坛上可爱的 byr，想想这八个字，我依然会义无反顾的「护犊子」，依然为自己是一名 byr 而骄傲。</p>
+<p>于是我花了一些时间体验检索列表中 Top 20 的小程序，发现如下问题：</p>
 
-<p>当得知论坛将不再对外开放、BT 将永久关闭的那一刻，我说不清自己是什么感受，只想把当时能够想到的所有恶劣的词语用来形容做出这项决定的人。我承认，对于淡漠这项技能，我还不能够游刃有余。当自己所珍惜、热爱的东西遭到侵犯时，我依然冲动着毫不犹豫的站出来，将它护在身后。同一时刻，每一个 byr 都和我做出了同样的选择。在微博、知乎、朋友圈等主流平台上充斥着守护论坛、BT 的文章后，这场保卫战终于以戏剧性的、荒诞的、讽刺的方式结束了。各中详情，我不愿提起，只是觉得好笑，只是心生凄凉。好似有什么东西在慢慢积聚，长成了一个大大的吃豆人，正在慢慢吞噬着我爱的这片明光以北、蓟门以南。我想，我身处其中，被雾霾蒙蔽着眼睛，怎么会看到吃豆人呢？可当我有一天踏出这里，就算着的看到了吃豆人，我又能拿他怎样呢？</p>
+<ul>
+  <li>切换城市大都需要输入城市名字</li>
+  <li>内容过多，重点不够突出</li>
+  <li>服务不稳定，一些固定文案已经展示，动态数据却还在加载，加载失败时也没有断网提示</li>
+  <li>设计风格相近，大多是蓝色背景加灰色蒙版，配上白色字体的商务风</li>
+</ul>
 
-<p>我只能选择独善其身。我只能时刻念着想着我爱的那些人、那些事所留给我的美好念想。我记得在北邮人论坛，我的头像是一只折耳猫，有很多陌生人夸她可爱，年初为了找工作，我加入了意涵团，换了新的头像，没有想到，收到了不少「陌生人」的回复，问我为什么换了头像。原来，有那么多的人在默默记着我。我记得，我上过几次十大，有的是吐槽贴，有的是征友贴，我得到了很多声援，也成功的做了次月老。我记得，大四保研时，我每日沉迷于考研专版，get 了大量北邮导师这样那样的信息，我收到了很多学长学姐给的建议，在后面的两年中，也致力于给更多的学弟学妹分享我掌握的信息。我记得，我的每一次实习归功于招聘实习版块，我总是很骄傲的告诉面试官，我是在北邮人论坛看到招聘启示的。我记得，混迹了六年的论坛，一万多的积分，用过我邮、佳邮、贵邮、北邮人论坛客户端，买过学妹款、十二周年和十三周年的北邮人坛服，我很爱，很爱这里。</p>
+<p>针对上面几个自己比较在意的问题，我对自己的小程序做了如下的功能规划：</p>
 
-<p>我记得在北邮人 BT，我盼望着能够成为永久用户，年前移动硬盘被摔坏后，我心疼了好久好久。我记得，我买了好多徽章，在商店挑啊挑，那么多男神女神，都不知道如何是好。我记得，我下注了川普，大选唱票那天，我在科研楼焦灼的等待结果。我记得，一年后我就和它告别了，我很舍不得，很舍不得这里。</p>
+<ul>
+  <li>减少用户的输入，采用点选操作</li>
+  <li>首页只展示最关键的信息，包括温度、空气质量、天气状况和日期，非关键信息，如穿衣、洗车等放在下拉页面</li>
+  <li>断网、loading 等提示，确保用户体验</li>
+  <li>采用自己喜欢的纯色风格设计小程序</li>
+</ul>
 
-<p>我只希望，等我越长越大，也许我有了权利，也许我能够做很多选择，我还能记得这些，记着我爱的、给了我如此美好回忆的这些，时刻不忘初心。</p>
+<h3 id="界面设计">界面设计</h3>
+
+<hr />
+
+<p>作为一个程序媛，PS、AE 都是 just so so 水平，每次思考要把产品做成什么样子的时候，都很头疼。在 Dribbble 看过那么多太美的作品，脑海中也总构思自己可以做一个这样或那样的东西。然而，理想很丰满，现实太骨感，能把自己的 idea 重现真的有点难呀。搭建这个 Blog 时也是改了好几版才终于比较满意。等毕业之后，没有科研压力了，自己一定要利用业余时间好好学设计~</p>
+
+<p>回归正题，自己一直喜欢纯色系的设计方案，简约大方。那么采用什么配色方案呢，毫无疑问，蓝色啊（捂脸遁，真的是太爱蓝色了，其实中间尝试过粉色和绿色的配色，但还是觉得蓝色最好看，而且小程序会根据早晚切换背景颜色，浅蓝和深蓝也更能体现夜空）。</p>
+
+<p>确定设计方案后一切就比较简单啦，按照设计稿开始码代码！</p>
+
+<h3 id="写代码-ing">写代码 ing</h3>
+
+<hr />
+
+<p>这部分只想写一下自己的思路，我要慢慢摆脱贴代码这个习惯！</p>
+
+<p>由于微信小程序支持 ES6 转码，自己刚好也没有太多的 ES6 实践基础，于是果断选择用 ES6 语法完成代码的编写。编写之前需要熟悉小程序的官方开发文档，这里不再赘述，相信对于一个 FE 来说都不是问题啦。</p>
+
+<p>编写第一步就是数据的获取，这里按照百度地图 API 的文档说明很容易就可以实现。由于地图 API 的封装问题，目前不能通过城市名进行数据请求，只支持根据经纬度获取天气信息，因此自己写了个脚本抓取每个城市的中心点坐标，再根据坐标请求相应的天气数据。由于请求数据有一定的耗时，因此需要在请求前加一个 loading 的动作，在请求失败时跳转失败页面。</p>
+
+<p>获取到数据后，需要对数据进行处理，再将其渲染到前端页面。这一步需要判断当前为白天还是黑夜、根据当前 PM 2.5 值设置进度条的位置、根据天气状况设置天气动画等。值得一提的是 PM 2.5 的设置，系统默认最大值为1000，当用户所在城市空气质量爆表之后，把最大值存储在<code class="highlighter-rouge">localStorage</code>中，并更新滚动条的取值范围。</p>
+
+<h3 id="测试">测试</h3>
+
+<hr />
+
+<p>大致开发完了，我们开始测试吧！首先可以在微信小程序开发工具的模拟器中大致测试下功能，断网提示、请求失败、文本截断、部分异常值的处理等等。没有什么功能性 Bug 之后，可以扫码进行真机测试，看看一些 CSS 样式是否存在兼容性问题。我主要用 iPhone 6P、7、华为大屏、中屏手机进行了测试，修改了两个样式上的问题。</p>
+
+<h3 id="发布线上">发布线上</h3>
+
+<p>自测完毕后，就可以在开发工具中提交代码啦。接着就是给自己的小程序起一个辨识度高的名字、设置一个好看的 Logo、添加几个标签，完成这些内容后，就可以在微信开放平台中申请审核。审核期大概是两天，审核通过后直接发布线上！大功告成。</p>
+
+<p>下面是口袋天气的小程序码，可以直接使用微信扫一扫打开小程序，或在<code class="highlighter-rouge">微信</code>-<code class="highlighter-rouge">发现</code>-<code class="highlighter-rouge">小程序</code>中搜索<code class="highlighter-rouge">口袋天气</code>。</p>
+
+<p><img src="http://kongsong.me/assets/images/pocket-weather.jpg" alt="pocket-weather" /></p>
+
+<h3 id="后期版本规划">后期版本规划</h3>
+
+<hr />
+
+<p>初版已经上线了，后续会继续对口袋天气进行优化，目前有如下计划：</p>
+
+<ul>
+  <li>在支持城市点选的同时，引入地图选点，使天气信息更加精准</li>
+  <li>支持常用城市收藏</li>
+  <li>优化天气动画</li>
+  <li>增加更多背景色，如雾霾天为灰色等</li>
+</ul>
+
 
 			</div>
 			
 <div class="post-pagination">
   
-  <a href="/blog/web-debug-in-mobile/" class="btn-pagination prev" title="移动端 Web 页面调试指南
+  <a href="/blog/byr-bbs-memory/" class="btn-pagination prev" title="明光以北，蓟门以南
 "><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
   
-  
-  <a href="/blog/pocket-weather/" class="btn-pagination next" title="口袋天气微信小程序开发总结
-">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
   
 </div>
 
 			
 <div style="margin-top:30px">
-    <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/blog/byr-bbs-memory/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
-    <a href="https://plus.google.com/share?url=http://localhost:4000/blog/byr-bbs-memory/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/blog/byr-bbs-memory/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
-    <a href="http://v.t.sina.com.cn/share/share.php?title=http://localhost:4000/blog/byr-bbs-memory/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+    <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/blog/pocket-weather/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=http://localhost:4000/blog/pocket-weather/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/blog/pocket-weather/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=http://localhost:4000/blog/pocket-weather/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
 </div>
 
 
