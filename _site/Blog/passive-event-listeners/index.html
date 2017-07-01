@@ -5,11 +5,11 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>口袋天气微信小程序开发总结</title>
-  <meta name="description" content="最近把自己开发的第一个微信小程序上线了，特此总结一下从0到1的完整思路~">
+  <title>不得不说的 Passive Event Listeners</title>
+  <meta name="description" content="被报了一个大 Bug，起初以为是 iScroll 的锅，意外发现是自己忽略了 Passive Event Listeners 这个东东...">
 
   <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
-  <link rel="canonical" href="http://localhost:4000/blog/pocket-weather/">
+  <link rel="canonical" href="http://localhost:4000/blog/passive-event-listeners/">
   <link rel="alternate" type="application/rss+xml" title="水榭清松-Song Kong" href="http://localhost:4000/feed.xml">
   <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
   <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
@@ -81,7 +81,7 @@
 			<section style="padding-bottom: 0">
 		<article class="wrapper">
 			<div class="post-header">
-			<h2 class="red-title" >口袋天气微信小程序开发总结</h2>
+			<h2 class="red-title" >不得不说的 Passive Event Listeners</h2>
 			<ul class="tags">
 				
 				<li><a href="/tags#CN">CN</a></li>
@@ -90,108 +90,59 @@
 				<li><a href="/tags#front-end">front-end</a></li>
 				
 				
-				<li><a href="/tags#微信小程序">微信小程序</a></li>
+				<li><a href="/tags#Mobile">Mobile</a></li>
 				
 				
 			</ul>
-			<div class="line-highlight">20 Jun 2017</div>
+			<div class="line-highlight">01 Jul 2017</div>
 			</div>
 			<div class="post-content">
-				<p>自从小程序对个人开发者开放，就一直心痒痒的想做个小程序练练手，偶然发现<a href="http://lbsyun.baidu.com/index.php?title=wxjsapi">百度地图开放平台</a>提供了几个小程序 API，于是经过几天的调研，决定做一个天气查询的小程序。</p>
+				<p>之前用 iScroll 做了一个图片墙，在部分 Android 机上会出现滑动时无法切换整张图片的问题，通过添加如下代码解决了该问题:</p>
 
-<h3 id="功能设计">功能设计</h3>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'touchmove'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="p">},</span> <span class="kc">false</span><span class="p">);</span></code></pre></figure>
 
-<hr />
+<p>最近又被报了同样的 Bug，明明之前修复过呀，怎么又复现了，百思不得其解！拿着真机调试，发现控制台给了个 Warning，提示<code class="highlighter-rouge">Passvie Event Listeners</code>新特性。这是个什么东西呢？</p>
 
-<p>在微信小程序入口搜索天气关键词，可以看到不少相关小程序，那么同样是天气查询，我要做的小程序和他们相比有什么优势呢，对用户来说有什么特别的意义呢？</p>
+<p>其实它已经有一段时间了，关注<code class="highlighter-rouge">2016 Google I/O Mobile Talk</code>的同学应该有些印象。它能够提升页面的滑动流畅度，以下是官方说明：</p>
 
-<p>于是我花了一些时间体验检索列表中 Top 20 的小程序，发现如下问题：</p>
+<blockquote>
+  <p>A new feature in the DOM spec that enable developers to opt-in to better scroll performance by eliminating the need for scrolling to block on touch and wheel event listeners.</p>
 
-<ul>
-  <li>切换城市大都需要输入城市名字</li>
-  <li>内容过多，重点不够突出</li>
-  <li>服务不稳定，一些固定文案已经展示，动态数据却还在加载，加载失败时也没有断网提示</li>
-  <li>设计风格相近，大多是蓝色背景加灰色蒙版，配上白色字体的商务风</li>
-</ul>
+  <p>Developers can annotate touch and wheel listeners with {passive: true} to indicate that they will never invoke preventDefault.</p>
+</blockquote>
 
-<p>针对上面几个自己比较在意的问题，我对自己的小程序做了如下的功能规划：</p>
+<p>翻译过来大概就是：</p>
 
-<ul>
-  <li>减少用户的输入，采用点选操作</li>
-  <li>首页只展示最关键的信息，包括温度、空气质量、天气状况和日期，非关键信息，如穿衣、洗车等放在下拉页面</li>
-  <li>断网、loading 等提示，确保用户体验</li>
-  <li>采用自己喜欢的纯色风格设计小程序</li>
-</ul>
+<blockquote>
+  <p>在监听<code class="highlighter-rouge">mousewheel</code>或者<code class="highlighter-rouge">touch</code>事件中，增加了<code class="highlighter-rouge">passive</code>这个设置，当它为<code class="highlighter-rouge">true</code>时，就不会调用<code class="highlighter-rouge">preventDefault</code>来阻止默认行为。</p>
+</blockquote>
 
-<h3 id="界面设计">界面设计</h3>
+<p>该特性兼容<code class="highlighter-rouge">Chrome 51</code>和<code class="highlighter-rouge">Firefox 49</code>开始的浏览器，默认设置为<code class="highlighter-rouge">true</code>，此时<code class="highlighter-rouge">event.cancelable</code>为<code class="highlighter-rouge">false</code>。因此，可以使用如下代码开启<code class="highlighter-rouge">preventDefault</code>：</p>
 
-<hr />
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'touchmove'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="p">},</span> <span class="p">{</span><span class="na">passive</span><span class="p">:</span> <span class="kc">false</span><span class="p">});</span></code></pre></figure>
 
-<p>作为一个程序媛，PS、AE 都是 just so so 水平，每次思考要把产品做成什么样子的时候，都很头疼。在 Dribbble 看过那么多太美的作品，脑海中也总构思自己可以做一个这样或那样的东西。然而，理想很丰满，现实太骨感，能把自己的 idea 重现真的有点难呀。搭建这个 Blog 时也是改了好几版才终于比较满意。等毕业之后，没有科研压力了，自己一定要利用业余时间好好学设计~</p>
-
-<p>回归正题，自己一直喜欢纯色系的设计方案，简约大方。那么采用什么配色方案呢，毫无疑问，蓝色啊（捂脸遁，真的是太爱蓝色了，其实中间尝试过粉色和绿色的配色，但还是觉得蓝色最好看，而且小程序会根据早晚切换背景颜色，浅蓝和深蓝也更能体现夜空）。</p>
-
-<p>确定设计方案后一切就比较简单啦，按照设计稿开始码代码！</p>
-
-<h3 id="写代码-ing">写代码 ing</h3>
-
-<hr />
-
-<p>这部分只想写一下自己的思路，我要慢慢摆脱贴代码这个习惯！</p>
-
-<p>由于微信小程序支持 ES6 转码，自己刚好也没有太多的 ES6 实践基础，于是果断选择用 ES6 语法完成代码的编写。编写之前需要熟悉小程序的官方开发文档，这里不再赘述，相信对于一个 FE 来说都不是问题啦。</p>
-
-<p>编写第一步就是数据的获取，这里按照百度地图 API 的文档说明很容易就可以实现。由于地图 API 的封装问题，目前不能通过城市名进行数据请求，只支持根据经纬度获取天气信息，因此自己写了个脚本抓取每个城市的中心点坐标，再根据坐标请求相应的天气数据。由于请求数据有一定的耗时，因此需要在请求前加一个 loading 的动作，在请求失败时跳转失败页面。</p>
-
-<p>获取到数据后，需要对数据进行处理，再将其渲染到前端页面。这一步需要判断当前为白天还是黑夜、根据当前 PM 2.5 值设置进度条的位置、根据天气状况设置天气动画等。值得一提的是 PM 2.5 的设置，系统默认最大值为1000，当用户所在城市空气质量爆表之后，把最大值存储在<code class="highlighter-rouge">localStorage</code>中，并更新滚动条的取值范围。</p>
-
-<h3 id="测试">测试</h3>
-
-<hr />
-
-<p>大致开发完了，我们开始测试吧！首先可以在微信小程序开发工具的模拟器中大致测试下功能，断网提示、请求失败、文本截断、部分异常值的处理等等。没有什么功能性 Bug 之后，可以扫码进行真机测试，看看一些 CSS 样式是否存在兼容性问题。我主要用 iPhone 6P、7、华为大屏、中屏手机进行了测试，修改了两个样式上的问题。</p>
-
-<h3 id="发布线上">发布线上</h3>
-
-<p>自测完毕后，就可以在开发工具中提交代码啦。接着就是给自己的小程序起一个辨识度高的名字、设置一个好看的 Logo、添加几个标签，完成这些内容后，就可以在微信开放平台中申请审核。审核期大概是两天，审核通过后直接发布线上！大功告成。</p>
-
-<p>下面是口袋天气的小程序码，可以直接使用微信扫一扫打开小程序，或在<code class="highlighter-rouge">微信</code>-<code class="highlighter-rouge">发现</code>-<code class="highlighter-rouge">小程序</code>中搜索<code class="highlighter-rouge">口袋天气</code>。</p>
-
-<p><img src="http://kongsong.me/assets/images/pocket-weather.jpg" alt="pocket-weather" /></p>
-
-<h3 id="后期版本规划">后期版本规划</h3>
-
-<hr />
-
-<p>初版已经上线了，后续会继续对口袋天气进行优化，目前有如下计划：</p>
-
-<ul>
-  <li>在支持城市点选的同时，引入地图选点，使天气信息更加精准</li>
-  <li>支持常用城市收藏</li>
-  <li>优化天气动画</li>
-  <li>增加更多背景色，如雾霾天为灰色等</li>
-</ul>
-
+<p>至此，iScroll 的轮播问题就解决啦。</p>
 
 			</div>
 			
 <div class="post-pagination">
   
-  <a href="/blog/byr-bbs-memory/" class="btn-pagination prev" title="明光以北，蓟门以南
+  <a href="/blog/pocket-weather/" class="btn-pagination prev" title="口袋天气微信小程序开发总结
 "><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
   
-  
-  <a href="/blog/passive-event-listeners/" class="btn-pagination next" title="不得不说的 Passive Event Listeners
-">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
   
 </div>
 
 			
 <div style="margin-top:30px">
-    <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/blog/pocket-weather/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
-    <a href="https://plus.google.com/share?url=http://localhost:4000/blog/pocket-weather/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/blog/pocket-weather/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
-    <a href="http://v.t.sina.com.cn/share/share.php?title=http://localhost:4000/blog/pocket-weather/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+    <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/blog/passive-event-listeners/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=http://localhost:4000/blog/passive-event-listeners/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/blog/passive-event-listeners/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=http://localhost:4000/blog/passive-event-listeners/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
 </div>
 
 
