@@ -28,9 +28,11 @@ document.addEventListener('touchmove', function (event) {
 
 翻译过来大概就是：
 
-> 在监听`mousewheel`或者`touch`事件中，增加了`passive`这个设置，当它为`true`时，就不会调用`preventDefault`来阻止默认行为。
+> 在监听`mousewheel`或者`touch`事件中，增加了`passive`这个设置，当它为`true`时，就表示事件处理程序不会调用`preventDefault`来阻止默认行为。
 
-该特性兼容`Chrome 51`和`Firefox 49`开始的浏览器，默认设置为`true`，此时`event.cancelable`为`false`。因此，可以使用如下代码开启`preventDefault`：
+举个例子，如果我们在 touchmove 事件调用 preventDefault，这时会禁止浏览器默认行为，页面不会滚动或缩放。浏览器无法预先知道一个监听器会不会调用 preventDefault()，它需要等监听器执行完后，再去执行默认行为，而监听器执行是要耗时的，这样就会导致页面卡顿。如果 Web 开发者能够提前告诉浏览器监听器不会调用 preventDefault 函数来阻止默认行为，那么浏览器就能快速生成事件，从而提升页面性能。passive 由此而生，我们可以通过传递 passive 为 true 来明确告诉浏览器，事件处理程序不会调用 preventDefault 来阻止默认滑动行为。
+
+该特性兼容`Chrome 51`和`Firefox 49`开始的浏览器，默认设置为`true`，此时`event.cancelable`为`false`。因此，可以使用如下代码告诉浏览器，监听器会使用`preventDefault`函数：
 
 {% highlight javascript %}
 document.addEventListener('touchmove', function (event) {
