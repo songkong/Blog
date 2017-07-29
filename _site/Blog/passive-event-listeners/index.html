@@ -116,10 +116,12 @@
 <p>翻译过来大概就是：</p>
 
 <blockquote>
-  <p>在监听<code class="highlighter-rouge">mousewheel</code>或者<code class="highlighter-rouge">touch</code>事件中，增加了<code class="highlighter-rouge">passive</code>这个设置，当它为<code class="highlighter-rouge">true</code>时，就不会调用<code class="highlighter-rouge">preventDefault</code>来阻止默认行为。</p>
+  <p>在监听<code class="highlighter-rouge">mousewheel</code>或者<code class="highlighter-rouge">touch</code>事件中，增加了<code class="highlighter-rouge">passive</code>这个设置，当它为<code class="highlighter-rouge">true</code>时，就表示事件处理程序不会调用<code class="highlighter-rouge">preventDefault</code>来阻止默认行为。</p>
 </blockquote>
 
-<p>该特性兼容<code class="highlighter-rouge">Chrome 51</code>和<code class="highlighter-rouge">Firefox 49</code>开始的浏览器，默认设置为<code class="highlighter-rouge">true</code>，此时<code class="highlighter-rouge">event.cancelable</code>为<code class="highlighter-rouge">false</code>。因此，可以使用如下代码开启<code class="highlighter-rouge">preventDefault</code>：</p>
+<p>举个例子，如果我们在 touchmove 事件调用 preventDefault，这时会禁止浏览器默认行为，页面不会滚动或缩放。浏览器无法预先知道一个监听器会不会调用 preventDefault()，它需要等监听器执行完后，再去执行默认行为，而监听器执行是要耗时的，这样就会导致页面卡顿。如果 Web 开发者能够提前告诉浏览器监听器不会调用 preventDefault 函数来阻止默认行为，那么浏览器就能快速生成事件，从而提升页面性能。passive 由此而生，我们可以通过传递 passive 为 true 来明确告诉浏览器，事件处理程序不会调用 preventDefault 来阻止默认滑动行为。</p>
+
+<p>该特性兼容<code class="highlighter-rouge">Chrome 51</code>和<code class="highlighter-rouge">Firefox 49</code>开始的浏览器，默认设置为<code class="highlighter-rouge">true</code>，此时<code class="highlighter-rouge">event.cancelable</code>为<code class="highlighter-rouge">false</code>。因此，可以使用如下代码告诉浏览器，监听器会使用<code class="highlighter-rouge">preventDefault</code>函数：</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'touchmove'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
@@ -134,6 +136,9 @@
   <a href="/blog/pocket-weather/" class="btn-pagination prev" title="口袋天气微信小程序开发总结
 "><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
   
+  
+  <a href="/blog/meta-viewport/" class="btn-pagination next" title="由移动端 1px 过粗引发的 viewport 探究
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
   
 </div>
 
