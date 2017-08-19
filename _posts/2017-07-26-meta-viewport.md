@@ -26,7 +26,7 @@ tags:
 
 设备宽高`375×667`，可以理解为设备独立像素的个数，dpr 为 2，根据上面的计算公式，其物理像素就应该 ×2，为`750×1334`。
 
-![viewport1](http://kongsong.me/assets/images/posts/meta-viewport/1.gif)
+![viewport1](http://oty92p38d.bkt.clouddn.com/meta-viewport/1.gif)
 
 在 iOS 设备中，dpr 可取的值为 1，2 或 3。在安卓设备中，情况就比较复杂了。以谷歌的 Nexus 为例，Nexus One 的物理像素为 480×800，但是安卓的 WebKit 团队将网页竖屏模式时的最优宽度设置为 320px。因此，dips 抽象逻辑层的宽度仍然为 320px，，此时 dpr 为 1.5。
 
@@ -38,9 +38,9 @@ tags:
 
 接下来我们看一下 CSS 像素和物理像素的关系。对于一个 1024px 的 PC 显示器，将浏览器放大到和桌面等大。html 中添加一个 128px 的元素，这个元素占据浏览器窗口的 1/8，当你将页面放大 200% 时，元素仍然是 128px，但此时它占据浏览器的 1/4。通过这个例子可以看出，浏览器的放大功能，并不是将 128px 元素变为 256px，它只是将 1px 所占的物理尺寸扩大，换句话说，放大前，一个 CSS 像素对应一个物理像素，放大 200% 后，CSS 像素的长宽各增大一倍，一个 CSS 像素对应四个物理像素。以上都是针对 PC 端而言，移动端 CSS 像素和物理像素的对应更加复杂，后面会讨论。
 
-![viewport2](http://kongsong.me/assets/images/posts/meta-viewport/2.png)
-![viewport3](http://kongsong.me/assets/images/posts/meta-viewport/3.png)
-![viewport4](http://kongsong.me/assets/images/posts/meta-viewport/4.png)
+![viewport2](http://oty92p38d.bkt.clouddn.com/meta-viewport/2.png)
+![viewport3](http://oty92p38d.bkt.clouddn.com/meta-viewport/3.png)
+![viewport4](http://oty92p38d.bkt.clouddn.com/meta-viewport/4.png)
 
 上图中，第一张是 CSS 像素与物理像素一一对应的情况，第二张是放大页面时的情况，第三张是缩小页面时的情况。
 
@@ -56,9 +56,9 @@ viewport 主要是用来限制 html 元素大小的。在 PC 端，viewport 的�
 
 > layout viewport：要比 visual viewport 大很多，是 CSS 布局的计算依据。因此，html 元素最初的大小与 layout viewport 相等，以确保整个页面的布局与 PC 端相同。
 
-![viewport5](http://kongsong.me/assets/images/posts/meta-viewport/5.jpg)
+![viewport5](http://oty92p38d.bkt.clouddn.com/meta-viewport/5.jpg)
 
-![viewport6](http://kongsong.me/assets/images/posts/meta-viewport/6.jpg)
+![viewport6](http://oty92p38d.bkt.clouddn.com/meta-viewport/6.jpg)
 
 在 Safari iPhone 中 layout viewport 的宽度为 980px，Opera 中为 850px，Android WebKit 中为 800px，IE 中为 974px。
 
@@ -66,7 +66,7 @@ viewport 主要是用来限制 html 元素大小的。在 PC 端，viewport 的�
 
 如果不加限定，浏览器默认将 visual viewport 设置为 layout viewport 的大小，这会导致页面显得拥挤，一个 CSS 像素对应的实际物理尺寸很小，需要放大才能看清楚。为了解决这个问题，引入了一个 ideal viewport 的概念。
 
-![viewport7](http://kongsong.me/assets/images/posts/meta-viewport/7.jpg)
+![viewport7](http://oty92p38d.bkt.clouddn.com/meta-viewport/7.jpg)
 
 > ideal viewport：Web 页面的理想大小，对于非 retina 屏的设备，ideal viewport 的大小就是物理分辨率的大小，对于 retina 屏，ideal viewport 的大小小于物理分辨率的值。
 

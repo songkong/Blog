@@ -5,9 +5,9 @@
     <description>This is Song' home.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 30 Jul 2017 00:26:12 +0800</pubDate>
-    <lastBuildDate>Sun, 30 Jul 2017 00:26:12 +0800</lastBuildDate>
-    <generator>Jekyll v3.4.3</generator>
+    <pubDate>Sat, 19 Aug 2017 14:45:26 +0800</pubDate>
+    <lastBuildDate>Sat, 19 Aug 2017 14:45:26 +0800</lastBuildDate>
+    <generator>Jekyll v3.5.2</generator>
     
       <item>
         <title>由移动端 1px 过粗引发的 viewport 探究</title>
@@ -18,7 +18,7 @@
 &lt;/blockquote&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;设备独立像素（density-independent pixels）：也叫密度无关像素，可以认为是计算机坐标系统中的一个点，这个点代表一个可以由程序使用的虚拟像素（比如: css像素），然后由相关系统转换为物理像素。&lt;/p&gt;
+  &lt;p&gt;设备独立像素（density-independent pixels）：也叫密度无关像素，可以认为是计算机坐标系统中的一个点，这个点代表一个可以由程序使用的虚拟像素，然后由相关系统转换为物理像素。&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;blockquote&gt;
@@ -27,18 +27,18 @@
     &lt;p&gt;设备像素比 = 物理像素 / 设备独立像素&lt;/p&gt;
   &lt;/blockquote&gt;
 
-  &lt;p&gt;在 JS 中，可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;window.devicePixelRatio&lt;/code&gt;获取到当前设备的dpr。在 CSS 中，可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;-webkit-device-pixel-ratio&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;-webkit-min-device-pixel-ratio&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;-webkit-max-device-pixel-ratio&lt;/code&gt;进行媒体查询，对不同 dpr 的设备，做一些样式适配。&lt;/p&gt;
+  &lt;p&gt;在 JS 中，可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;window.devicePixelRatio&lt;/code&gt;获取到当前设备的     dpr。在 CSS 中，可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;-webkit-device-pixel-ratio&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;-webkit-min-device-pixel-ratio&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;-webkit-max-device-pixel-ratio&lt;/code&gt;进行媒体查询，对不同 dpr 的设备，做一些样式适配。&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;以 iPhone6 为例：&lt;/p&gt;
 
-&lt;p&gt;设备宽高&lt;code class=&quot;highlighter-rouge&quot;&gt;375x667&lt;/code&gt;，可以理解为设备独立像素，dpr 为 2，根据上面的计算公式，其物理像素就应该 ×2，为&lt;code class=&quot;highlighter-rouge&quot;&gt;750×133&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;设备宽高&lt;code class=&quot;highlighter-rouge&quot;&gt;375×667&lt;/code&gt;，可以理解为设备独立像素的个数，dpr 为 2，根据上面的计算公式，其物理像素就应该 ×2，为&lt;code class=&quot;highlighter-rouge&quot;&gt;750×1334&lt;/code&gt;。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/meta-viewport/1.gif&quot; alt=&quot;viewport1&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/meta-viewport/1.gif&quot; alt=&quot;viewport1&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;在 iOS 设备中，dpr 可取的值为 1，2 或 3。在安卓设备中，情况就比较复杂了。以谷歌的 Nexus 为例，Nexus One 的物理像素为 480x800，但是安卓的 WebKit 团队将网页竖屏模式时的最优宽度设置为 320px。因此，dips 抽象逻辑层的宽度仍然为 320px。&lt;/p&gt;
+&lt;p&gt;在 iOS 设备中，dpr 可取的值为 1，2 或 3。在安卓设备中，情况就比较复杂了。以谷歌的 Nexus 为例，Nexus One 的物理像素为 480×800，但是安卓的 WebKit 团队将网页竖屏模式时的最优宽度设置为 320px。因此，dips 抽象逻辑层的宽度仍然为 320px，，此时 dpr 为 1.5。&lt;/p&gt;
 
-&lt;p&gt;在 Galaxy Nexus 中，物理像素提高到 720x1200。安卓团队将 dips 层的宽度设为 360px，Chrome 团队和腾讯 QQ 浏览器也都是这么设定的。但是 Opera 浏览器却将 dips 层宽设为 320px，此时 dpr 由 2 变为 2.25。&lt;/p&gt;
+&lt;p&gt;在 Galaxy Nexus 中，物理像素提高到 720×1200。安卓团队将 dips 层的宽度设为 360px，Chrome 团队和腾讯 QQ 浏览器也都是这么设定的。但是 Opera 浏览器却将 dips 层宽设为 320px，此时 dpr 由 2 变为 2.25。&lt;/p&gt;
 
 &lt;p&gt;说到这里，相信大家对物理像素和设备独立像素的理解更清晰了。简单粗暴的说，物理像素是设备所用的屏幕确定的，设备独立像素是手机操作系统或浏览器团队确定的。作为一个 Web 开发人员，两者我们都无力改变。可以将它们想象成 PS 中的两个图层，两个图层的物理尺寸相同，区别只是两个图层中网格的大小不同（一个网格代表一个像素点）。&lt;/p&gt;
 
@@ -46,11 +46,11 @@
   &lt;p&gt;这里不得不提一下 CSS 像素，在很多文章中，都将设备独立像素和 CSS 像素画了等号。但我不这么认为（当然也可能是错的，只是在我的理解中二者是不同的）。上文已经说过，设备独立像素和物理像素的对应关系是固定的，而物理像素又是确定的，那么设备独立像素也是确定的。但 CSS 像素和物理像素之间的关系是可变的。对于设备独立像素和 CSS 像素的关系，我还存在一些疑问，后面会查看更多的相关资料。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;接下来我们看一下 CSS 像素和物理像素的关系。对于一个 1024px 的 PC 显示器，将浏览器放大到最大。html 中添加一个 128px 的元素，这个元素占据浏览器窗口的 1/8，当你将页面放大 200% 时，元素仍然是 128px，但此时它占据浏览器的 1/4。通过这个例子可以看出，浏览器的放大功能，并不是将 128px 元素变为 256px，它只是将 1px 所占的物理尺寸扩大，换句话说，放大前，一个 CSS 像素对应一个物理像素，放大 200% 后，CSS 像素的长宽各增大一倍，一个 CSS 像素对应四个物理像素。以上都是针对 PC 端而言，移动端 CSS 像素和物理像素的对应更加复杂，后面会讨论。&lt;/p&gt;
+&lt;p&gt;接下来我们看一下 CSS 像素和物理像素的关系。对于一个 1024px 的 PC 显示器，将浏览器放大到和桌面等大。html 中添加一个 128px 的元素，这个元素占据浏览器窗口的 1/8，当你将页面放大 200% 时，元素仍然是 128px，但此时它占据浏览器的 1/4。通过这个例子可以看出，浏览器的放大功能，并不是将 128px 元素变为 256px，它只是将 1px 所占的物理尺寸扩大，换句话说，放大前，一个 CSS 像素对应一个物理像素，放大 200% 后，CSS 像素的长宽各增大一倍，一个 CSS 像素对应四个物理像素。以上都是针对 PC 端而言，移动端 CSS 像素和物理像素的对应更加复杂，后面会讨论。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/meta-viewport/2.png&quot; alt=&quot;viewport2&quot; /&gt;
-&lt;img src=&quot;http://kongsong.me/assets/images/posts/meta-viewport/3.png&quot; alt=&quot;viewport3&quot; /&gt;
-&lt;img src=&quot;http://kongsong.me/assets/images/posts/meta-viewport/4.png&quot; alt=&quot;viewport4&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/meta-viewport/2.png&quot; alt=&quot;viewport2&quot; /&gt;
+&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/meta-viewport/3.png&quot; alt=&quot;viewport3&quot; /&gt;
+&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/meta-viewport/4.png&quot; alt=&quot;viewport4&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;上图中，第一张是 CSS 像素与物理像素一一对应的情况，第二张是放大页面时的情况，第三张是缩小页面时的情况。&lt;/p&gt;
 
@@ -70,23 +70,25 @@
   &lt;p&gt;layout viewport：要比 visual viewport 大很多，是 CSS 布局的计算依据。因此，html 元素最初的大小与 layout viewport 相等，以确保整个页面的布局与 PC 端相同。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/meta-viewport/5.jpg&quot; alt=&quot;viewport5&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/meta-viewport/5.jpg&quot; alt=&quot;viewport5&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/meta-viewport/6.jpg&quot; alt=&quot;viewport6&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/meta-viewport/6.jpg&quot; alt=&quot;viewport6&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;在 Safari iPhone 中 layout viewport 的宽度为 980px, Opera 850px, Android WebKit 800px, and IE 974px。&lt;/p&gt;
+&lt;p&gt;在 Safari iPhone 中 layout viewport 的宽度为 980px，Opera 中为 850px，Android WebKit 中为 800px，IE 中为 974px。&lt;/p&gt;
 
 &lt;p&gt;不管是 visual viewport 还是 layout viewport，都是以 CSS 像素度量的，当放大屏幕时，layout viewport 是不变的（如果改变，页面会一直重绘），visual viewport 变小，屏幕上的 CSS 像素点减少。可以把 layout viewport 想象成一个特别大的画布，它的大小和形状永远都不会改变，而 visual viewport 是一个镜头，透过镜头可以看到画布，当你想透过镜头看到画布上更多的内容时，你需要将镜头后移，当你想更清晰的看到画布上的细节时，你需要把镜头前移。&lt;/p&gt;
 
-&lt;p&gt;如果不加限定，浏览器默认将 visual viewport 设置为 layout viewport 的大小，这会导致页面显得拥挤，内容太小，需要放大才能看清楚。为了解决这个问题，引入了一个 ideal viewport 的概念。&lt;/p&gt;
+&lt;p&gt;如果不加限定，浏览器默认将 visual viewport 设置为 layout viewport 的大小，这会导致页面显得拥挤，一个 CSS 像素对应的实际物理尺寸很小，需要放大才能看清楚。为了解决这个问题，引入了一个 ideal viewport 的概念。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/meta-viewport/7.jpg&quot; alt=&quot;viewport7&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/meta-viewport/7.jpg&quot; alt=&quot;viewport7&quot; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;ideal viewport：Web 页面的理想大小，对于非 retina 屏的设备，ideal viewport 的大小就是物理像素的大小，对于 retina 屏，ideal viewport 的大小小于 物理分辨率的值。&lt;/p&gt;
+  &lt;p&gt;ideal viewport：Web 页面的理想大小，对于非 retina 屏的设备，ideal viewport 的大小就是物理分辨率的大小，对于 retina 屏，ideal viewport 的大小小于物理分辨率的值。&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;h4 id=&quot;meta-viewport&quot;&gt;meta viewport&lt;/h4&gt;
+
+&lt;hr /&gt;
 
 &lt;p&gt;通过 meta viewport，我们可以设置 layout viewport 的大小。具体语法为下：&lt;/p&gt;
 
@@ -123,24 +125,23 @@
 
 &lt;p&gt;那么页面的 ideal viewport 到底是多少呢？首先设置&lt;code class=&quot;highlighter-rouge&quot;&gt;width=device-width&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;initial-scale=1&lt;/code&gt;，然后通过&lt;code class=&quot;highlighter-rouge&quot;&gt;document.documentElement.clientWidth&lt;/code&gt;便可以得到页面的 ideal viewport（部分浏览器有异常现象，但也没办法）。&lt;/p&gt;
 
-&lt;p&gt;在文献&lt;a href=&quot;https://www.quirksmode.org/mobile/metaviewport/&quot;&gt;[3]&lt;/a&gt;中，列出了各设备的 ideal viewport 大小，但我对这个表格存在一些质疑，表中 iPhone 的 ideal viewport 是 320x480，而通过&lt;code class=&quot;highlighter-rouge&quot;&gt;document.documentElement.clientWidth&lt;/code&gt;得到的宽是 375。同时，前面我们提过设备独立像素的概念，根据文献&lt;a href=&quot;https://www.quirksmode.org/blog/archives/2012/07/more_about_devi.html&quot;&gt;[5]&lt;/a&gt;，设置&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&amp;gt;&lt;/code&gt;后，可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;document.documentElement.clientWidth&lt;/code&gt;得到 dips，也就是说，ideal viewport 的大小等于 dips。&lt;/p&gt;
+&lt;p&gt;在文献&lt;a href=&quot;https://www.quirksmode.org/mobile/metaviewport/&quot;&gt;[3]&lt;/a&gt;中，列出了各设备的 ideal viewport 大小，但我对这个表格存在一些质疑，表中 iPhone 的 ideal viewport 是 320×480，而通过&lt;code class=&quot;highlighter-rouge&quot;&gt;document.documentElement.clientWidth&lt;/code&gt;得到的宽是 375。同时，前面我们提过设备独立像素的概念，根据文献&lt;a href=&quot;https://www.quirksmode.org/blog/archives/2012/07/more_about_devi.html&quot;&gt;[5]&lt;/a&gt;，设置&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&amp;gt;&lt;/code&gt;后，可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;document.documentElement.clientWidth&lt;/code&gt;得到 dips，也就是说，ideal viewport 的大小等于 dips。&lt;/p&gt;
 
 &lt;p&gt;至此，几个像素和 viewport 的概念已经理清了。&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;dips = pps / dpr&lt;/p&gt;
+  &lt;p&gt;首先，dips = pps / dpr，设备的 pps 和 dpr 固定，可以求得 dips&lt;/p&gt;
 
-  &lt;p&gt;layout viewport 决定 CSS 像素的实际大小&lt;/p&gt;
+  &lt;p&gt;ideal viewport 等于 dips（可以暂时理解为 ideal viewport 以 dips 度量）&lt;/p&gt;
 
-  &lt;p&gt;dips 等于 ideal viewport&lt;/p&gt;
-
-  &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;width=device-width; initial-scale=1&lt;/code&gt;可以使 layout viewport 等于 ideal viewport，当两者相等时，CSS 像素大小等于 dips&lt;/p&gt;
+  &lt;p&gt;layout viewport 和 vitual viewport 都是以 CSS 像素度量的&lt;/p&gt;
 
   &lt;p&gt;visual viewport width = ideal viewport width / zoom factor&lt;/p&gt;
+
+  &lt;p&gt;设置&lt;code class=&quot;highlighter-rouge&quot;&gt;width=device-width; initial-scale=1&lt;/code&gt;可以使 layout viewport=ideal viewport=visual viewport，此时一个 CSS 像素等于一个 dips，当页面放大或缩小时，一个 CSS 像素的大小等于 dip * zoom factor 的大小&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;那么最终来看看移动端为啥 1px 变粗了。这主要是因为，视觉稿以 ip
-hone6 为基准，画布大小 750×1334（物理像素），那么 1px 表示一个物理像素，当我们设置&lt;code class=&quot;highlighter-rouge&quot;&gt;width=device-width; initial-scale=1&lt;/code&gt;后，layout viewport = ideal viewport = 375x667，一个 CSS 像素为两个物理像素，线自然就变粗啦。&lt;/p&gt;
+&lt;p&gt;那么最终来看看移动端为啥 1px 变粗了。这主要是因为，视觉稿以 iPhone6 为基准，画布大小 750×1334（物理像素），根据视觉稿写代码时，最简单的做法是把所有标注除以 2，如 22px 的字号，转为 CSS 是 11px，这都没有问题，但视觉稿中的 1px 分割线，表示一个物理像素，而我们在写代码时，通常不会再把 1px 除以 2 了（只有高版本的 iOS 支持 0.5px）。当我们设置&lt;code class=&quot;highlighter-rouge&quot;&gt;width=device-width; initial-scale=1&lt;/code&gt;后，layout viewport = ideal viewport = 375×667，一个 CSS 像素为两个物理像素，线自然就变粗啦。到底如何解决这个 1px 问题呢，网上有很多办法，但都不尽善尽美，后续经过自己实战，再写一篇总结吧。&lt;/p&gt;
 
 &lt;h3 id=&quot;参考文章&quot;&gt;参考文章&lt;/h3&gt;
 
@@ -377,15 +378,15 @@ hone6 为基准，画布大小 750×1334（物理像素），那么 1px 表示�
 
 &lt;p&gt;在 Chrome 中打开待调试页面，&lt;code class=&quot;highlighter-rouge&quot;&gt;F12&lt;/code&gt;开启开发者工具（Mac中是&lt;code class=&quot;highlighter-rouge&quot;&gt;cmd+alt+i&lt;/code&gt;）。点击开发者工具左上角的第二个图标（下图中被红色框选中的），待调试页面就会切换到移动终端屏幕展示模式。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/1.jpeg&quot; alt=&quot;mobile-debug1&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/web-debug-in-mobile/1.jpeg&quot; alt=&quot;mobile-debug1&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;点击左上角的移动设备名称（如 iPhone6），可以切换设备。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/2.png&quot; alt=&quot;mobile-debug2&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/web-debug-in-mobile/2.png&quot; alt=&quot;mobile-debug2&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;同时，&lt;code class=&quot;highlighter-rouge&quot;&gt;Edit&lt;/code&gt;支持自定义设备，可以自己添加一些特殊分辨率的屏幕。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/3.png&quot; alt=&quot;mobile-debug3&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/web-debug-in-mobile/3.png&quot; alt=&quot;mobile-debug3&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Chrome 最主要的还是模拟移动设备的屏幕尺寸，由于各种手机厂商会对手机浏览器进行不同程度的定制，真机中的效果可能会与 Chrome 中看到的不同，在不同型号的手机中便会出现形形色色的 Bug。因此，本方法比较适合日常的开发，开发完毕后需要在真机中查看具体效果。若遇到各种兼容性 Bug，就需要真机调试或模拟器调试了。&lt;/p&gt;
 
@@ -393,7 +394,7 @@ hone6 为基准，画布大小 750×1334（物理像素），那么 1px 表示�
 
 &lt;p&gt;利用 Chrome 可以对 Android 上的 Web 页面、原生 App 中的 WebView 进行调试。方法很简单，在 PC 和 Android 手机上安装最新版的 Chrome 浏览器，将手机与 PC 用数据线连接，手机开启 USB 调试功能，不同机型开启调试功能的方法不一样，请自行百度。在 PC 端的 Chrome 地址栏中输入 &lt;code class=&quot;highlighter-rouge&quot;&gt;chrome://inspect/#devices&lt;/code&gt;，选中&lt;code class=&quot;highlighter-rouge&quot;&gt;Discover USB devices&lt;/code&gt;，若页面中显示出了你的设备名称，表示 Chrome 成功连接到了你的手机。若没有连接成功，请检查数据线是否完好、浏览器是否是新版。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/4.png&quot; alt=&quot;mobile-debug4&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/web-debug-in-mobile/4.png&quot; alt=&quot;mobile-debug4&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;连接成功后，用手机的 Chrome 打开想调试的 Web 页面，PC 端的 inspect 页面会同步出现相应的页面信息，点击&lt;code class=&quot;highlighter-rouge&quot;&gt;inspect&lt;/code&gt;即可开始调试。若想调试某 App 中的 WebView 页面，手机中需安装该 App 的 debug 版本，进入 App 中的相应 WebView 页面，PC 端的 Chrome 便会成功获取该页面信息。&lt;/p&gt;
 
@@ -401,7 +402,7 @@ hone6 为基准，画布大小 750×1334（物理像素），那么 1px 表示�
 
 &lt;p&gt;iPhone 的真机调试与 Android 相似。首先，为 Safari 开启开发者工具，打开 Safari，&lt;code class=&quot;highlighter-rouge&quot;&gt;cmd+,&lt;/code&gt;打开偏好设置，在&lt;code class=&quot;highlighter-rouge&quot;&gt;高级&lt;/code&gt;选项的最下边，选中&lt;code class=&quot;highlighter-rouge&quot;&gt;在菜单中显示开发菜单&lt;/code&gt;。此时，Safari 的菜单栏中就会出现&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;选项。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/5.png&quot; alt=&quot;mobile-debug5&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/web-debug-in-mobile/5.png&quot; alt=&quot;mobile-debug5&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;接着，将 iPhone 与 Mac 用数据线连接，在 PC 端 Safari 的&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;中会出现&lt;code class=&quot;highlighter-rouge&quot;&gt;iPhone&lt;/code&gt;选项，选中之后即可看到手机中开启的 Web 页面。&lt;/p&gt;
 
@@ -411,11 +412,11 @@ hone6 为基准，画布大小 750×1334（物理像素），那么 1px 表示�
 
 &lt;p&gt;Safari 也像 Chrome 一样可以模拟移动端开发。在&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;中选中&lt;code class=&quot;highlighter-rouge&quot;&gt;用户代理&lt;/code&gt;-&lt;code class=&quot;highlighter-rouge&quot;&gt;iPhone&lt;/code&gt;。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/6.png&quot; alt=&quot;mobile-debug6&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/web-debug-in-mobile/6.png&quot; alt=&quot;mobile-debug6&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;接着选中&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;中的&lt;code class=&quot;highlighter-rouge&quot;&gt;进入响应式设计模式&lt;/code&gt;，页面就会切成移动显示模式了。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/7.png&quot; alt=&quot;mobile-debug7&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/web-debug-in-mobile/7.png&quot; alt=&quot;mobile-debug7&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;作为一个 Chrome 党，平时开发从来没有用过这种方法，好不好用就不做评价啦。&lt;/p&gt;
 
@@ -423,7 +424,7 @@ hone6 为基准，画布大小 750×1334（物理像素），那么 1px 表示�
 
 &lt;p&gt;iOS 模拟器（iOS Simulator）捆绑在了 Xcode 里，但其本身也是一个独立程序，启动 iOS 模拟器后，可以在 Dock 中看到模拟器的图标。右键选择图标，在&lt;code class=&quot;highlighter-rouge&quot;&gt;选项&lt;/code&gt;中选择&lt;code class=&quot;highlighter-rouge&quot;&gt;在 Dock 中保留&lt;/code&gt;，这样即使关闭模拟器，图标也会出现在 Dock 中，方便以后开发调试。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/8.png&quot; alt=&quot;mobile-debug8&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/web-debug-in-mobile/8.png&quot; alt=&quot;mobile-debug8&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;启动模拟器后，可以在模拟器中的 Safari 打开想调试的页面，再打开 Mac 上的 Safari，在&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;-&lt;code class=&quot;highlighter-rouge&quot;&gt;Simulator&lt;/code&gt;中监听相应页面。但这完全没有必要，这和直接用 Mac 上的 Safari 开发没有什么区别。iOS 模拟器主要是用来调试原生 App 中的 WebView 页面的。&lt;/p&gt;
 
@@ -433,7 +434,7 @@ hone6 为基准，画布大小 750×1334（物理像素），那么 1px 表示�
 
 &lt;p&gt;打开待调试的页面后，在 Mac 上的 Safari—开发—Simulator 中即可看到相应的 WebView 页面，这样就可以开始相应的调试啦。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/web-debug-in-mobile/9.png&quot; alt=&quot;mobile-debug9&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/web-debug-in-mobile/9.png&quot; alt=&quot;mobile-debug9&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;每次 App Bundle 中有代码修改时，都需要重新在模拟器中安装 App，选择&lt;code class=&quot;highlighter-rouge&quot;&gt;Simulator&lt;/code&gt;—&lt;code class=&quot;highlighter-rouge&quot;&gt;Reset Content and Settings&lt;/code&gt;重置模拟器，再执行&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun simctl install booted /Users/ks/Documents/IphoneCom.app&lt;/code&gt;安装 App。&lt;/p&gt;
 
@@ -646,11 +647,11 @@ hone6 为基准，画布大小 750×1334（物理像素），那么 1px 表示�
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Network&lt;/code&gt;可以帮助识别出由于请求缓慢而导致的延迟。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/network.png&quot; alt=&quot;network&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/fe-optimizing/network.png&quot; alt=&quot;network&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Timeline&lt;/code&gt;可以帮忙找出疑似较长的&lt;code class=&quot;highlighter-rouge&quot;&gt;Evaluate Script&lt;/code&gt;事件。Chrome 用四种颜色表示不同的事件：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/recalculate-style.png&quot; alt=&quot;recalculate-style&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/fe-optimizing/recalculate-style.png&quot; alt=&quot;recalculate-style&quot; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;ul&gt;
@@ -661,7 +662,7 @@ hone6 为基准，画布大小 750×1334（物理像素），那么 1px 表示�
   &lt;/ul&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://kongsong.me/assets/images/posts/pie.png&quot; alt=&quot;pie&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oty92p38d.bkt.clouddn.com/fe-optimizing/pie.png&quot; alt=&quot;pie&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;哪种颜色的色块越多，就说明应用将性能耗费在了哪里。找到性能损耗的中心可以让你有效率地达到优化的目标。&lt;/p&gt;
 
