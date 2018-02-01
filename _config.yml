@@ -62,8 +62,8 @@ linkedin:           kongsong
 #hackernews:        username
 #behance:           username
 
-# Gems
-gems:
+# Plugins
+plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-gist

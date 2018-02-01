@@ -111,7 +111,12 @@
   <ol>
     <li><a href="#chapter2-1">&lt;script&gt;与&lt;noscript&gt;元素</a></li>
     <li><a href="#chapter2-2">嵌入代码与外部文件</a></li>
-    <li><a href="#chapter2-3">文档模式</a></li>
+    <li><a href="#chapter2-3">文档模式</a>
+      <h4 id="第四章-变量作用域和内存问题">第四章 【<a href="#chapter4">变量、作用域和内存问题</a>】</h4>
+    </li>
+    <li><a href="#chapter4-1">基本类型和引用类型的值</a></li>
+    <li><a href="#chapter4-2">执行环境和作用域</a></li>
+    <li><a href="#chapter4-3">垃圾收集</a></li>
   </ol>
 </blockquote>
 
@@ -222,6 +227,21 @@
 <figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="c">&lt;!-- HTML 5 --&gt;</span>
 <span class="cp">&lt;!DOCTYPE html&gt;</span></code></pre></figure>
 
+<hr />
+
+<h3 id="chapter4">第四章  变量、作用域和内存问题</h3>
+
+<h4 id="chapter4-1">4.1 基本类型和引用类型的值</h4>
+
+<blockquote>
+  <p>基本类型值：简单的数据段，按值访问，Undefined、Null、Boolean、Number、String。
+引用类型值：保存在内存中的对象。</p>
+</blockquote>
+
+<p>可以为引用类型值添加属性，不能为基本类型值添加属性，添加时不会报错，读取时为 undefined。</p>
+
+<p>复制基本类型值时，会为新变量开辟一块新的空间，把需要被复制的值复制一份到新分配的位置上，新值和旧值相互独立不影响。当复制引用类型的值时，过程与复制基本类型相同，不同的是新老变量是指针，他们引用同一对象。</p>
+
 
 			</div>
 			
@@ -330,7 +350,7 @@
         
       </ul>
     </div>
-    <div class="copyright text-center">Copyright © 2017 Song Kong. Powered by Jekyll.</div>
+    <div class="copyright text-center">Copyright © 2018 Song Kong. Powered by Jekyll.</div>
   </div>
   <div id="top" class="btn-top" style="display:none">
     <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
