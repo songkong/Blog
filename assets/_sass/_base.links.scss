@@ -183,3 +183,66 @@ blockquote a {
 }
 
 
+/**
+ * comment
+   I use Gitalk as comment system and want to change the default style of the Gitalk
+ */
+#gitalk-container .gt-container {
+  .gt-btn {
+    border: 1px solid $blue;
+    background-color: $blue;
+  }
+
+  .gt-btn-preview {
+    background-color: $white;
+    color: $blue;
+    &:hover {
+      background-color: rgba(98, 179, 245, 0.2);
+    }
+  }
+
+  a {
+    color: $blue;
+    text-shadow: 1px 1px $dark-white, 2px 2px $darker-white;
+    &:hover {
+      text-shadow: 1px 1px $dark-white, 2px 2px $light-blue;
+    }
+  }
+
+  .gt-link {
+    border-bottom: 1px dotted $blue;
+  }
+  .gt-comment-admin .gt-comment-content {
+    background-color: rgba(98, 179, 245, 0.2);
+  }
+
+  .gt-svg svg {
+    fill: $blue;
+  }
+
+  .gt-spinner::before {
+    border-top-color: $blue;
+  }
+
+  .gt-btn-public:hover {
+    background-color: $blue;
+    border-color: $blue;
+  }
+
+  .gt-error {
+    color: $light-red;
+  }
+
+  .gt-user .is--poping .gt-ico svg {
+    fill: $blue;
+  }
+
+  .gt-popup .gt-action.is--active:before {
+    background: $blue;
+  }
+
+  .gt-header-controls-tip, .gt-comment-username{
+    color: $blue;
+  }
+
+}
