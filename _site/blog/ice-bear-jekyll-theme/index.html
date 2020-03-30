@@ -100,13 +100,13 @@
 			<div class="post-content">
 				<p>This is my first jekyll theme decorated by my favorite items – blue and ice bear. It’s welcomed to give me a star at github if you like it.</p>
 
-<p><a class="github-button" href="https://github.com/songkong/Blog/tree/gh-pages" data-count-href="/songkong/Blog/stargazers" data-count-api="/repos/songkong/Blog#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star songkong/Blog on GitHub">Star</a></p>
+<iframe src="https://ghbtns.com/github-btn.html?user=songkong&amp;repo=Blog&amp;type=star&amp;count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
 
 <h1 id="installation">Installation</h1>
 <hr />
 
 <ul>
-  <li>Fork the repository. <a class="github-button" href="https://github.com/songkong/Blog/fork" data-count-href="/songkong/Blog/network" data-count-api="/repos/songkong/Blog#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork songkong/Blog on GitHub">Fork</a></li>
+  <li>Fork the repository. &lt;iframe src="https://ghbtns.com/github-btn.html?user=songkong&amp;repo=Blog&amp;type=fork&amp;count=true" frameborder="0" scrolling="0" width="170px" height="20px"&gt;&lt;/iframe&gt;</li>
   <li>Edit <code class="highlighter-rouge">_config.yml</code> file.</li>
   <li>Add your own <code class="highlighter-rouge">projects</code> in <code class="highlighter-rouge">_includes/projects.html</code>.</li>
   <li>Change <code class="highlighter-rouge">domain name</code> in <code class="highlighter-rouge">CNAME</code>.</li>
@@ -235,7 +235,8 @@
         <h1 class="blue-title">Comments</h1>
 		
 
-		<!-- Gitalk 安装代码 -->
+		
+		<!-- Gitalk  BEGIN-->
 		<div id="gitalk-container" ></div>
 		<script type="text/javascript">
             var gitalk = new Gitalk({
@@ -244,12 +245,13 @@
                 repo: 'blogcomments',
                 owner: 'songkong',
                 admin: ['songkong'],
-                id: location.pathname,      // 请确保你的 location 连接小于 50 个字符，否则，插件会生成失败
-                distractionFreeMode: false  // 专注模式
+                id: location.pathname,
+                distractionFreeMode: false
             });
             gitalk.render('gitalk-container')
 		</script>
-		<!-- Gitalk 安装代码已完成 -->
+		<!-- Gitalk END -->
+		
 
 
 		
@@ -263,7 +265,7 @@
   <div class="footer-content">
     <div class="social-wrapper text-center">
       <ul class="social-lists">
-        <li><a class="social-btn btn-white" href="mailto:kongsong0215@163.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        <li><a class="social-btn btn-white" href="mailto:hi@ikongsong.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
         
         
         <li><a class="social-btn btn-white" href="http://facebook.com/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Facebook"><i class="fa fa-fw fa-facebook"></i></a></li>

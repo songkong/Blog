@@ -5,7 +5,8 @@
         <h1 class="blue-title">Comments</h1>
 		{% endif %}
 
-		<!-- Gitalk 安装代码 -->
+		{% if site.comment.gitalk %}
+		<!-- Gitalk  BEGIN-->
 		<div id="gitalk-container" ></div>
 		<script type="text/javascript">
             var gitalk = new Gitalk({
@@ -14,12 +15,13 @@
                 repo: 'blogcomments',
                 owner: 'songkong',
                 admin: ['songkong'],
-                id: location.pathname,      // 请确保你的 location 连接小于 50 个字符，否则，插件会生成失败
-                distractionFreeMode: false  // 专注模式
+                id: location.pathname,
+                distractionFreeMode: false
             });
             gitalk.render('gitalk-container')
 		</script>
-		<!-- Gitalk 安装代码已完成 -->
+		<!-- Gitalk END -->
+		{% endif %}
 
 
 		{% if site.comment.youyan %}

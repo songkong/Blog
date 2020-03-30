@@ -112,11 +112,11 @@
 
 <p><code class="highlighter-rouge">Network</code>可以帮助识别出由于请求缓慢而导致的延迟。</p>
 
-<p><img src="http://oty92p38d.bkt.clouddn.com/fe-optimizing/network.png" alt="network" /></p>
+<p><img src="http://ikongsong.com/assets/images/posts/fe-optimizing/1.png" alt="network" /></p>
 
 <p><code class="highlighter-rouge">Timeline</code>可以帮忙找出疑似较长的<code class="highlighter-rouge">Evaluate Script</code>事件。Chrome 用四种颜色表示不同的事件：</p>
 
-<p><img src="http://oty92p38d.bkt.clouddn.com/fe-optimizing/recalculate-style.png" alt="recalculate-style" /></p>
+<p><img src="http://ikongsong.com/assets/images/posts/fe-optimizing/2.png" alt="recalculate-style" /></p>
 
 <blockquote>
   <ul>
@@ -127,7 +127,7 @@
   </ul>
 </blockquote>
 
-<p><img src="http://oty92p38d.bkt.clouddn.com/fe-optimizing/pie.png" alt="pie" /></p>
+<p><img src="http://ikongsong.com/assets/images/posts/fe-optimizing/3.png" alt="pie" /></p>
 
 <p>哪种颜色的色块越多，就说明应用将性能耗费在了哪里。找到性能损耗的中心可以让你有效率地达到优化的目标。</p>
 
@@ -408,7 +408,8 @@
         <h1 class="blue-title">Comments</h1>
 		
 
-		<!-- Gitalk 安装代码 -->
+		
+		<!-- Gitalk  BEGIN-->
 		<div id="gitalk-container" ></div>
 		<script type="text/javascript">
             var gitalk = new Gitalk({
@@ -417,12 +418,13 @@
                 repo: 'blogcomments',
                 owner: 'songkong',
                 admin: ['songkong'],
-                id: location.pathname,      // 请确保你的 location 连接小于 50 个字符，否则，插件会生成失败
-                distractionFreeMode: false  // 专注模式
+                id: location.pathname,
+                distractionFreeMode: false
             });
             gitalk.render('gitalk-container')
 		</script>
-		<!-- Gitalk 安装代码已完成 -->
+		<!-- Gitalk END -->
+		
 
 
 		
@@ -436,7 +438,7 @@
   <div class="footer-content">
     <div class="social-wrapper text-center">
       <ul class="social-lists">
-        <li><a class="social-btn btn-white" href="mailto:kongsong0215@163.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        <li><a class="social-btn btn-white" href="mailto:hi@ikongsong.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
         
         
         <li><a class="social-btn btn-white" href="http://facebook.com/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Facebook"><i class="fa fa-fw fa-facebook"></i></a></li>

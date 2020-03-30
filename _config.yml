@@ -24,7 +24,8 @@ comment:
   disqus: kongsong    
   # duoshuo: kongsong
   # youyan: 2122392
-  laibili: MTAyMC8yODgzNC81NDA0
+  # laibili: MTAyMC8yODgzNC81NDA0
+  gitalk: true
 
 # Website analytics
 google_analytics: UA-82494501-1
@@ -37,7 +38,7 @@ author:
   about_me: I'm Song Kong. This is my online home & blog, where I share thoughts about front-end development, cloud computing, my daily life and other insteresting topics. Feel free to contact me by email if you have any question.
  
 # Social Links
-email:               kongsong0215@163.com
+email:               hi@ikongsong.com
 #google.plus:        username
 #twitter:            username
 facebook:            kongsong
