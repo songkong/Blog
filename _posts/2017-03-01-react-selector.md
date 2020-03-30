@@ -13,11 +13,11 @@ tags:
 
 开发中使用到的技术：React + Redux + Gulp + Browserify。利用`Browserify`，可以将`JSX`转化为`JS`代码，同时允许使用`require`实现项目的模块化。`Gulp`完成代码的打包。`Browserify`和`Gulp`的相关代码在`gulpFile.js`中，比较简单，不在此赘述。
 
-![selector_first](http://oty92p38d.bkt.clouddn.com/react-selector/selector_first.jpg)
+![selector_first](http://ikongsong.com/assets/images/posts/react-selector/1.jpg)
 
 项目中，需要实现四个组件：CanvasComponent、InputComponent、ListComponent 和 MenuComponent。
 
-![selector_second](http://oty92p38d.bkt.clouddn.com/react-selector/selector_second.jpg)
+![selector_second](http://ikongsong.com/assets/images/posts/react-selector/2.jpg)
 
 # Redux
 
@@ -508,4 +508,4 @@ ReactDOM.render(
 
 [完整代码](https://github.com/songkong/Selector)
 
-[项目展示](http://selector.kongsong.me)
+[项目展示](http://selector.ikongsong.com)

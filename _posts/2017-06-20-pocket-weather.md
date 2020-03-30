@@ -66,7 +66,7 @@ tags:
 
 下面是口袋天气的小程序码，可以直接使用微信扫一扫打开小程序，或在`微信`-`发现`-`小程序`中搜索`口袋天气`。
 
-![pocket-weather](http://kongsong.me/assets/images/pocket-weather.jpg)
+![pocket-weather](http://ikongsong.com/assets/images/pocket-weather.jpg)
 
 ### 后期版本规划
 

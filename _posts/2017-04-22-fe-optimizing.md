@@ -24,18 +24,18 @@ tags:
 
 `Network`可以帮助识别出由于请求缓慢而导致的延迟。
 
-![network](http://oty92p38d.bkt.clouddn.com/fe-optimizing/network.png)
+![network](http://ikongsong.com/assets/images/posts/fe-optimizing/1.png)
 
 `Timeline`可以帮忙找出疑似较长的`Evaluate Script`事件。Chrome 用四种颜色表示不同的事件：
 
-![recalculate-style](http://oty92p38d.bkt.clouddn.com/fe-optimizing/recalculate-style.png)
+![recalculate-style](http://ikongsong.com/assets/images/posts/fe-optimizing/2.png)
 
 > * 蓝色：网络通信和HTML解析
 > * 黄色：JavaScript执行
 > * 紫色：样式计算和布局，即重排
 > * 绿色：重绘
 
-![pie](http://oty92p38d.bkt.clouddn.com/fe-optimizing/pie.png)
+![pie](http://ikongsong.com/assets/images/posts/fe-optimizing/3.png)
 
 哪种颜色的色块越多，就说明应用将性能耗费在了哪里。找到性能损耗的中心可以让你有效率地达到优化的目标。
 
