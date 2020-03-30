@@ -11,12 +11,12 @@ tags:
 ---
 This is my first jekyll theme decorated by my favorite items -- blue and ice bear. It's welcomed to give me a star at github if you like it.
 
-<a class="github-button" href="https://github.com/songkong/Blog/tree/gh-pages" data-count-href="/songkong/Blog/stargazers" data-count-api="/repos/songkong/Blog#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star songkong/Blog on GitHub">Star</a>
+<iframe src="https://ghbtns.com/github-btn.html?user=songkong&repo=Blog&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
 
 # Installation
 ---
 
-* Fork the repository. <a class="github-button" href="https://github.com/songkong/Blog/fork" data-count-href="/songkong/Blog/network" data-count-api="/repos/songkong/Blog#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork songkong/Blog on GitHub">Fork</a>
+* Fork the repository. <iframe src="https://ghbtns.com/github-btn.html?user=songkong&repo=Blog&type=fork&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
 * Edit `_config.yml` file.
 * Add your own `projects` in `_includes/projects.html`.
 * Change `domain name` in `CNAME`.
