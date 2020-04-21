@@ -1,8 +1,8 @@
 #Site
-title: 水榭清松-Song Kong
-description: This is Song' home.
+title: Youngjoon Jeong  
+description: YJ 
 logo: favicon.png
-url: ikongsong.com
+url: af1014.github.io
 rss_url: /feed.xml
 
 # Jekyll
@@ -21,32 +21,31 @@ sass:
 
 # Comment
 comment:
-  disqus: kongsong    
+  disqus: af1014  
   # duoshuo: kongsong
   # youyan: 2122392
   # laibili: MTAyMC8yODgzNC81NDA0
   gitalk: true
 
 # Website analytics
-google_analytics: UA-82494501-1
-baidu_analytics: 5b31ffbbdc6cff18727f3adf75a03777    #from //hm.baidu.com/hm.js?***
+# google_analytics: UA-82494501-1
+# baidu_analytics: 5b31ffbbdc6cff18727f3adf75a03777    #from //hm.baidu.com/hm.js?***
 
 # Author information:
 author:
   #resume: /resume
-  name: Song Kong     #the name of Blog section
-  about_me: I'm Song Kong. This is my online home & blog, where I share thoughts about front-end development, cloud computing, my daily life and other insteresting topics. Feel free to contact me by email if you have any question.
- 
+  name: af1014     #the name of Blog section
+  about_me: I'm Youngjoon Jeong, master course student in MSSEL, Seoul National University. I interested in finite element method, network modeling, statistical modeling, numercial modeling, optimization, structural analysis, machine learning.
 # Social Links
-email:               hi@ikongsong.com
+email:               af1014@snu.ac.kr
 #google.plus:        username
 #twitter:            username
-facebook:            kongsong
-github:              songkong
-stackoverflow:      6438519/song-kong   #from a "http://stackoverflow.com/users/123456/username" link
-linkedin:           kongsong
+#facebook:            kongsong
+github:              af1014
+#stackoverflow:      6438519/song-kong   #from a "http://stackoverflow.com/users/123456/username" link
+#linkedin:           kongsong
 #xing:              username
-#instagram:          username
+instagram:          zuni_0116
 #lastfm:            username
 #tumblr:            username
 #pinterest:         username
