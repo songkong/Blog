@@ -19,6 +19,7 @@ function display () {
 $(document).ready(function () {
 	var tabContainer = $(".posts-tabs");
 	if (tabContainer.length) {
+		$(".tab-two").bind("click", showTabTwo);
 		$(".tab-one").bind("click", showTabOne);
 	}
 	function showTabOne () {
@@ -29,7 +30,13 @@ $(document).ready(function () {
 		$(".page-holder-two").addClass("tab-hidden");
 		$(".page-holder-one").removeClass("tab-hidden");
 	}
-	
+	function showTabTwo () {
+		$(".tab-two").addClass("active");
+		$(".tab-one").removeClass("active");
+		$(".tab-one-list").addClass("tab-hidden");
+		$(".tab-two-list").removeClass("tab-hidden");
+		$(".page-holder-one").addClass("tab-hidden");
+		$(".page-holder-two").removeClass("tab-hidden");
 	}
 })
 
