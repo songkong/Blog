@@ -22,9 +22,6 @@ sass:
 # Comment
 comment:
   disqus: 怦蓝心动打投组
-  # duoshuo: kongsong
-  # youyan: 2122392
-  # laibili: MTAyMC8yODgzNC81NDA0
   gitalk: true
 
 # Website analytics
@@ -35,7 +32,7 @@ baidu_analytics: 5b31ffbbdc6cff18727f3adf75a03777    #from //hm.baidu.com/hm.js?
 author:
   #resume: /resume
   name: 怦蓝心动打投组     #the name of Blog section
-  about_me:由于微博反复被夹，因此在这里对各类教程进行备份，主要分为如何花钱和如何打投两类。感谢大眼仔给我们Github追星新体验。
+  about_me: 由于微博反复被夹，因此在这里对各类教程进行备份，主要分为如何花钱和如何打投两类。感谢大眼仔给我们Github追星新体验。
  
 # Social Link
 weibo:             SuperJunior1106_怦蓝心动打投组
