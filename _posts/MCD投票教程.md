@@ -1,5 +1,5 @@
 ---
-title: MCD投票教程
+title: 2020-08-12-MCD事前投票教程.md
 tags: Tech,打投,MCD
 renderNumberedHeading: true
 grammar_cjkRuby: true
