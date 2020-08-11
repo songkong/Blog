@@ -30,13 +30,7 @@ $(document).ready(function () {
 		$(".page-holder-two").addClass("tab-hidden");
 		$(".page-holder-one").removeClass("tab-hidden");
 	}
-	function showTabTwo () {
-		$(".tab-two").addClass("active");
-		$(".tab-one").removeClass("active");
-		$(".tab-one-list").addClass("tab-hidden");
-		$(".tab-two-list").removeClass("tab-hidden");
-		$(".page-holder-one").addClass("tab-hidden");
-		$(".page-holder-two").removeClass("tab-hidden");
+	
 	}
 })
 
