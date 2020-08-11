@@ -19,7 +19,6 @@ function display () {
 $(document).ready(function () {
 	var tabContainer = $(".posts-tabs");
 	if (tabContainer.length) {
-		$(".tab-two").bind("click", showTabTwo);
 		$(".tab-one").bind("click", showTabOne);
 	}
 	function showTabOne () {
