@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>React + Redux 实战：Selector App</title>
+  <meta name="description" content="Selector 能够帮你化解生活中的选择困难问题，比如`吃什么`，`去哪玩`。">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="http://localhost:4000/blog/react-selector/">
+  <link rel="alternate" type="application/rss+xml" title="水榭清松-Song Kong" href="http://localhost:4000/feed.xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >React + Redux 实战：Selector App</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#CN">CN</a></li>
+				
+				
+				<li><a href="/tags#front-end">front-end</a></li>
+				
+				
+				<li><a href="/tags#React">React</a></li>
+				
+				
+				<li><a href="/tags#Redux">Redux</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">01 Mar 2017</div>
+			</div>
+			<div class="post-content">
+				<p>开发中使用到的技术：React + Redux + Gulp + Browserify。利用<code class="highlighter-rouge">Browserify</code>，可以将<code class="highlighter-rouge">JSX</code>转化为<code class="highlighter-rouge">JS</code>代码，同时允许使用<code class="highlighter-rouge">require</code>实现项目的模块化。<code class="highlighter-rouge">Gulp</code>完成代码的打包。<code class="highlighter-rouge">Browserify</code>和<code class="highlighter-rouge">Gulp</code>的相关代码在<code class="highlighter-rouge">gulpFile.js</code>中，比较简单，不在此赘述。</p>
+
+<p><img src="http://ikongsong.com/assets/images/posts/react-selector/1.jpg" alt="selector_first" /></p>
+
+<p>项目中，需要实现四个组件：CanvasComponent、InputComponent、ListComponent 和 MenuComponent。</p>
+
+<p><img src="http://ikongsong.com/assets/images/posts/react-selector/2.jpg" alt="selector_second" /></p>
+
+<h1 id="redux">Redux</h1>
+
+<hr />
+
+<h2 id="actiontypejs">Action/type.js</h2>
+
+<p>在<code class="highlighter-rouge">Redux</code>中，<code class="highlighter-rouge">type</code>告诉<code class="highlighter-rouge">reducer</code>这是何种<code class="highlighter-rouge">action</code>。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">actionType</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">INSERT_ITEM</span><span class="p">:</span> <span class="s1">'INSERT_ITEM'</span><span class="p">,</span>
+    <span class="na">DELETE_ITEM</span><span class="p">:</span> <span class="s1">'DELETE_ITEM'</span><span class="p">,</span>
+    <span class="na">DISPLAY_MENU</span><span class="p">:</span> <span class="s1">'DISPLAY_MENU'</span><span class="p">,</span>
+    <span class="na">TOGGLE_BTN</span><span class="p">:</span> <span class="s1">'TOGGLE_BTN'</span>
+<span class="p">};</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">actionType</span><span class="p">;</span></code></pre></figure>
+
+<h2 id="actionactionjs">Action/action.js</h2>
+
+<p>根据上面的<code class="highlighter-rouge">type</code>，列出相应的<code class="highlighter-rouge">action creator</code>。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./type'</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">action</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">insertItem</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="nx">type</span><span class="p">.</span><span class="nx">INSERT_ITEM</span><span class="p">,</span>
+            <span class="nx">value</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="na">deleteItem</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="nx">type</span><span class="p">.</span><span class="nx">DELETE_ITEM</span><span class="p">,</span>
+            <span class="nx">id</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+	<span class="c1">// 菜单的展示与隐藏
+</span>
+    <span class="na">displayMenu</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="nx">type</span><span class="p">.</span><span class="nx">DISPLAY_MENU</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+	<span class="c1">// 转换按钮的状态
+</span>
+    <span class="na">toggleBtn</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="nx">type</span><span class="p">.</span><span class="nx">TOGGLE_BTN</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span> <span class="p">;</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">action</span><span class="p">;</span></code></pre></figure>
+
+<h2 id="reducerdatajs">Reducer/data.js</h2>
+
+<p>存储默认的数据，格式为：</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">menuList</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">'value'</span><span class="p">:</span> <span class="s1">'螺狮粉'</span><span class="p">,</span>
+        <span class="s1">'id'</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="p">},</span>
+	<span class="p">...</span>
+<span class="p">];</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">menuList</span><span class="p">;</span></code></pre></figure>
+
+<h2 id="reducerreducerjs">Reducer/reducer.js</h2>
+
+<p>首先判断<code class="highlighter-rouge">localStorage</code>中是否存在数据，若不存在，用<code class="highlighter-rouge">data.js</code>中的数据初始化，若存在，读取<code class="highlighter-rouge">localStorage</code>中的数据。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">menuList</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./data.js'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../Action/type.js'</span><span class="p">);</span>
+
+<span class="c1">// localStorage
+</span>
+<span class="kd">var</span> <span class="nx">local</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">// load data.js
+</span>
+    <span class="na">initLocal</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span>  <span class="k">this</span><span class="p">;</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'nextId'</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="nx">data</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">self</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">},</span>
+    <span class="na">isEmpty</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">!</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="na">set</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="na">get</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="na">remove</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">localStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="c1">// Copy the data to menuList
+</span>
+    <span class="na">clone</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">copy</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="kd">var</span> <span class="nx">keySet</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">localStorage</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">localStorage</span><span class="p">.</span><span class="nx">key</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">key</span> <span class="o">!=</span> <span class="s1">'nextId'</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">keySet</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="c1">// Reverse order to make the inserted item at the top of the list
+</span>
+        <span class="nx">keySet</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">pre</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="nx">pre</span> <span class="o">-</span> <span class="nx">next</span><span class="p">);</span>
+        <span class="p">});</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">keySet</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">copy</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+                <span class="na">id</span><span class="p">:</span> <span class="nx">keySet</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span>
+                <span class="na">value</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">keySet</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span>
+            <span class="p">});</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">copy</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="cm">/* state = {
+        beginSelect: false,
+        isMenuShowed: false,
+        isEmptyTextShowed: false,
+        menuList: [{id: '123', 'value': 'abc'}]
+   }
+*/</span>
+<span class="kd">function</span> <span class="nx">updateState</span><span class="p">(</span><span class="nx">beginSelect</span><span class="p">,</span> <span class="nx">isMenuShowed</span><span class="p">,</span> <span class="nx">isEmptyTextShowed</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">local</span><span class="p">.</span><span class="nx">isEmpty</span><span class="p">()){</span>
+        <span class="nx">local</span><span class="p">.</span><span class="nx">initLocal</span><span class="p">(</span><span class="nx">menuList</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="na">beginSelect</span><span class="p">:</span> <span class="nx">beginSelect</span><span class="p">,</span>
+        <span class="na">isMenuShowed</span><span class="p">:</span> <span class="nx">isMenuShowed</span><span class="p">,</span>
+        <span class="na">isEmptyTextShowed</span><span class="p">:</span> <span class="nx">isEmptyTextShowed</span><span class="p">,</span>
+        <span class="na">menuList</span><span class="p">:</span> <span class="nx">local</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>
+    <span class="p">};</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>根据<code class="highlighter-rouge">action</code>的<code class="highlighter-rouge">type</code>做相应的处理。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">reducer</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">action</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">state</span> <span class="o">===</span> <span class="s1">'undefined'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">updateState</span><span class="p">(</span><span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">switch</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">type</span><span class="p">){</span>
+        <span class="k">case</span> <span class="nx">type</span><span class="p">.</span><span class="nx">TOGGLE_BTN</span><span class="err">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">state</span><span class="p">.</span><span class="nx">isMenuShowed</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">state</span><span class="p">.</span><span class="nx">menuList</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="nx">updateState</span><span class="p">(</span><span class="o">!</span><span class="nx">state</span><span class="p">.</span><span class="nx">beginSelect</span><span class="p">,</span> <span class="nx">state</span><span class="p">.</span><span class="nx">isMenuShowed</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="nx">updateState</span><span class="p">(</span><span class="nx">state</span><span class="p">.</span><span class="nx">beginSelect</span><span class="p">,</span> <span class="nx">state</span><span class="p">.</span><span class="nx">isMenuShowed</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nx">type</span><span class="p">.</span><span class="na">DISPLAY_MENU</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">state</span><span class="p">.</span><span class="nx">beginSelect</span><span class="p">){</span>
+                <span class="k">return</span> <span class="nx">updateState</span><span class="p">(</span><span class="nx">state</span><span class="p">.</span><span class="nx">beginSelect</span><span class="p">,</span> <span class="o">!</span><span class="nx">state</span><span class="p">.</span><span class="nx">isMenuShowed</span><span class="p">,</span> <span class="nx">state</span><span class="p">.</span><span class="nx">isEmptyTextShowed</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nx">type</span><span class="p">.</span><span class="na">DELETE_ITEM</span><span class="p">:</span>
+            <span class="nx">local</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+            <span class="k">return</span> <span class="nx">updateState</span><span class="p">(</span><span class="nx">state</span><span class="p">.</span><span class="nx">beginSelect</span><span class="p">,</span> <span class="nx">state</span><span class="p">.</span><span class="nx">isMenuShowed</span><span class="p">,</span> <span class="nx">state</span><span class="p">.</span><span class="nx">isEmptyTextShowed</span><span class="p">);</span>
+        <span class="k">case</span> <span class="nx">type</span><span class="p">.</span><span class="na">INSERT_ITEM</span><span class="p">:</span>
+            <span class="nx">local</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">local</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'nextId'</span><span class="p">),</span> <span class="nx">action</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+            <span class="nx">local</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'nextId'</span><span class="p">,</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">local</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'nextId'</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="k">return</span> <span class="nx">updateState</span><span class="p">(</span><span class="nx">state</span><span class="p">.</span><span class="nx">beginSelect</span><span class="p">,</span> <span class="nx">state</span><span class="p">.</span><span class="nx">isMenuShowed</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">state</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">reducer</span><span class="p">;</span></code></pre></figure>
+
+<h1 id="react">React</h1>
+
+<hr />
+
+<h2 id="canvasjs">canvas.js</h2>
+
+<p><code class="highlighter-rouge">canvas.js</code>渲染主界面，包含人的眼睛、嘴、显示框和按钮。该组件需要外部传入三个<code class="highlighter-rouge">props</code>: btnText = {start: “xxx”, stop: “xx”}, initText = “xxxx”, blankText = “xxxx”。分别表示按钮的文本、显示框初始文本和菜单无数据时的显示框的文本。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">React</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">ReactRedux</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react-redux'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">connect</span> <span class="o">=</span> <span class="nx">ReactRedux</span><span class="p">.</span><span class="nx">connect</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">action</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../Action/action.js'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">CanvasComponent</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+    <span class="na">eyes</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">leftEye</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">x</span><span class="p">:</span> <span class="mi">125</span><span class="p">,</span>
+            <span class="na">y</span><span class="p">:</span> <span class="mi">350</span><span class="p">,</span>
+            <span class="na">radius</span><span class="p">:</span> <span class="mi">40</span>
+        <span class="p">},</span>
+        <span class="na">rightEye</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">x</span><span class="p">:</span> <span class="mi">265</span><span class="p">,</span>
+            <span class="na">y</span><span class="p">:</span> <span class="mi">350</span><span class="p">,</span>
+            <span class="na">radius</span><span class="p">:</span> <span class="mi">40</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="na">timer</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="na">componentDidMount</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">initCanvas</span><span class="p">({</span><span class="na">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">text</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">initText</span><span class="p">,</span> <span class="na">smile</span><span class="p">:</span> <span class="kc">false</span><span class="p">});</span>
+    <span class="p">},</span>
+    <span class="na">componentDidUpdate</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">menuLength</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">menuList</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">beginSelect</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="nx">self</span><span class="p">.</span><span class="nx">timer</span> <span class="o">=</span> <span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+                <span class="nx">self</span><span class="p">.</span><span class="nx">initCanvas</span><span class="p">({</span><span class="na">count</span><span class="p">:</span> <span class="nx">count</span><span class="o">++</span><span class="p">,</span> <span class="na">text</span><span class="p">:</span> <span class="nx">self</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">menuList</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">menuLength</span><span class="p">)].</span><span class="nx">value</span><span class="p">,</span> <span class="na">smile</span><span class="p">:</span> <span class="kc">false</span><span class="p">});</span>
+            <span class="p">},</span><span class="mi">100</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isEmptyTextShowed</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">self</span><span class="p">.</span><span class="nx">initCanvas</span><span class="p">({</span><span class="na">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">text</span><span class="p">:</span> <span class="nx">self</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">emptyText</span><span class="p">,</span> <span class="na">smile</span><span class="p">:</span> <span class="kc">false</span><span class="p">});</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">timer</span><span class="p">){</span>
+            <span class="nx">clearInterval</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">timer</span><span class="p">);</span>
+            <span class="nx">self</span><span class="p">.</span><span class="nx">timer</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+            <span class="nx">self</span><span class="p">.</span><span class="nx">initCanvas</span><span class="p">({</span><span class="na">count</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="na">text</span><span class="p">:</span> <span class="nx">self</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">menuList</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">menuLength</span><span class="p">)].</span><span class="nx">value</span><span class="p">,</span> <span class="na">smile</span><span class="p">:</span> <span class="kc">true</span><span class="p">});</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">self</span><span class="p">.</span><span class="nx">initCanvas</span><span class="p">({</span><span class="na">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">text</span><span class="p">:</span> <span class="nx">self</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">initText</span><span class="p">,</span> <span class="na">smile</span><span class="p">:</span> <span class="kc">false</span><span class="p">});</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="na">drawEyes</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">option</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span>  <span class="nx">option</span><span class="p">.</span><span class="nx">ctx</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">params</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">eyes</span><span class="p">[</span><span class="nx">option</span><span class="p">.</span><span class="nx">direction</span><span class="p">];</span>
+        <span class="kd">var</span> <span class="nx">deg</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">360</span> <span class="o">*</span> <span class="nx">option</span><span class="p">.</span><span class="nx">deg</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">x_offset</span> <span class="o">=</span> <span class="mi">21</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">deg</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">y_offset</span> <span class="o">=</span> <span class="mi">21</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">deg</span><span class="p">);</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">lineWidth</span><span class="o">=</span><span class="mi">5</span><span class="p">;</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">strokeStyle</span><span class="o">=</span><span class="s2">"#fff"</span><span class="p">;</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">beginPath</span><span class="p">();</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">arc</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">params</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="nx">params</span><span class="p">.</span><span class="nx">radius</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">stroke</span><span class="p">();</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">closePath</span><span class="p">();</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s1">'#fff'</span><span class="p">;</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">beginPath</span><span class="p">();</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">arc</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">x</span>  <span class="o">+</span> <span class="nx">x_offset</span><span class="p">,</span> <span class="nx">params</span><span class="p">.</span><span class="nx">y</span>  <span class="o">+</span> <span class="nx">y_offset</span><span class="p">,</span> <span class="nx">params</span><span class="p">.</span><span class="nx">radius</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">fill</span><span class="p">();</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">closePath</span><span class="p">();</span>
+    <span class="p">},</span>
+    <span class="na">drawMouse</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">option</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">option</span><span class="p">.</span><span class="nx">ctx</span><span class="p">;</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span><span class="o">=</span><span class="s2">"#fff"</span><span class="p">;</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">beginPath</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">option</span><span class="p">.</span><span class="nx">smile</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">ctx</span><span class="p">.</span><span class="nx">arc</span><span class="p">(</span><span class="mi">195</span><span class="p">,</span> <span class="mi">420</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">ctx</span><span class="p">.</span><span class="nx">arc</span><span class="p">(</span><span class="mi">195</span><span class="p">,</span> <span class="mi">440</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">fill</span><span class="p">();</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">closePath</span><span class="p">();</span>
+    <span class="p">},</span>
+    <span class="na">drawBox</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">option</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">option</span><span class="p">.</span><span class="nx">ctx</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="nx">option</span><span class="p">.</span><span class="nx">text</span><span class="p">;</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">strokeStyle</span><span class="o">=</span><span class="s2">"#fff"</span><span class="p">;</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">moveTo</span><span class="p">(</span><span class="mi">264</span><span class="p">,</span> <span class="mi">275</span><span class="p">);</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">240</span><span class="p">);</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">moveTo</span><span class="p">(</span><span class="mi">263</span><span class="p">,</span> <span class="mi">275</span><span class="p">);</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="mi">285</span><span class="p">,</span> <span class="mi">240</span><span class="p">);</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="mi">325</span><span class="p">,</span> <span class="mi">240</span><span class="p">);</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">arcTo</span><span class="p">(</span><span class="mi">345</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">345</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">arcTo</span><span class="p">(</span><span class="mi">345</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">325</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">arcTo</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">arcTo</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="mi">252</span><span class="p">,</span><span class="mi">240</span><span class="p">);</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">stroke</span><span class="p">();</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s1">'#fff'</span><span class="p">;</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">font</span> <span class="o">=</span> <span class="s2">"32pt Calibri"</span><span class="p">;</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">textAlign</span> <span class="o">=</span> <span class="s1">'center'</span><span class="p">;</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillText</span><span class="p">(</span><span class="nx">text</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">165</span><span class="p">,</span><span class="mi">240</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="na">initCanvas</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">option</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">deg</span> <span class="o">=</span> <span class="nx">option</span><span class="p">.</span><span class="nx">count</span><span class="o">*</span> <span class="mi">36</span> <span class="o">+</span> <span class="mi">90</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">refs</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">'2d'</span><span class="p">);</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s1">'#82ebc6'</span><span class="p">;</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span><span class="mi">500</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">drawEyes</span><span class="p">({</span><span class="na">ctx</span><span class="p">:</span> <span class="nx">ctx</span><span class="p">,</span> <span class="na">direction</span><span class="p">:</span> <span class="s1">'leftEye'</span><span class="p">,</span> <span class="na">deg</span><span class="p">:</span> <span class="nx">deg</span><span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">drawEyes</span><span class="p">({</span><span class="na">ctx</span><span class="p">:</span> <span class="nx">ctx</span><span class="p">,</span> <span class="na">direction</span><span class="p">:</span> <span class="s1">'rightEye'</span><span class="p">,</span> <span class="na">deg</span><span class="p">:</span> <span class="nx">deg</span><span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">drawMouse</span><span class="p">({</span><span class="na">ctx</span><span class="p">:</span> <span class="nx">ctx</span><span class="p">,</span> <span class="na">smile</span><span class="p">:</span> <span class="nx">option</span><span class="p">.</span><span class="nx">smile</span><span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">drawBox</span><span class="p">({</span><span class="na">ctx</span><span class="p">:</span> <span class="nx">ctx</span><span class="p">,</span> <span class="na">text</span><span class="p">:</span> <span class="nx">option</span><span class="p">.</span><span class="nx">text</span><span class="p">});</span>
+    <span class="p">},</span>
+    <span class="na">render</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">currentText</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">beginSelect</span><span class="p">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">btnText</span><span class="p">.</span><span class="nx">stop</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">btnText</span><span class="p">.</span><span class="nx">start</span><span class="p">;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"canvas-wrapper"</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">canvas</span> <span class="nx">ref</span><span class="o">=</span><span class="s2">"canvas"</span> <span class="nx">width</span><span class="o">=</span><span class="p">{</span><span class="mi">400</span><span class="p">}</span> <span class="nx">height</span><span class="o">=</span><span class="p">{</span><span class="mi">500</span><span class="p">}</span> <span class="sr">/&gt;</span><span class="err">
+</span>                <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"btn-wrapper"</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">clickHandler</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"btn-primary"</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">currentText</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">
+</span>                <span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">
+</span>            <span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">
+</span>        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">function</span> <span class="nx">mapStateToProps</span><span class="p">(</span><span class="nx">state</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="na">beginSelect</span><span class="p">:</span> <span class="nx">state</span><span class="p">.</span><span class="nx">beginSelect</span><span class="p">,</span>
+        <span class="na">isEmptyTextShowed</span><span class="p">:</span> <span class="nx">state</span><span class="p">.</span><span class="nx">isEmptyTextShowed</span><span class="p">,</span>
+        <span class="na">menuList</span><span class="p">:</span> <span class="nx">state</span><span class="p">.</span><span class="nx">menuList</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">mapDispatchToProps</span><span class="p">(</span><span class="nx">dispatch</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="na">clickHandler</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">dispatch</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">toggleBtn</span><span class="p">());</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">connect</span><span class="p">(</span>
+    <span class="nx">mapStateToProps</span><span class="p">,</span>
+    <span class="nx">mapDispatchToProps</span>
+<span class="p">)(</span><span class="nx">CanvasComponent</span><span class="p">);</span></code></pre></figure>
+
+<p>其中<code class="highlighter-rouge">mapStateToProps</code>将<code class="highlighter-rouge">state</code>映射为组件的<code class="highlighter-rouge">props</code>，<code class="highlighter-rouge">mapDispatchToProps</code>实现<code class="highlighter-rouge">action</code>的分发。</p>
+
+<h2 id="listjs">list.js</h2>
+
+<p><code class="highlighter-rouge">list.js</code>展现菜单中的一条数据，同时可实现该数据的删除。该组件需要外部传入的<code class="highlighter-rouge">props</code>为：listText = “xxx”。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">React</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">ReactRedux</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react-redux'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">connect</span> <span class="o">=</span> <span class="nx">ReactRedux</span><span class="p">.</span><span class="nx">connect</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">action</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../Action/action.js'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">ListComponent</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+    <span class="na">render</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="o">&lt;</span><span class="nx">li</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"menu-item"</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">listText</span><span class="p">}</span><span class="o">&lt;</span><span class="nx">span</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"btn-delete"</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">deleteHandler</span><span class="p">}</span><span class="o">&gt;&lt;</span><span class="nx">i</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"icon-trash icon-large"</span><span class="o">&gt;&lt;</span><span class="sr">/i&gt;&lt;/</span><span class="nx">span</span><span class="o">&gt;&lt;</span><span class="sr">/li&gt;</span><span class="err">
+</span>        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+
+<span class="kd">function</span> <span class="nx">mapDispatchToProps</span><span class="p">(</span><span class="nx">dispatch</span><span class="p">,</span> <span class="nx">ownProps</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="na">deleteHandler</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">dispatch</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">deleteItem</span><span class="p">(</span><span class="nx">ownProps</span><span class="p">.</span><span class="nx">id</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">connect</span><span class="p">(</span>
+    <span class="kc">null</span><span class="p">,</span>
+    <span class="nx">mapDispatchToProps</span>
+<span class="p">)(</span><span class="nx">ListComponent</span><span class="p">);</span></code></pre></figure>
+
+<h2 id="inputjs">input.js</h2>
+
+<p><code class="highlighter-rouge">input.js</code>实现了为菜单列表添加数据的功能。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">React</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">ReactRedux</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react-redux'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">connect</span> <span class="o">=</span> <span class="nx">ReactRedux</span><span class="p">.</span><span class="nx">connect</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">action</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../Action/action.js'</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">inputValue</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">InputComponent</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+    <span class="na">handleChange</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">inputValue</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="na">render</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"input-wrapper"</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">"text"</span> <span class="nx">name</span><span class="o">=</span><span class="s2">"input-add"</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"menu-input"</span> <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">}</span><span class="sr">/&gt;</span><span class="err">
+</span>                <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"btn-add"</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">addHandler</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Add</span><span class="o">&lt;</span><span class="sr">/button&gt;</span><span class="err">
+</span>            <span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">
+</span>        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">function</span> <span class="nx">mapDispatchToProps</span><span class="p">(</span><span class="nx">dispatch</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="na">addHandler</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">dispatch</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">insertItem</span><span class="p">(</span><span class="nx">inputValue</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">connect</span><span class="p">(</span>
+    <span class="kc">null</span><span class="p">,</span>
+    <span class="nx">mapDispatchToProps</span>
+<span class="p">)(</span><span class="nx">InputComponent</span><span class="p">);</span></code></pre></figure>
+
+<h2 id="menujs">menu.js</h2>
+
+<p><code class="highlighter-rouge">menu.js</code>调用<code class="highlighter-rouge">input.js</code>和<code class="highlighter-rouge">list.js</code>，为用户展示备选数据，同时包含一个点击按钮，实现菜单的展示与隐藏。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">React</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">ReactRedux</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react-redux'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">connect</span> <span class="o">=</span> <span class="nx">ReactRedux</span><span class="p">.</span><span class="nx">connect</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">action</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../Action/action.js'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">ListComponent</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./list'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">InputComponent</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./input'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">MenuComponent</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+    <span class="na">render</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">menuDisplay</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isMenuShowed</span><span class="p">?</span> <span class="s1">'block'</span><span class="p">:</span> <span class="s1">'none'</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">icon</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isMenuShowed</span><span class="p">?</span> <span class="s1">'icon-arrow-right'</span><span class="p">:</span> <span class="s1">'icon-arrow-left'</span><span class="p">;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"menu-wrapper"</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"btn-menu"</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">clickHandler</span><span class="p">}</span><span class="o">&gt;&lt;</span><span class="nx">i</span> <span class="nx">className</span><span class="o">=</span><span class="p">{</span><span class="nx">icon</span><span class="p">}</span><span class="o">&gt;&lt;</span><span class="sr">/i&gt;&lt;/</span><span class="nx">div</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"menu-body"</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="o">/</span><span class="p">{</span><span class="na">display</span><span class="p">:</span> <span class="nx">menuDisplay</span><span class="p">}</span><span class="sr">/}&gt;</span><span class="err">
+</span>                    <span class="o">&lt;</span><span class="nx">InputComponent</span><span class="o">/&gt;</span>
+                    <span class="o">&lt;</span><span class="nx">ul</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"menu-detail"</span><span class="o">&gt;</span>
+                        <span class="p">{</span>
+                            <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">menuList</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
+                                <span class="k">return</span> <span class="o">&lt;</span><span class="nx">ListComponent</span> <span class="nx">listText</span> <span class="o">=</span><span class="p">{</span><span class="nx">item</span><span class="p">.</span><span class="nx">value</span><span class="p">}</span> <span class="nx">key</span> <span class="o">=</span><span class="p">{</span><span class="nx">index</span><span class="p">}</span> <span class="nx">id</span> <span class="o">=</span> <span class="p">{</span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="sr">/&gt;;</span><span class="err">
+</span>                            <span class="p">})</span>
+                        <span class="p">}</span>
+                    <span class="o">&lt;</span><span class="sr">/ul&gt;</span><span class="err">
+</span>                <span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">
+</span>            <span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">
+</span>        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">function</span> <span class="nx">mapStateToProps</span><span class="p">(</span><span class="nx">state</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="na">isMenuShowed</span><span class="p">:</span> <span class="nx">state</span><span class="p">.</span><span class="nx">isMenuShowed</span><span class="p">,</span>
+        <span class="na">menuList</span><span class="p">:</span> <span class="nx">state</span><span class="p">.</span><span class="nx">menuList</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">mapDispatchToProps</span><span class="p">(</span><span class="nx">dispatch</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="na">clickHandler</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">dispatch</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">displayMenu</span><span class="p">());</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">connect</span><span class="p">(</span>
+    <span class="nx">mapStateToProps</span><span class="p">,</span>
+    <span class="nx">mapDispatchToProps</span>
+<span class="p">)(</span><span class="nx">MenuComponent</span><span class="p">);</span></code></pre></figure>
+
+<h2 id="mainjs">main.js</h2>
+
+<p><code class="highlighter-rouge">main.js</code>实现最终的展示。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">React</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">ReactDOM</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react-dom'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">Redux</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'redux'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">ReactRedux</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react-redux'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">Provider</span> <span class="o">=</span> <span class="nx">ReactRedux</span><span class="p">.</span><span class="nx">Provider</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">createStore</span> <span class="o">=</span> <span class="nx">Redux</span><span class="p">.</span><span class="nx">createStore</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">reducer</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./Reducer/reducer.js'</span><span class="p">);</span>
+
+
+<span class="c1">// Store
+</span>
+<span class="kd">var</span> <span class="nx">store</span> <span class="o">=</span> <span class="nx">createStore</span><span class="p">(</span><span class="nx">reducer</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">MenuComponent</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./Component/menu.js'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">CanvasComponent</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./Component/canvas.js'</span><span class="p">);</span>
+
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">Provider</span> <span class="nx">store</span><span class="o">=</span><span class="p">{</span><span class="nx">store</span><span class="p">}</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">MenuComponent</span> <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">CanvasComponent</span> <span class="nx">className</span> <span class="o">=</span> <span class="s1">'canvas-wrapper'</span> <span class="nx">btnText</span> <span class="o">=</span> <span class="p">{</span><span class="o">/</span><span class="p">{</span><span class="na">start</span><span class="p">:</span> <span class="s1">'Start'</span><span class="p">,</span> <span class="na">stop</span><span class="p">:</span> <span class="s1">'Stop'</span><span class="p">}</span><span class="sr">/} initText = '吃什么</span><span class="se">?</span><span class="sr">' emptyText = "菜单空空如也"/</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">
+</span>    <span class="o">&lt;</span><span class="sr">/Provider&gt;</span><span class="err">
+</span>    <span class="p">,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'main-wrapper'</span><span class="p">));</span></code></pre></figure>
+
+<p>为了让所有组件都能获取到<code class="highlighter-rouge">store</code>，根组件必须包裹在<code class="highlighter-rouge">Provider</code>中，并将<code class="highlighter-rouge">store</code>作为参数传给<code class="highlighter-rouge">Provider</code>。</p>
+
+<h1 id="其它">其它</h1>
+
+<hr />
+
+<p>项目中所用的<code class="highlighter-rouge">CSS</code>和<code class="highlighter-rouge">HTML</code>在此就不贴出来了，值得一提的是，为了能够在 PC 端和移动端都有良好的展示效果，<code class="highlighter-rouge">HTML</code>中设置<code class="highlighter-rouge">initial-scale</code>为 0.8（根据canvas大小和不同机型的分辨率所计算得到）。</p>
+
+<p><a href="https://github.com/songkong/Selector">完整代码</a></p>
+
+<p><a href="http://selector.ikongsong.com">项目展示</a></p>
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/photo-mask/" class="btn-pagination prev" title="CSS 实现移动端图片点击的遮罩效果
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/web-call-app/" class="btn-pagination next" title="JS 实现页面调起原生 APP
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/blog/react-selector/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=http://localhost:4000/blog/react-selector/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/blog/react-selector/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=http://localhost:4000/blog/react-selector/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+        <h1 class="blue-title">Comments</h1>
+		
+
+		
+		<!-- Gitalk  BEGIN-->
+		<div id="gitalk-container" ></div>
+		<script type="text/javascript">
+            var gitalk = new Gitalk({
+                clientID: '06d60e5287de2b4292cc',
+                clientSecret: 'bdf1b23d4351a323bd556fde080567b0e0d0e138',
+                repo: 'blogcomments',
+                owner: 'songkong',
+                admin: ['songkong'],
+                id: location.pathname,
+                distractionFreeMode: false
+            });
+            gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk END -->
+		
+
+
+		
+
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:hi@ikongsong.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        <li><a class="social-btn btn-white" href="http://facebook.com/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Facebook"><i class="fa fa-fw fa-facebook"></i></a></li>
+        
+        <li><a class="social-btn btn-white" href="http://linkedin.com/in/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Linkedin"><i class="fa fa-fw fa-linkedin"></i></a></li>
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/songkong" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        <li><a class="social-btn btn-white" href="http://stackoverflow.com/users/6438519/song-kong" target="_blank" rel="noopener noreferrer" title="Follow me on Stackoverflow"><i class="fa fa-fw fa-stack-overflow"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2020 Song Kong. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-82494501-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?5b31ffbbdc6cff18727f3adf75a03777";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

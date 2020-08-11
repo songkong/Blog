@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>学习笔记之《JavaScript 高级程序设计》（上篇）</title>
+  <meta name="description" content="这篇文章归纳了书中第1到8章的相关知识点，留作日后复习。">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="http://localhost:4000/blog/javascript-reading-notes/">
+  <link rel="alternate" type="application/rss+xml" title="水榭清松-Song Kong" href="http://localhost:4000/feed.xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >学习笔记之《JavaScript 高级程序设计》（上篇）</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#CN">CN</a></li>
+				
+				
+				<li><a href="/tags#front-end">front-end</a></li>
+				
+				
+				<li><a href="/tags#JavaScript">JavaScript</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">15 Sep 2016</div>
+			</div>
+			<div class="post-content">
+				<h1 id="目录">目录</h1>
+
+<blockquote>
+  <h4 id="第一章-javascript简介-">第一章【 <a href="#chapter1">JavaScript简介</a> 】</h4>
+  <ol>
+    <li><a href="#chapter1-1">ECMAScript</a></li>
+    <li><a href="#chapter1-2">文档对象模型（DOM）</a></li>
+    <li><a href="#chapter1-3">浏览器对象模型（BOM）</a></li>
+  </ol>
+
+  <h4 id="第二章-在html中使用javascript-">第二章【 <a href="#chapter2">在HTML中使用JavaScript</a> 】</h4>
+  <ol>
+    <li><a href="#chapter2-1">&lt;script&gt;与&lt;noscript&gt;元素</a></li>
+    <li><a href="#chapter2-2">嵌入代码与外部文件</a></li>
+    <li><a href="#chapter2-3">文档模式</a>
+      <h4 id="第四章-变量作用域和内存问题">第四章 【<a href="#chapter4">变量、作用域和内存问题</a>】</h4>
+    </li>
+    <li><a href="#chapter4-1">基本类型和引用类型的值</a></li>
+    <li><a href="#chapter4-2">执行环境和作用域</a></li>
+    <li><a href="#chapter4-3">垃圾收集</a></li>
+  </ol>
+</blockquote>
+
+<hr />
+
+<h3 id="chapter1">第一章  JavaScript简介</h3>
+
+<p>一个完整的 JavaScript 实现由如下三个部分组成：</p>
+
+<ul>
+  <li>核心（ECMAJavaScript）</li>
+  <li>文档对象模型（DOM）</li>
+  <li>浏览器对象模型（BOM）</li>
+</ul>
+
+<hr />
+
+<h4 id="chapter1-1">1.1 ECMAScript</h4>
+
+<p>ECMAScript 是由 ECMA-262 定义的与<code class="highlighter-rouge">宿主环境</code>（如 Web 浏览器、Node 和 Adobe Flash 等）没有依赖关系的一门语言，该语言本身并不包括输入和输出定义。宿主环境不仅提供基本的 ECMAScript 实现，同时还会提供该语言的扩展，如 DOM。</p>
+
+<p>ECMA-262 规定了这门语言的下列组成：语法、类型、语句、关键字、保留字、操作符、对象。</p>
+
+<hr />
+
+<h4 id="chapter1-2">1.2 文档对象模型（DOM）</h4>
+
+<p>文档对象模型（DOM，Document Object Model）是针对 XML 但经过扩展用于 HTML 的 API。 DOM 把整个页面映射为一个多层节点结构，HTML 或 XML页面中的每个组成部分都是某种类型的节点，这些节点又包含着不同类型的数据。通过 DOM 创建的文档树形图并借助 DOM 提供的 API，可以轻松的对节点进行删除、添加、替换或修改等操作。</p>
+
+<p>由于 Netscape 和微软在开发 DHTML 方面持不同意见，这影响了 Web 跨平台性能。于是，W3C 开始着手规划 DOM。1998 年 DOM1 级（DOM Level 1）成为 W3C 的推荐标准。DOM1 级由两个模块组成：DOM 核心（DOM Core）和 DOM HTML。其中 DOM 核心规定了如何映射基于 XML 的文档结构，以便简化对文档中任意部分的访问和操作。DOM HTML 模块在 DOM 核心基础上添加了针对 HTML 的对象和方法。</p>
+
+<blockquote>
+  <p>DOM 并不只是针对 JS，很多别的语言也实现了 DOM。</p>
+</blockquote>
+
+<p>DOM2 级引入了如下新模块：DOM 视图（DOM Views）、DOM 事件（DOM Events）、DOM 样式（DOM Style）和 DOM 遍历和范围（DOM Traversal and Range）。</p>
+
+<p>DOM3 级在 DOM 加载和保存（DOM Load and Save）模块中引入了以统一方式加载和保存文档的方法，在 DOM 验证（DOM Validation）模块中新增了验证文档的方法。同时 DOM3 级也开始支持 XML 1.0 规范，涉及 XML Infoset、XPath 和 XML Base。</p>
+
+<blockquote>
+  <p>注：DOM0 级标准是不存在的，只是 DOM 历史坐标中的一个参照点。具体来说，它指的是 IE 4.0 和 Netscape Navigator 4.0 最初支持的 DHTML。</p>
+</blockquote>
+
+<p>除了 DOM 核心和 DOM HTML 接口之外，另外几种语言也发布了针对自己的 DOM 标准。以下基于 XML 的语言，它们的 DOM 标准都添加了与特定语言相关的新方法和新接口，且这些语言都是 W3C 的推荐标准：</p>
+
+<ul>
+  <li>SVG （Scalable Vector Graphic，可伸缩矢量图）1.0；</li>
+  <li>MathML（Mathematical Markup Language，数学标记语言）1.0；</li>
+  <li>SMIL（Synchronized Multimedia Integration Language，同步多媒体集成语言）。</li>
+</ul>
+
+<hr />
+
+<h4 id="chapter1-3">1.3 浏览器对象模型（BOM）</h4>
+
+<p>浏览器对象模型（BOM，Browser Object Model）提供访问和操作浏览器窗口的方法和接口。使用 BOM 可以控制浏览器显示的页面以外的部分。由于没有 BOM 标准可以遵循，因此每个浏览器都有自己的实现。</p>
+
+<hr />
+
+<h3 id="chapter2">第二章  在HTML中使用JavaScript</h3>
+
+<h4 id="chapter2-1">2.1 &lt;script&gt;与&lt;noscript&gt;元素</h4>
+
+<p>&lt;script&gt;定义了6个属性：</p>
+
+<ul>
+  <li>async: 可选。只对外部脚本有效，用于实现异步脚本。表示应该立即下载脚本，但不应妨碍页面中的其他操作，如下载其他资源或等待加载其他脚本。标记为 async 的脚本不保证按照指定它们的先后顺序执行。因此，需要确保各个脚本之间互不依赖，同时建议不在加载期间修改 DOM。</li>
+  <li>charset: 可选，很少用。表示通过src属性指定的代码的字符集。</li>
+  <li>defer: 可选。只对外部脚本有效，用于实现延迟脚本。表示脚本可以延迟到文档完全被解析和显示之后再执行。延迟脚本会按照声明顺序执行，但在现实中，延迟脚本不一定会按照顺序执行，因此最好只包含一个延迟脚本。</li>
+  <li>language: 已废弃。</li>
+  <li>src: 可选。表示包含要执行代码的外部文件。带有src属性的&lt;script&gt;元素不应该在&lt;script&gt;和&lt;/script&gt;标签之间再包含额外的 JavaScript 代码。若包含，则嵌入的代码会被忽略。</li>
+  <li>type: 可选。表示编写代码使用的<code class="highlighter-rouge">脚本语言的内容类型（MIME类型）</code>。考虑到约定俗成和最大限度的浏览器兼容性，type 属性的值一般为<code class="highlighter-rouge">text/javascript</code>。</li>
+</ul>
+
+<p>&lt;noscript&gt;元素的作用是，当浏览器不支持脚本或脚本被禁用时，该标签之间的内容会被显示出来，其他情况下，浏览器均不会呈现&lt;noscript&gt;中的内容。</p>
+
+<hr />
+
+<h4 id="chapter2-2">2.2 嵌入代码与外部文件</h4>
+
+<p>在 HTML 页面中嵌入执行 JavaScript 代码有两种方式：</p>
+
+<ul>
+  <li>使用 javascript: 前缀构建执行 JavaScript 代码的 URL。如<code class="highlighter-rouge">&lt;a href="javascript:alert('Hello world!');"&gt;&lt;/a&gt;</code>。</li>
+  <li>在&lt;script…/&gt;元素标签之间包含 JavaScript 代码。</li>
+</ul>
+
+<p>为了让 HTML 页面和 JavaScript 脚本更好的分离，我们将 JavaScript 脚本单独保存在<code class="highlighter-rouge">*.js</code>文件中，使用如下的语法格式导入外部脚本：</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"test.js"</span> <span class="nx">type</span><span class="o">=</span><span class="s2">"text/javascript"</span><span class="o">&gt;&lt;</span><span class="sr">/script&gt;</span></code></pre></figure>
+
+<p>使用外部文件的优点：</p>
+
+<ul>
+  <li>可维护性：把 JavaScript 代码放在特定的文件中，有利于项目的维护。</li>
+  <li>可缓存：浏览器能够根据具体的设置缓存链接的所有外部 JavaScript 文件，若有多个页面都使用同一文件，那么文件只需下载一次。</li>
+  <li>适应未来。</li>
+</ul>
+
+<hr />
+
+<h4 id="chapter2-3">2.3 文档模式</h4>
+
+<p>使用<code class="highlighter-rouge">文档类型（doctype）</code>可定义文档模式：<code class="highlighter-rouge">混杂模式（quirks mode）</code>和<code class="highlighter-rouge">标准模式（standards mode）</code>。如果在文档开始处没有进行文档类型声明，则浏览器会默认开启混杂模式，混杂模式是向后兼容的，在不同浏览器下的行为差异非常大，不推荐使用。</p>
+
+<p>可通过如下代码开启标准模式：</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="c">&lt;!-- HTML 5 --&gt;</span>
+<span class="cp">&lt;!DOCTYPE html&gt;</span></code></pre></figure>
+
+<hr />
+
+<h3 id="chapter4">第四章  变量、作用域和内存问题</h3>
+
+<h4 id="chapter4-1">4.1 基本类型和引用类型的值</h4>
+
+<blockquote>
+  <p>基本类型值：简单的数据段，按值访问，Undefined、Null、Boolean、Number、String。
+引用类型值：保存在内存中的对象。</p>
+</blockquote>
+
+<p>可以为引用类型值添加属性，不能为基本类型值添加属性，添加时不会报错，读取时为 undefined。</p>
+
+<p>复制基本类型值时，会为新变量开辟一块新的空间，把需要被复制的值复制一份到新分配的位置上，新值和旧值相互独立不影响。当复制引用类型的值时，过程与复制基本类型相同，不同的是新老变量是指针，他们引用同一对象。</p>
+
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/review-and-plan/" class="btn-pagination prev" title="写在学期初：年中总结与规划
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/ice-bear-jekyll-theme/" class="btn-pagination next" title="Ice Bear Jekyll Theme
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/blog/javascript-reading-notes/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=http://localhost:4000/blog/javascript-reading-notes/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/blog/javascript-reading-notes/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=http://localhost:4000/blog/javascript-reading-notes/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+        <h1 class="blue-title">Comments</h1>
+		
+
+		
+		<!-- Gitalk  BEGIN-->
+		<div id="gitalk-container" ></div>
+		<script type="text/javascript">
+            var gitalk = new Gitalk({
+                clientID: '06d60e5287de2b4292cc',
+                clientSecret: 'bdf1b23d4351a323bd556fde080567b0e0d0e138',
+                repo: 'blogcomments',
+                owner: 'songkong',
+                admin: ['songkong'],
+                id: location.pathname,
+                distractionFreeMode: false
+            });
+            gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk END -->
+		
+
+
+		
+
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:hi@ikongsong.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        <li><a class="social-btn btn-white" href="http://facebook.com/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Facebook"><i class="fa fa-fw fa-facebook"></i></a></li>
+        
+        <li><a class="social-btn btn-white" href="http://linkedin.com/in/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Linkedin"><i class="fa fa-fw fa-linkedin"></i></a></li>
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/songkong" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        <li><a class="social-btn btn-white" href="http://stackoverflow.com/users/6438519/song-kong" target="_blank" rel="noopener noreferrer" title="Follow me on Stackoverflow"><i class="fa fa-fw fa-stack-overflow"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2020 Song Kong. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-82494501-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?5b31ffbbdc6cff18727f3adf75a03777";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

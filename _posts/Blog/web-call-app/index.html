@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JS 实现页面调起原生 APP</title>
+  <meta name="description" content="IOS 9 和 10 利用 Universal Link 调起原生 App，告别系统体验极差的弹窗。其它版本 IOS 和安卓利用 iframe 调起 App。">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="http://localhost:4000/blog/web-call-app/">
+  <link rel="alternate" type="application/rss+xml" title="水榭清松-Song Kong" href="http://localhost:4000/feed.xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >JS 实现页面调起原生 APP</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#CN">CN</a></li>
+				
+				
+				<li><a href="/tags#front-end">front-end</a></li>
+				
+				
+				<li><a href="/tags#Mobile">Mobile</a></li>
+				
+				
+				<li><a href="/tags#JavaScript">JavaScript</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">14 Mar 2017</div>
+			</div>
+			<div class="post-content">
+				<p>开发活动分享页经常遇到这种需求：</p>
+
+<ul>
+  <li>在分享页点击某个按钮，若本地安装 App，调起 App</li>
+  <li>若本地没有安装 App，跳转到 App下载页</li>
+</ul>
+
+<p>由于微信和微博存在坑，开发中，我们首先判断当前页面是否在微信或微博中，若是，可以显示一个蒙板提醒用户在浏览器中打开当前页面。</p>
+
+<h4 id="1-判断浏览器类型">1. 判断浏览器类型</h4>
+
+<hr />
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">ua</span> <span class="o">=</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">userAgent</span><span class="p">;</span>
+
+<span class="c1">// 微信或微博内提示在浏览器打开
+</span>
+<span class="k">if</span> <span class="p">(</span><span class="sr">/MicroMessenger|Weibo/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">ua</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// 这里做些处理，如现实一个提示在浏览器打开的灰色蒙板
+</span>
+	<span class="k">return</span>
+<span class="p">}</span></code></pre></figure>
+
+<h4 id="2-iframe-调起-app">2. iframe 调起 App。</h4>
+
+<hr />
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// 使用了 Zepto.js，jQuery 同理
+</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s1">'#open_app'</span><span class="p">).</span><span class="nx">size</span><span class="p">())</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'#open_app'</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">naUrl</span> <span class="o">=</span> <span class="s1">'这里是 app 链接，也就是你和 NA 的 RD 小伙伴商量好的协议'</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">iframeHtml</span> <span class="o">=</span> <span class="s1">'&lt;iframe src="'</span> <span class="o">+</span> <span class="nx">naUrl</span> <span class="o">+</span> <span class="s1">'" id="open_app" width="0" height="0" style="border: 0;display: none;"/&gt;'</span><span class="p">;</span>
+<span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">iframeHtml</span><span class="p">);</span></code></pre></figure>
+
+<h4 id="3-判断本地是否安装-app">3. 判断本地是否安装 App</h4>
+
+<hr />
+
+<p>若 iframe 没有成功调起 App，则表示本地没有安装 App，那么此时页面跳转到 App 的下载页面。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"> <span class="kd">var</span> <span class="nx">startTime</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">();</span>
+ <span class="kd">var</span> <span class="nx">delayDownload</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// 做一下延迟
+</span>
+	<span class="k">if</span> <span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">-</span> <span class="nx">startTime</span> <span class="o">&lt;</span> <span class="mi">2000</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">isIos</span> <span class="o">=</span> <span class="p">(</span><span class="sr">/iphone|ipad|ipod/i</span><span class="p">).</span><span class="nx">test</span><span class="p">(</span><span class="nx">ua</span><span class="p">);</span>
+		<span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">isIos</span><span class="p">?</span> <span class="s1">'这里是你的 App 在 Appstore 中的下载链接'</span> <span class="p">:</span> <span class="s1">'这里是你的 App 安卓的下载地址'</span><span class="p">;</span>
+        <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nx">url</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">},</span> <span class="mi">1000</span><span class="p">);</span></code></pre></figure>
+
+<h4 id="4-ios-9-和-10-利用-universal-link-调起-app">4. IOS 9 和 10 利用 Universal Link 调起 App</h4>
+
+<hr />
+
+<p>在 IOS 9 和 10 中，无法利用 iframe 调起 App，可以使用<code class="highlighter-rouge">location.href</code>直接跳转 App，但会出现两个问题：1. 当本地有 App 时，Safari 弹出<code class="highlighter-rouge">是否打开 App</code>的弹窗，当用户两次选择<code class="highlighter-rouge">取消</code>时，页面会跳转到苹果官网。2. 当本地无 App 时，Safari 会弹出<code class="highlighter-rouge">无效的链接</code>的弹窗，然后才会弹出<code class="highlighter-rouge">是否打开 Appstore</code>的弹窗，体验非常不好。因此，我们使用 Universal Link 来调起 App。</p>
+
+<blockquote>
+  <h6 id="universal-link-是什么">Universal Link 是什么？</h6>
+  <p>简单地说就是通过一个 https 的链接，完成从浏览器直接跳转到 App 或者在没安装 App 的情况下跳转到指定页面。没有是否要进入 App 的弹窗，没有微信客户端限制跳转。</p>
+</blockquote>
+
+<p>NA 端如何实现 Universal Link，可以<a href="http://www.cocoachina.com/ios/20150902/13321.html">查看这里</a>。当你的 NA 小伙伴已经开发好后，就可以直接使用相应的协议啦。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">if</span> <span class="p">(</span><span class="sr">/iPhone OS 9|iPhone OS 10/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">ua</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="s1">'这里是你和 NA 小伙伴商量好的协议'</span><span class="p">;</span>
+	<span class="k">return</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h4 id="5-切换到后台后的相关处理">5. 切换到后台后的相关处理</h4>
+
+<hr />
+
+<p>当浏览器切换到后台后，我们需要清除代码中的延迟下载，以防当我们再一次返回页面后，页面跳转到 App 下载地址。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">"visibilitychange"</span><span class="p">,</span> <span class="nx">callAppSuccess</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">"webkitvisibilitychange"</span><span class="p">,</span> <span class="nx">callAppSuccess</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">"msvisibilitychange"</span><span class="p">,</span> <span class="nx">callAppSuccess</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">"blur"</span><span class="p">,</span> <span class="nx">callAppSuccess</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">callAppSuccess</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">delayDownload</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">delayDownload</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>以上就是实现 Web 调起 App 的整个过程，正式的代码需要调整顺序，比如先做 IOS 9 和 10 的处理，这里就不赘述了。</p>
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/react-selector/" class="btn-pagination prev" title="React + Redux 实战：Selector App
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/mobile-slide-plugin/" class="btn-pagination next" title="基于 JS 的移动端滑动插件对比
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/blog/web-call-app/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=http://localhost:4000/blog/web-call-app/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/blog/web-call-app/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=http://localhost:4000/blog/web-call-app/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+        <h1 class="blue-title">Comments</h1>
+		
+
+		
+		<!-- Gitalk  BEGIN-->
+		<div id="gitalk-container" ></div>
+		<script type="text/javascript">
+            var gitalk = new Gitalk({
+                clientID: '06d60e5287de2b4292cc',
+                clientSecret: 'bdf1b23d4351a323bd556fde080567b0e0d0e138',
+                repo: 'blogcomments',
+                owner: 'songkong',
+                admin: ['songkong'],
+                id: location.pathname,
+                distractionFreeMode: false
+            });
+            gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk END -->
+		
+
+
+		
+
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:hi@ikongsong.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        <li><a class="social-btn btn-white" href="http://facebook.com/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Facebook"><i class="fa fa-fw fa-facebook"></i></a></li>
+        
+        <li><a class="social-btn btn-white" href="http://linkedin.com/in/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Linkedin"><i class="fa fa-fw fa-linkedin"></i></a></li>
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/songkong" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        <li><a class="social-btn btn-white" href="http://stackoverflow.com/users/6438519/song-kong" target="_blank" rel="noopener noreferrer" title="Follow me on Stackoverflow"><i class="fa fa-fw fa-stack-overflow"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2020 Song Kong. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-82494501-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?5b31ffbbdc6cff18727f3adf75a03777";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>由移动端 1px 过粗引发的 viewport 探究</title>
+  <meta name="description" content="UI 一直嫌弃 1px 分割线过粗？解决问题之前，先花一点时间研究下问题的原因吧。">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="http://localhost:4000/blog/meta-viewport/">
+  <link rel="alternate" type="application/rss+xml" title="水榭清松-Song Kong" href="http://localhost:4000/feed.xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >由移动端 1px 过粗引发的 viewport 探究</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#CN">CN</a></li>
+				
+				
+				<li><a href="/tags#front-end">front-end</a></li>
+				
+				
+				<li><a href="/tags#Mobile">Mobile</a></li>
+				
+				
+				<li><a href="/tags#html">html</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">26 Jul 2017</div>
+			</div>
+			<div class="post-content">
+				<p>在探究 viewport 前，需要了解一些概念：</p>
+
+<blockquote>
+  <p>物理像素（physical pixels）：一个物理像素是显示器（手机屏幕）上最小的物理显示单元，在操作系统的调度下，每一个设备像素都有自己的颜色值和亮度值。</p>
+</blockquote>
+
+<blockquote>
+  <p>设备独立像素（density-independent pixels）：也叫密度无关像素，可以认为是计算机坐标系统中的一个点，这个点代表一个可以由程序使用的虚拟像素，然后由相关系统转换为物理像素。</p>
+</blockquote>
+
+<blockquote>
+  <p>设备像素比（device pixel ratio）：简称 dpr，定义了物理像素和设备独立像素的对应关系，它的值可以按如下的公式的得到：</p>
+  <blockquote>
+    <p>设备像素比 = 物理像素 / 设备独立像素</p>
+  </blockquote>
+
+  <p>在 JS 中，可以通过<code class="highlighter-rouge">window.devicePixelRatio</code>获取到当前设备的     dpr。在 CSS 中，可以通过<code class="highlighter-rouge">-webkit-device-pixel-ratio</code>，<code class="highlighter-rouge">-webkit-min-device-pixel-ratio</code>和<code class="highlighter-rouge">-webkit-max-device-pixel-ratio</code>进行媒体查询，对不同 dpr 的设备，做一些样式适配。</p>
+</blockquote>
+
+<p>以 iPhone6 为例：</p>
+
+<p>设备宽高<code class="highlighter-rouge">375×667</code>，可以理解为设备独立像素的个数，dpr 为 2，根据上面的计算公式，其物理像素就应该 ×2，为<code class="highlighter-rouge">750×1334</code>。</p>
+
+<p><img src="http://ikongsong.com/assets/images/posts/meta-viewport/1.gif" alt="viewport1" /></p>
+
+<p>在 iOS 设备中，dpr 可取的值为 1，2 或 3。在安卓设备中，情况就比较复杂了。以谷歌的 Nexus 为例，Nexus One 的物理像素为 480×800，但是安卓的 WebKit 团队将网页竖屏模式时的最优宽度设置为 320px。因此，dips 抽象逻辑层的宽度仍然为 320px，，此时 dpr 为 1.5。</p>
+
+<p>在 Galaxy Nexus 中，物理像素提高到 720×1200。安卓团队将 dips 层的宽度设为 360px，Chrome 团队和腾讯 QQ 浏览器也都是这么设定的。但是 Opera 浏览器却将 dips 层宽设为 320px，此时 dpr 由 2 变为 2.25。</p>
+
+<p>说到这里，相信大家对物理像素和设备独立像素的理解更清晰了。简单粗暴的说，物理像素是设备所用的屏幕确定的，设备独立像素是手机操作系统或浏览器团队确定的。作为一个 Web 开发人员，两者我们都无力改变。可以将它们想象成 PS 中的两个图层，两个图层的物理尺寸相同，区别只是两个图层中网格的大小不同（一个网格代表一个像素点）。</p>
+
+<blockquote>
+  <p>这里不得不提一下 CSS 像素，在很多文章中，都将设备独立像素和 CSS 像素画了等号。但我不这么认为（当然也可能是错的，只是在我的理解中二者是不同的）。上文已经说过，设备独立像素和物理像素的对应关系是固定的，而物理像素又是确定的，那么设备独立像素也是确定的。但 CSS 像素和物理像素之间的关系是可变的。对于设备独立像素和 CSS 像素的关系，我还存在一些疑问，后面会查看更多的相关资料。</p>
+</blockquote>
+
+<p>接下来我们看一下 CSS 像素和物理像素的关系。对于一个 1024px 的 PC 显示器，将浏览器放大到和桌面等大。html 中添加一个 128px 的元素，这个元素占据浏览器窗口的 1/8，当你将页面放大 200% 时，元素仍然是 128px，但此时它占据浏览器的 1/4。通过这个例子可以看出，浏览器的放大功能，并不是将 128px 元素变为 256px，它只是将 1px 所占的物理尺寸扩大，换句话说，放大前，一个 CSS 像素对应一个物理像素，放大 200% 后，CSS 像素的长宽各增大一倍，一个 CSS 像素对应四个物理像素。以上都是针对 PC 端而言，移动端 CSS 像素和物理像素的对应更加复杂，后面会讨论。</p>
+
+<p><img src="http://ikongsong.com/assets/images/posts/meta-viewport/2.png" alt="viewport2" />
+<img src="http://ikongsong.com/assets/images/posts/meta-viewport/3.png" alt="viewport3" />
+<img src="http://ikongsong.com/assets/images/posts/meta-viewport/4.png" alt="viewport4" /></p>
+
+<p>上图中，第一张是 CSS 像素与物理像素一一对应的情况，第二张是放大页面时的情况，第三张是缩小页面时的情况。</p>
+
+<h4 id="三种-viewport">三种 viewport</h4>
+
+<hr />
+
+<p>viewport 主要是用来限制 html 元素大小的。在 PC 端，viewport 的大小就是浏览器窗口的大小，而 html 元素的大小又和 viewport 的大小相同。当我们调整浏览器大小时，html 和 viewport 的大小都随之改变。举个例子，当定义一个宽度为 html 元素 10% 的 div 时，缩放浏览器，div 的长度也随之改变。</p>
+
+<p>然而，在移动端，viewport 要比上面的描述复杂很多。在参考文献<a href="https://www.quirksmode.org/mobile/viewports2.html">[2]</a>中，作者定义了三种 viewport：</p>
+
+<blockquote>
+  <p>visual viewport：移动设备屏幕的视口大小。</p>
+</blockquote>
+
+<blockquote>
+  <p>layout viewport：要比 visual viewport 大很多，是 CSS 布局的计算依据。因此，html 元素最初的大小与 layout viewport 相等，以确保整个页面的布局与 PC 端相同。</p>
+</blockquote>
+
+<p><img src="http://ikongsong.com/assets/images/posts/meta-viewport/5.jpg" alt="viewport5" /></p>
+
+<p><img src="http://ikongsong.com/assets/images/posts/meta-viewport/6.jpg" alt="viewport6" /></p>
+
+<p>在 Safari iPhone 中 layout viewport 的宽度为 980px，Opera 中为 850px，Android WebKit 中为 800px，IE 中为 974px。</p>
+
+<p>不管是 visual viewport 还是 layout viewport，都是以 CSS 像素度量的，当放大屏幕时，layout viewport 是不变的（如果改变，页面会一直重绘），visual viewport 变小，屏幕上的 CSS 像素点减少。可以把 layout viewport 想象成一个特别大的画布，它的大小和形状永远都不会改变，而 visual viewport 是一个镜头，透过镜头可以看到画布，当你想透过镜头看到画布上更多的内容时，你需要将镜头后移，当你想更清晰的看到画布上的细节时，你需要把镜头前移。</p>
+
+<p>如果不加限定，浏览器默认将 visual viewport 设置为 layout viewport 的大小，这会导致页面显得拥挤，一个 CSS 像素对应的实际物理尺寸很小，需要放大才能看清楚。为了解决这个问题，引入了一个 ideal viewport 的概念。</p>
+
+<p><img src="http://ikongsong.com/assets/images/posts/meta-viewport/7.jpg" alt="viewport7" /></p>
+
+<blockquote>
+  <p>ideal viewport：Web 页面的理想大小，对于非 retina 屏的设备，ideal viewport 的大小就是物理分辨率的大小，对于 retina 屏，ideal viewport 的大小小于物理分辨率的值。</p>
+</blockquote>
+
+<h4 id="meta-viewport">meta viewport</h4>
+
+<hr />
+
+<p>通过 meta viewport，我们可以设置 layout viewport 的大小。具体语法为下：</p>
+
+<blockquote>
+  <p><code class="highlighter-rouge">&lt;meta name="viewport" content="name=value,name=value"&gt;</code></p>
+
+  <p>content 中的 name 可选值有六个：</p>
+  <blockquote>
+    <p>width，layout viewport 的大小。</p>
+  </blockquote>
+
+  <blockquote>
+    <p>initial-scale，页面的初始放大系数。</p>
+  </blockquote>
+
+  <blockquote>
+    <p>minimum-scale，最小放大系数。</p>
+  </blockquote>
+
+  <blockquote>
+    <p>maximum-scale，最大放大系数。</p>
+  </blockquote>
+
+  <blockquote>
+    <p>height，没有什么用。</p>
+  </blockquote>
+
+  <blockquote>
+    <p>user-scalable，为 no 的时候，不能放大。</p>
+  </blockquote>
+</blockquote>
+
+<p>当我们设置<code class="highlighter-rouge">width=device-width</code>和<code class="highlighter-rouge">initial-scale=1</code>的时候，layout viewport 的大小等于 ideal viewport。所有的 scale 值都是基于 ideal viewport 的，也就是说，maximum-scale=3 意味着最大的放大值是 ideal viewport 的 300%。</p>
+
+<p>那么页面的 ideal viewport 到底是多少呢？首先设置<code class="highlighter-rouge">width=device-width</code>和<code class="highlighter-rouge">initial-scale=1</code>，然后通过<code class="highlighter-rouge">document.documentElement.clientWidth</code>便可以得到页面的 ideal viewport（部分浏览器有异常现象，但也没办法）。</p>
+
+<p>在文献<a href="https://www.quirksmode.org/mobile/metaviewport/">[3]</a>中，列出了各设备的 ideal viewport 大小，但我对这个表格存在一些质疑，表中 iPhone 的 ideal viewport 是 320×480，而通过<code class="highlighter-rouge">document.documentElement.clientWidth</code>得到的宽是 375。同时，前面我们提过设备独立像素的概念，根据文献<a href="https://www.quirksmode.org/blog/archives/2012/07/more_about_devi.html">[5]</a>，设置<code class="highlighter-rouge">&lt;meta name="viewport" content="width=device-width"&gt;</code>后，可以通过<code class="highlighter-rouge">document.documentElement.clientWidth</code>得到 dips，也就是说，ideal viewport 的大小等于 dips。</p>
+
+<p>至此，几个像素和 viewport 的概念已经理清了。</p>
+
+<blockquote>
+  <p>首先，dips = pps / dpr，设备的 pps 和 dpr 固定，可以求得 dips</p>
+
+  <p>ideal viewport 等于 dips（可以暂时理解为 ideal viewport 以 dips 度量）</p>
+
+  <p>layout viewport 和 vitual viewport 都是以 CSS 像素度量的</p>
+
+  <p>visual viewport width = ideal viewport width / zoom factor</p>
+
+  <p>设置<code class="highlighter-rouge">width=device-width; initial-scale=1</code>可以使 layout viewport=ideal viewport=visual viewport，此时一个 CSS 像素等于一个 dips，当页面放大或缩小时，一个 CSS 像素的大小等于 dip * zoom factor 的大小</p>
+</blockquote>
+
+<p>那么最终来看看移动端为啥 1px 变粗了。这主要是因为，视觉稿以 iPhone6 为基准，画布大小 750×1334（物理像素），根据视觉稿写代码时，最简单的做法是把所有标注除以 2，如 22px 的字号，转为 CSS 是 11px，这都没有问题，但视觉稿中的 1px 分割线，表示一个物理像素，而我们在写代码时，通常不会再把 1px 除以 2 了（只有高版本的 iOS 支持 0.5px）。当我们设置<code class="highlighter-rouge">width=device-width; initial-scale=1</code>后，layout viewport = ideal viewport = 375×667，一个 CSS 像素为两个物理像素，线自然就变粗啦。到底如何解决这个 1px 问题呢，网上有很多办法，但都不尽善尽美，后续经过自己实战，再写一篇总结吧。</p>
+
+<h3 id="参考文章">参考文章</h3>
+
+<hr />
+
+<p><a href="https://www.quirksmode.org/mobile/viewports.html">1. A tale of two viewports — part one</a></p>
+
+<p><a href="https://www.quirksmode.org/mobile/viewports2.html">2. A tale of two viewports — part two</a></p>
+
+<p><a href="https://www.quirksmode.org/mobile/metaviewport/">3. Meta viewport</a></p>
+
+<p><a href="http://www.jianshu.com/p/d62d22b44ce4">4. 移动端 1px 细线解决方案总结</a></p>
+
+<p><a href="https://www.quirksmode.org/blog/archives/2012/07/more_about_devi.html">5. More about devicePixelRatio</a></p>
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/passive-event-listeners/" class="btn-pagination prev" title="不得不说的 Passive Event Listeners
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/blog/meta-viewport/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=http://localhost:4000/blog/meta-viewport/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/blog/meta-viewport/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=http://localhost:4000/blog/meta-viewport/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+        <h1 class="blue-title">Comments</h1>
+		
+
+		
+		<!-- Gitalk  BEGIN-->
+		<div id="gitalk-container" ></div>
+		<script type="text/javascript">
+            var gitalk = new Gitalk({
+                clientID: '06d60e5287de2b4292cc',
+                clientSecret: 'bdf1b23d4351a323bd556fde080567b0e0d0e138',
+                repo: 'blogcomments',
+                owner: 'songkong',
+                admin: ['songkong'],
+                id: location.pathname,
+                distractionFreeMode: false
+            });
+            gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk END -->
+		
+
+
+		
+
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:hi@ikongsong.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        <li><a class="social-btn btn-white" href="http://facebook.com/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Facebook"><i class="fa fa-fw fa-facebook"></i></a></li>
+        
+        <li><a class="social-btn btn-white" href="http://linkedin.com/in/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Linkedin"><i class="fa fa-fw fa-linkedin"></i></a></li>
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/songkong" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        <li><a class="social-btn btn-white" href="http://stackoverflow.com/users/6438519/song-kong" target="_blank" rel="noopener noreferrer" title="Follow me on Stackoverflow"><i class="fa fa-fw fa-stack-overflow"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2020 Song Kong. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-82494501-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?5b31ffbbdc6cff18727f3adf75a03777";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

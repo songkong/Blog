@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>前端性能优化总结</title>
+  <meta name="description" content="随着前端技术的飞速发展，性能问题越来越受到重视，本文从代码和网络性能两部分，总结了常用的前端优化方法。">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="http://localhost:4000/blog/fe-optimizing/">
+  <link rel="alternate" type="application/rss+xml" title="水榭清松-Song Kong" href="http://localhost:4000/feed.xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >前端性能优化总结</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#CN">CN</a></li>
+				
+				
+				<li><a href="/tags#front-end">front-end</a></li>
+				
+				
+				<li><a href="/tags#性能优化">性能优化</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">21 Apr 2017</div>
+			</div>
+			<div class="post-content">
+				<p>随着前端技术的飞速发展，性能问题越来越受到重视，本文从代码和网络性能两部分，总结了常用的前端优化方法。</p>
+
+<h3 id="1-应用性能分析">1. 应用性能分析</h3>
+
+<hr />
+
+<p>性能分析是优化任何应用程序时的重要一步。盲目尝试优化 Web 应用往往会出现效率低、收益少等问题。因此，在优化前进行性能分析是非常关键的一步。</p>
+
+<p>当下 Web 端的性能诊断工具已经非常丰富，如<a href="http://www.webpagetest.org/">WebPageTest</a>、<a href="https://developers.google.com/speed/pagespeed/">Google PageSpeed</a>、<a href="http://developer.yahoo.com/yslow/">YSlow</a>。可以通过上述工具分析自己的网站性能，查找影响性能的原因。</p>
+
+<p>如果不想安装上面的扩展插件，利用<code class="highlighter-rouge">Chrome Dev Tools</code>中的时间线和网络视图也可以很方便的定位问题所在。</p>
+
+<p><code class="highlighter-rouge">Network</code>可以帮助识别出由于请求缓慢而导致的延迟。</p>
+
+<p><img src="http://ikongsong.com/assets/images/posts/fe-optimizing/1.png" alt="network" /></p>
+
+<p><code class="highlighter-rouge">Timeline</code>可以帮忙找出疑似较长的<code class="highlighter-rouge">Evaluate Script</code>事件。Chrome 用四种颜色表示不同的事件：</p>
+
+<p><img src="http://ikongsong.com/assets/images/posts/fe-optimizing/2.png" alt="recalculate-style" /></p>
+
+<blockquote>
+  <ul>
+    <li>蓝色：网络通信和HTML解析</li>
+    <li>黄色：JavaScript执行</li>
+    <li>紫色：样式计算和布局，即重排</li>
+    <li>绿色：重绘</li>
+  </ul>
+</blockquote>
+
+<p><img src="http://ikongsong.com/assets/images/posts/fe-optimizing/3.png" alt="pie" /></p>
+
+<p>哪种颜色的色块越多，就说明应用将性能耗费在了哪里。找到性能损耗的中心可以让你有效率地达到优化的目标。</p>
+
+<p>对后端的性能分析会更加困难。通常情况下，确认一个耗费较多时间的请求可以让你明确应该优先分析哪一个服务。对于后端的分析工具来说，则取决于所构建的技术栈。</p>
+
+<h3 id="2-代码优化">2. 代码优化</h3>
+
+<hr />
+
+<h4 id="21-压缩代码">2.1 压缩代码</h4>
+
+<p>JavaScript 应用是以源码形式进行分发的，而源码解析的效率是要比字节码低的。对于一小段脚本来说，区别可以忽略不计。但是对于更大型的应用，脚本的大小会对应用启动时间有着负面的影响。目前很多工具都实现了代码的压缩功能，如<code class="highlighter-rouge">Webpack</code>和<code class="highlighter-rouge">Gulp</code>。同时，还可以利用这些工具对 CSS 代码进行压缩。</p>
+
+<h4 id="22-避免或最小化-js-和-css-的使用而阻塞渲染">2.2 避免或最小化 JS 和 CSS 的使用而阻塞渲染</h4>
+
+<p>JS 和 CSS 资源都会阻塞页面的渲染。通过采取某些规则，可以保证你的脚本和 CSS 被尽可能快速地处理，以便于浏览器能够显示你的网站内容。</p>
+
+<h5 id="221-css-的规则">2.2.1 CSS 的规则</h5>
+
+<p>通过使用 CSS 媒体查询，告诉浏览器，哪些 CSS 样式表应用在某个特定的显示媒体上。举个例子，用于打印的某些规则可以被赋予比用于屏幕显示更低的优先级。</p>
+
+<p>媒体查询可以被设置成<code class="highlighter-rouge">&lt;link&gt;</code>标签属性：</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">type=</span><span class="s">"text/css"</span> <span class="na">media=</span><span class="s">"only screen and (max-device-width: 480px)"</span> <span class="na">href=</span><span class="s">"mobile-device.css"</span> <span class="nt">/&gt;</span></code></pre></figure>
+
+<p>同时，网页上的资源加载是从上往下顺序加载的，所以 CSS 放在页面的顶部能够优先渲染页面，让用户感觉页面加载很快。</p>
+
+<h5 id="222-js-的规则">2.2.2 JS 的规则</h5>
+
+<p>至于 JS，关键就在于遵循某些用于内联 JS 的规则（比如内联在 HTML 文件当中的代码）。内联 JS 应该尽可能短，并将其放在不会阻塞页面剩余部分解析的地方。换句话说，被放在 HTML 树中间的内联 JS 将会在这个地方阻塞解析器，并强制其等待直到脚本被执行完毕。如果在 HTML 文件中随意放了一些大的代码块或者很多小的代码块，这会成为性能杀手。内联可以有效减少额外对于某些特定脚本的网络请求。但是对于重复使用的脚本或者大的代码块来说，这个好处就可以忽略不计了。</p>
+
+<p>防止 JS 阻塞解析器和渲染器的一种方法就是将<code class="highlighter-rouge">&lt;script&gt;</code>标签标记为异步的。这限制了我们对于 DOM 的访问但是可以让浏览器不管脚本的执行状态而继续解析和渲染页面。换句话说，为了获得最佳的启动时间，确保那些对于渲染不重要的脚本已经通过异步属性的方式标记成异步的了。</p>
+
+<p>对于不能标记为异步的 JS 脚本，可以放在页面底部最后加载，防止阻塞其它资源。</p>
+
+<h4 id="23-避免空的-src-和-href">2.3 避免空的 src 和 href</h4>
+
+<p>当 link 标签的<code class="highlighter-rouge">href</code>属性为空、script 标签的<code class="highlighter-rouge">src</code>属性为空的时候，浏览器渲染的时候会把当前页面的 URL 作为它们的属性值，从而把页面的内容加载进来作为它们的值。所以要避免犯这样的疏忽。</p>
+
+<h4 id="24-使用索引加速数据库查询">2.4 使用索引加速数据库查询</h4>
+
+<p>索引是一个过程，即数据库所创建的快速访问数据结构，从内部映射到键（在关系数据库中的列），可以提高检索相关数据的速度。大多数现代数据库都支持索引。为了使用索引来优化你的查询，你将需要研究一下应用程序的访问模式：什么是最常见的查询，在哪个键或列中执行搜索，等等。</p>
+
+<h4 id="25-js-代码">2.5 JS 代码</h4>
+
+<h5 id="251-慎用-with">2.5.1 慎用 with　</h5>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">with</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span> 
+	<span class="nx">p</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="p">};</span> </code></pre></figure>
+
+<p>上述代码块的行为实际上是修改了代码块中的执行环境 ，将 obj 放在了其作用域链的最前端，在 with 代码块中访问非局部变量是都是先从 obj 上开始查找，如果没有再依次按作用域链向上查找，因此使用 with 相当于增加了作用域链长度。而每次查找作用域链都是要消耗时间的，过长的作用域链会导致查找性能下降。因此，除非你能肯定在 with 代码中只访问 obj 中的属性，否则慎用 with，可以使用局部变量缓存需要访问的属性。</p>
+
+<h5 id="252-避免使用-eval-和-function">2.5.2 避免使用 eval 和 Function</h5>
+
+<p>每次 eval 或 Function 构造函数作用于字符串表示的源代码时，脚本引擎都需要将源代码转换成可执行代码。这是很消耗资源的操作（通常比简单的函数调用慢 100 倍以上）。</p>
+
+<p>eval 函数效率特别低，由于事先无法知晓传给 eval 的字符串中的内容，eval 在其上下文中解释要处理的代码，也就是说编译器无法优化上下文，因此只能有浏览器在运行时解释代码。这对性能影响很大。</p>
+
+<p>Function 构造函数比 eval 略好，因为使用此代码不会影响周围代码，但其速度仍很慢。</p>
+
+<p>此外，使用 eval 和 Function 也不利于 JS 压缩工具执行压缩。</p>
+
+<h5 id="253--减少作用域链查找">2.5.3  减少作用域链查找</h5>
+
+<p>如果在循环中需要访问非本作用域下的变量时请在遍历之前用局部变量缓存该变量，并在遍历结束后再重写那个变量，这一点对全局变量尤其重要，因为全局变量处于作用域链的最顶端，访问时的查找次数是最多的。</p>
+
+<h5 id="254-数据访问">2.5.4 数据访问</h5>
+
+<p>JS 中的数据访问包括直接量 (字符串、正则表达式 )、变量、对象属性以及数组，其中对直接量和局部变量的访问是最快的，对对象属性以及数组的访问需要更大的开销。当出现以下情况时，建议将数据放入局部变量：</p>
+
+<blockquote>
+  <ul>
+    <li>对任何对象属性的访问超过 1 次</li>
+    <li>对任何数组成员的访问次数超过 1 次</li>
+  </ul>
+</blockquote>
+
+<p>另外，还应当尽可能的减少对对象以及数组深度查找。</p>
+
+<h5 id="255-字符串拼接">2.5.5 字符串拼接</h5>
+
+<p>在 JS 中使用<code class="highlighter-rouge">+</code>号来拼接字符串效率是比较低的，因为每次运行都会开辟新的内存并生成新的字符串变量，然后将拼接结果赋值给新变量。与之相比更为高效的做法是使用数组的<code class="highlighter-rouge">join</code>方法，即将需要拼接的字符串放在数组中最后调用其 join 方法得到结果。不过由于使用数组也有一定的开销，因此当需要拼接的字符串较多的时候可以考虑用此方法。</p>
+
+<h4 id="26-dom-优化">2.6 DOM 优化</h4>
+
+<h5 id="261-在使用-dom-操作库时用上-array-ids">2.6.1 在使用 DOM 操作库时用上 array-ids</h5>
+
+<p>如果你正在使用<code class="highlighter-rouge">React</code>，<code class="highlighter-rouge">Ember</code>，<code class="highlighter-rouge">Angular</code>或者其他 DOM 操作库，使用<code class="highlighter-rouge">array-ids</code>（或者 Angular 1.x 中的<code class="highlighter-rouge">track-by</code>特性）非常有助于实现高性能，对于动态网页尤其如此。此特性的主要概念就是尽可能多地重用已有的节点。Array ids 使得 DOM 操作引擎可以知道在什么时候某个节点可以被映射到数组当中的某个元素。没有 array-ids 或者 track-by 的话，大部分库都会进行重新排序而摧毁已有的节点并重新创建新的。这就非常损耗性能了。</p>
+
+<h5 id="262-重排和重绘">2.6.2 重排和重绘</h5>
+
+<p>网页生成的时候，至少会渲染一次。用户访问的过程中，还会不断重新渲染。</p>
+
+<p>以下三种情况，会导致网页重新渲染。</p>
+
+<blockquote>
+  <ul>
+    <li>修改DOM</li>
+    <li>修改样式表</li>
+    <li>用户事件（比如鼠标悬停、页面滚动、输入框键入文字、改变窗口大小等等）</li>
+  </ul>
+</blockquote>
+
+<p>重新渲染，就需要重新生成布局和重新绘制。前者叫做<code class="highlighter-rouge">重排</code>（reflow），后者叫做<code class="highlighter-rouge">重绘</code>（repaint）。提高网页性能，就是要降低重排和重绘的频率和成本，尽量少触发重新渲染。</p>
+
+<p>一般来说，样式的写操作之后，如果有下面这些属性的读操作，都会引发浏览器立即重新渲染。</p>
+
+<blockquote>
+  <ul>
+    <li>offsetTop/Left/Width/Height</li>
+    <li>scrollTop/Left/Width/Height</li>
+    <li>clientTop/Left/Width/Height</li>
+    <li>getComputedStyle()</li>
+  </ul>
+</blockquote>
+
+<p>因此，减少重排和重绘的一般规则为：</p>
+
+<blockquote>
+  <ul>
+    <li>样式表越简单，重排和重绘就越快。</li>
+    <li>重排和重绘的 DOM 元素层级越高，成本就越高。</li>
+    <li>table 元素的重排和重绘成本，要高于 div 元素</li>
+  </ul>
+</blockquote>
+
+<p>根据上述规则，有如下技巧可以降低浏览器重新渲染的频率和成本。</p>
+
+<ul>
+  <li>DOM 的多个读操作（或多个写操作），应该放在一起。不要两个读操作之间，加入一个写操作。</li>
+  <li>如果某个样式是通过重排得到的，那么最好缓存结果。避免下一次用到的时候，浏览器又要重排。</li>
+  <li>不要一条条地改变样式，而要通过改变<code class="highlighter-rouge">class</code>，或者<code class="highlighter-rouge">csstext</code>属性，一次性地改变样式。</li>
+  <li>尽量使用离线 DOM，而不是真实的网面 DOM。</li>
+  <li>需要对某个节点进行多次操作时，先将元素设为 display: none（需要1次重排和重绘），对这个节点进行操作后再恢复显示。</li>
+  <li>position 属性为 absolute 或 fixed 的元素，重排的开销会比较小，因为不用考虑它对其他元素的影响。</li>
+  <li>只在必要的时候，才将元素的 display 属性为可见。另外，visibility : hidden 的元素只对重绘有影响，不影响重排。</li>
+  <li>使用虚拟 DOM 的脚本库，比如 React 等。</li>
+</ul>
+
+<h3 id="3-网络优化">3. 网络优化</h3>
+
+<hr />
+
+<h4 id="31-减少-http-请求次数">3.1 减少 Http 请求次数</h4>
+
+<p>Http 协议是无状态的应用层协议，意味着每次 Http 请求都需要建立通信链路、进行数据传输，而在服务器端，每个 Http 都需要启动独立的线程去处理。这些通信和服务的开销都很昂贵，减少 Http 请求的数目可有效提高访问性能。</p>
+
+<h5 id="311-模块打包">3.1.1 模块打包</h5>
+
+<p>模块打包用于将不同脚本打包在一起并放进同一文件，可以有效的减少 Http 请求和文件解析所需的加载时间。</p>
+
+<h5 id="312-按需加载资源">3.1.2 按需加载资源</h5>
+
+<p>资源（特别是图片）的按需加载或者说<code class="highlighter-rouge">惰性加载</code>，可以有助于你的 Web 应用在整体上获得更好的性能。对于使用大量图片的页面来说惰性加载有着显著的三个好处：</p>
+
+<blockquote>
+  <ul>
+    <li>减少向服务器发出的并发请求数量（这就使得页面的其他部分获得更快的加载时间）</li>
+    <li>减少浏览器的内存使用率（更少的图片，更少的内存）</li>
+    <li>减少服务器端的负载</li>
+  </ul>
+</blockquote>
+
+<p>大体上的理念就是只在必要的时候才去加载图片或资源（如视频），比如在第一次被显示的时候，或者是在将要显示的时候对其进行加载。由于这种方式跟你建站的方式密切相关，惰性加载的解决方案通常需要借助其他库的插件或者扩展来实现。</p>
+
+<h5 id="313-css-sprites">3.1.3 CSS Sprites</h5>
+
+<p><code class="highlighter-rouge">CSS Sprites</code>其实就是把网页中用到的一些图片整合到一张图片文件中，再利用 CSS 的<code class="highlighter-rouge">background-image</code>，<code class="highlighter-rouge">background-repeat</code>，<code class="highlighter-rouge">background-position</code>的组合进行背景定位，background-position 可以用数字精确的定位出背景图片的位置。</p>
+
+<h4 id="32-缓存">3.2 缓存</h4>
+
+<p><code class="highlighter-rouge">Caches</code>用于存储那些被频繁存取的静态数据的组件，便于随后对于这个数据的请求可以更快地被响应，或者说请求方式更加高效。由于 Web 应用是由很多可拆卸的部件组合而成，缓存就可以存在于架构中的很多部分。举例来说，缓存可以被放在动态内容服务器和客户端之间，就可以避免公共请求以减少服务器的负载，与此同时改善响应时间。其他缓存可能被放置在代码里，以优化某些用于脚本存取的通用模式，还有些缓存可能被放置在数据库或者是长运行进程之前。</p>
+
+<p>简而言之，在 Web 应用中使用缓存是一种改善响应时间和减少 CPU 使用的绝佳方式。所以你的 Web 应用在第二次运行脚本的时候就可以几乎瞬间加载了。</p>
+
+<p>对一个网站而言，CSS、JS、logo、图标这些静态资源文件更新的频率都比较低，而这些文件又几乎是每次 Http 请求都需要的，如果将这些文件缓存在浏览器中，可以极好的改善性能。通过设置 Http 头中的<code class="highlighter-rouge">cache-control</code>和<code class="highlighter-rouge">expires</code>的属性，可设定浏览器缓存，缓存时间可以是数天，甚至是几个月。</p>
+
+<p>同时，在使用<code class="highlighter-rouge">ajax</code>异步请求时，要主动告诉浏览器如果该请求有缓存就去请求缓存内容。</p>
+
+<h4 id="33-启用-http2">3.3 启用 HTTP/2</h4>
+
+<p>越来越多的浏览器都开始支持<code class="highlighter-rouge">HTTP/2</code>。这可能听起来没有必要，但是<code class="highlighter-rouge">HTTP/2</code>为同一服务器的并发连接问题带来了很多好处。换句话说，如果有很多小型资源需要加载（如果你打包过的话就没有必要了），在延迟和性能方面 HTTP/2 秒杀 HTTP/1。</p>
+
+<h4 id="34-使用负载均衡方案">3.4 使用负载均衡方案</h4>
+
+<h5 id="341-使用-cdncontent-distribute-network内容分发网络">3.4.1 使用 CDN（content distribute network，内容分发网络）</h5>
+
+<p>使用 CDN 的本质仍然是一个缓存，而且将数据缓存在离用户最近的地方，使用户以最快速度获取数据，即所谓网络访问第一跳。</p>
+
+<p>由于CDN部署在网络运营商的机房，这些运营商又是终端用户的网络服务提供商，因此用户请求路由的第一跳就到达了 CDN 服务器，当 CDN 中存在浏览器请求的资源时，从 CDN 直接返回给浏览器，最短路径返回响应，加快用户访问速度，减少数据中心负载压力。</p>
+
+<p>CDN 缓存的一般是静态资源，如图片、文件、CSS、script 脚本、静态网页等，这些文件访问频度很高，将其缓存在 CDN 可极大改善网页的打开速度。</p>
+
+<h5 id="342-反向代理">3.4.2 反向代理</h5>
+
+<p>传统代理服务器位于浏览器一侧，代理浏览器将 Http 请求发送到互联网上，而反向代理服务器位于网站机房一侧，代理网站 Web 服务器接收 Http 请求。</p>
+
+<p>论坛网站，把热门词条、帖子、博客缓存在反向代理服务器上加速用户访问速度，当这些动态内容有变化时，通过内部通知机制通知反向代理缓存失效，反向代理会重新加载最新的动态内容再次缓存起来。</p>
+
+<p>此外，反向代理也可以实现负载均衡的功能，而通过负载均衡构建的应用集群可以提高系统总体处理能力，进而改善网站高并发情况下的性能。</p>
+
+<h4 id="35-图片优化">3.5 图片优化</h4>
+
+<h5 id="351-图片编码优化">3.5.1 图片编码优化</h5>
+
+<p>PNGs 和 JPGs 在 Web 发布时都会使用次优的设置进行编码。通过改变编码器和它的设置，对于需要大量图片的网站来说可以获得有效的改善。流行的解决方案包括 OptiPNG 和 jpegtran。</p>
+
+<h5 id="352-缩小-faviconico-并缓存">3.5.2 缩小 favicon.ico 并缓存</h5>
+
+<h5 id="353-使用缩略图">3.5.3 使用缩略图</h5>
+
+<p>如果网页中需要的图片尺寸是 50<em>50，那就不要用一张 500</em>500 的大尺寸图片，影响加载。</p>
+
+<h5 id="354-不要使用滤镜">3.5.4 不要使用滤镜</h5>
+
+<p>IE 独有属性 AlphaImageLoader 用于修正 7.0 以下版本中显示 PNG 图片的半透明效果。这个滤镜的问题在于浏览器加载图片时它会终止内容的呈现并且冻结浏览器。在每一个元素（不仅仅是图片）它都会运算一次，增加了内存开支，因此它的问题是多方面的。完全避免使用 AlphaImageLoader 的最好方法就是使用 PNG8 格式来代替，这种格式能在 IE 中很好地工作。</p>
+
+<h4 id="36-使用-gzip-压缩内容">3.6 使用 gzip 压缩内容</h4>
+
+<h4 id="37-cookie">3.7 Cookie</h4>
+
+<h5 id="371-减少-cookie-的大小">3.7.1 减少 cookie 的大小。</h5>
+
+<p>cookie 包含在每次请求和响应中，太大的 cookie 会严重影响数据传输，因此哪些数据需要写入 cookie 需要慎重考虑，尽量减少 cookie 中传输的数据量。</p>
+
+<h5 id="372-使用无-cookie-的域">3.7.2 使用无 cookie 的域</h5>
+
+<p>对于某些静态资源的访问，如 CSS、script 等，发送 cookie 没有意义，可以考虑静态资源使用独立域名访问，避免请求静态资源时发送 cookie ，减少 cookie 传输次数。</p>
+
+<h4 id="38-避免-404">3.8 避免 404</h4>
+
+<p>外链的 CSS 或者 JS 文件出现问题返回 404 时，会破坏浏览器对文件的并行加载。并且浏览器会把试图在返回的 404 响应内容中找到可能有用的部分当作 JS 代码来执行。</p>
+
+<h3 id="4-参考文献">4 参考文献</h3>
+
+<hr />
+
+<p><a href="https://auth0.com/blog/12-steps-to-a-faster-web-app/">a. 12 steps to a faster web app</a></p>
+
+<p><a href="http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html">b. 网页性能管理详解</a></p>
+
+<p><a href="https://developer.yahoo.com/performance/rules.html">c. Best Practices for Speeding Up Your Web Site</a></p>
+
+<p><a href="https://developers.google.com/web/tools/chrome-devtools/rendering-tools/?utm_source=dcc&amp;utm_medium=redirect&amp;utm_campaign=2016q3">d. 利用 Chrom Dev Tools 分析运行时性能</a></p>
+
+<p><a href="http://blog.csdn.net/mahoking/article/details/51472697">e. web 前端性能优化总结</a></p>
+
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/mercator-and-lonlat/" class="btn-pagination prev" title="JS 实现墨卡托坐标到经纬度坐标的转换
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/sql-notes/" class="btn-pagination next" title="数据库知识点总结
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/blog/fe-optimizing/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=http://localhost:4000/blog/fe-optimizing/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/blog/fe-optimizing/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=http://localhost:4000/blog/fe-optimizing/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+        <h1 class="blue-title">Comments</h1>
+		
+
+		
+		<!-- Gitalk  BEGIN-->
+		<div id="gitalk-container" ></div>
+		<script type="text/javascript">
+            var gitalk = new Gitalk({
+                clientID: '06d60e5287de2b4292cc',
+                clientSecret: 'bdf1b23d4351a323bd556fde080567b0e0d0e138',
+                repo: 'blogcomments',
+                owner: 'songkong',
+                admin: ['songkong'],
+                id: location.pathname,
+                distractionFreeMode: false
+            });
+            gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk END -->
+		
+
+
+		
+
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:hi@ikongsong.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        <li><a class="social-btn btn-white" href="http://facebook.com/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Facebook"><i class="fa fa-fw fa-facebook"></i></a></li>
+        
+        <li><a class="social-btn btn-white" href="http://linkedin.com/in/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Linkedin"><i class="fa fa-fw fa-linkedin"></i></a></li>
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/songkong" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        <li><a class="social-btn btn-white" href="http://stackoverflow.com/users/6438519/song-kong" target="_blank" rel="noopener noreferrer" title="Follow me on Stackoverflow"><i class="fa fa-fw fa-stack-overflow"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2020 Song Kong. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-82494501-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?5b31ffbbdc6cff18727f3adf75a03777";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

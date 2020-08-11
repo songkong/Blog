@@ -1,0 +1,1227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>水榭清松-Song Kong</title>
+    <description>This is Song' home.</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 30 Mar 2020 18:00:42 +0800</pubDate>
+    <lastBuildDate>Mon, 30 Mar 2020 18:00:42 +0800</lastBuildDate>
+    <generator>Jekyll v3.5.1</generator>
+    
+      <item>
+        <title>由移动端 1px 过粗引发的 viewport 探究</title>
+        <description>&lt;p&gt;在探究 viewport 前，需要了解一些概念：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;物理像素（physical pixels）：一个物理像素是显示器（手机屏幕）上最小的物理显示单元，在操作系统的调度下，每一个设备像素都有自己的颜色值和亮度值。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;设备独立像素（density-independent pixels）：也叫密度无关像素，可以认为是计算机坐标系统中的一个点，这个点代表一个可以由程序使用的虚拟像素，然后由相关系统转换为物理像素。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;设备像素比（device pixel ratio）：简称 dpr，定义了物理像素和设备独立像素的对应关系，它的值可以按如下的公式的得到：&lt;/p&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;设备像素比 = 物理像素 / 设备独立像素&lt;/p&gt;
+  &lt;/blockquote&gt;
+
+  &lt;p&gt;在 JS 中，可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;window.devicePixelRatio&lt;/code&gt;获取到当前设备的     dpr。在 CSS 中，可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;-webkit-device-pixel-ratio&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;-webkit-min-device-pixel-ratio&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;-webkit-max-device-pixel-ratio&lt;/code&gt;进行媒体查询，对不同 dpr 的设备，做一些样式适配。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;以 iPhone6 为例：&lt;/p&gt;
+
+&lt;p&gt;设备宽高&lt;code class=&quot;highlighter-rouge&quot;&gt;375×667&lt;/code&gt;，可以理解为设备独立像素的个数，dpr 为 2，根据上面的计算公式，其物理像素就应该 ×2，为&lt;code class=&quot;highlighter-rouge&quot;&gt;750×1334&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/meta-viewport/1.gif&quot; alt=&quot;viewport1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在 iOS 设备中，dpr 可取的值为 1，2 或 3。在安卓设备中，情况就比较复杂了。以谷歌的 Nexus 为例，Nexus One 的物理像素为 480×800，但是安卓的 WebKit 团队将网页竖屏模式时的最优宽度设置为 320px。因此，dips 抽象逻辑层的宽度仍然为 320px，，此时 dpr 为 1.5。&lt;/p&gt;
+
+&lt;p&gt;在 Galaxy Nexus 中，物理像素提高到 720×1200。安卓团队将 dips 层的宽度设为 360px，Chrome 团队和腾讯 QQ 浏览器也都是这么设定的。但是 Opera 浏览器却将 dips 层宽设为 320px，此时 dpr 由 2 变为 2.25。&lt;/p&gt;
+
+&lt;p&gt;说到这里，相信大家对物理像素和设备独立像素的理解更清晰了。简单粗暴的说，物理像素是设备所用的屏幕确定的，设备独立像素是手机操作系统或浏览器团队确定的。作为一个 Web 开发人员，两者我们都无力改变。可以将它们想象成 PS 中的两个图层，两个图层的物理尺寸相同，区别只是两个图层中网格的大小不同（一个网格代表一个像素点）。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;这里不得不提一下 CSS 像素，在很多文章中，都将设备独立像素和 CSS 像素画了等号。但我不这么认为（当然也可能是错的，只是在我的理解中二者是不同的）。上文已经说过，设备独立像素和物理像素的对应关系是固定的，而物理像素又是确定的，那么设备独立像素也是确定的。但 CSS 像素和物理像素之间的关系是可变的。对于设备独立像素和 CSS 像素的关系，我还存在一些疑问，后面会查看更多的相关资料。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;接下来我们看一下 CSS 像素和物理像素的关系。对于一个 1024px 的 PC 显示器，将浏览器放大到和桌面等大。html 中添加一个 128px 的元素，这个元素占据浏览器窗口的 1/8，当你将页面放大 200% 时，元素仍然是 128px，但此时它占据浏览器的 1/4。通过这个例子可以看出，浏览器的放大功能，并不是将 128px 元素变为 256px，它只是将 1px 所占的物理尺寸扩大，换句话说，放大前，一个 CSS 像素对应一个物理像素，放大 200% 后，CSS 像素的长宽各增大一倍，一个 CSS 像素对应四个物理像素。以上都是针对 PC 端而言，移动端 CSS 像素和物理像素的对应更加复杂，后面会讨论。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/meta-viewport/2.png&quot; alt=&quot;viewport2&quot; /&gt;
+&lt;img src=&quot;http://ikongsong.com/assets/images/posts/meta-viewport/3.png&quot; alt=&quot;viewport3&quot; /&gt;
+&lt;img src=&quot;http://ikongsong.com/assets/images/posts/meta-viewport/4.png&quot; alt=&quot;viewport4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;上图中，第一张是 CSS 像素与物理像素一一对应的情况，第二张是放大页面时的情况，第三张是缩小页面时的情况。&lt;/p&gt;
+
+&lt;h4 id=&quot;三种-viewport&quot;&gt;三种 viewport&lt;/h4&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;viewport 主要是用来限制 html 元素大小的。在 PC 端，viewport 的大小就是浏览器窗口的大小，而 html 元素的大小又和 viewport 的大小相同。当我们调整浏览器大小时，html 和 viewport 的大小都随之改变。举个例子，当定义一个宽度为 html 元素 10% 的 div 时，缩放浏览器，div 的长度也随之改变。&lt;/p&gt;
+
+&lt;p&gt;然而，在移动端，viewport 要比上面的描述复杂很多。在参考文献&lt;a href=&quot;https://www.quirksmode.org/mobile/viewports2.html&quot;&gt;[2]&lt;/a&gt;中，作者定义了三种 viewport：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;visual viewport：移动设备屏幕的视口大小。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;layout viewport：要比 visual viewport 大很多，是 CSS 布局的计算依据。因此，html 元素最初的大小与 layout viewport 相等，以确保整个页面的布局与 PC 端相同。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/meta-viewport/5.jpg&quot; alt=&quot;viewport5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/meta-viewport/6.jpg&quot; alt=&quot;viewport6&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在 Safari iPhone 中 layout viewport 的宽度为 980px，Opera 中为 850px，Android WebKit 中为 800px，IE 中为 974px。&lt;/p&gt;
+
+&lt;p&gt;不管是 visual viewport 还是 layout viewport，都是以 CSS 像素度量的，当放大屏幕时，layout viewport 是不变的（如果改变，页面会一直重绘），visual viewport 变小，屏幕上的 CSS 像素点减少。可以把 layout viewport 想象成一个特别大的画布，它的大小和形状永远都不会改变，而 visual viewport 是一个镜头，透过镜头可以看到画布，当你想透过镜头看到画布上更多的内容时，你需要将镜头后移，当你想更清晰的看到画布上的细节时，你需要把镜头前移。&lt;/p&gt;
+
+&lt;p&gt;如果不加限定，浏览器默认将 visual viewport 设置为 layout viewport 的大小，这会导致页面显得拥挤，一个 CSS 像素对应的实际物理尺寸很小，需要放大才能看清楚。为了解决这个问题，引入了一个 ideal viewport 的概念。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/meta-viewport/7.jpg&quot; alt=&quot;viewport7&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;ideal viewport：Web 页面的理想大小，对于非 retina 屏的设备，ideal viewport 的大小就是物理分辨率的大小，对于 retina 屏，ideal viewport 的大小小于物理分辨率的值。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;meta-viewport&quot;&gt;meta viewport&lt;/h4&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;通过 meta viewport，我们可以设置 layout viewport 的大小。具体语法为下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;meta name=&quot;viewport&quot; content=&quot;name=value,name=value&quot;&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+  &lt;p&gt;content 中的 name 可选值有六个：&lt;/p&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;width，layout viewport 的大小。&lt;/p&gt;
+  &lt;/blockquote&gt;
+
+  &lt;blockquote&gt;
+    &lt;p&gt;initial-scale，页面的初始放大系数。&lt;/p&gt;
+  &lt;/blockquote&gt;
+
+  &lt;blockquote&gt;
+    &lt;p&gt;minimum-scale，最小放大系数。&lt;/p&gt;
+  &lt;/blockquote&gt;
+
+  &lt;blockquote&gt;
+    &lt;p&gt;maximum-scale，最大放大系数。&lt;/p&gt;
+  &lt;/blockquote&gt;
+
+  &lt;blockquote&gt;
+    &lt;p&gt;height，没有什么用。&lt;/p&gt;
+  &lt;/blockquote&gt;
+
+  &lt;blockquote&gt;
+    &lt;p&gt;user-scalable，为 no 的时候，不能放大。&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;当我们设置&lt;code class=&quot;highlighter-rouge&quot;&gt;width=device-width&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;initial-scale=1&lt;/code&gt;的时候，layout viewport 的大小等于 ideal viewport。所有的 scale 值都是基于 ideal viewport 的，也就是说，maximum-scale=3 意味着最大的放大值是 ideal viewport 的 300%。&lt;/p&gt;
+
+&lt;p&gt;那么页面的 ideal viewport 到底是多少呢？首先设置&lt;code class=&quot;highlighter-rouge&quot;&gt;width=device-width&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;initial-scale=1&lt;/code&gt;，然后通过&lt;code class=&quot;highlighter-rouge&quot;&gt;document.documentElement.clientWidth&lt;/code&gt;便可以得到页面的 ideal viewport（部分浏览器有异常现象，但也没办法）。&lt;/p&gt;
+
+&lt;p&gt;在文献&lt;a href=&quot;https://www.quirksmode.org/mobile/metaviewport/&quot;&gt;[3]&lt;/a&gt;中，列出了各设备的 ideal viewport 大小，但我对这个表格存在一些质疑，表中 iPhone 的 ideal viewport 是 320×480，而通过&lt;code class=&quot;highlighter-rouge&quot;&gt;document.documentElement.clientWidth&lt;/code&gt;得到的宽是 375。同时，前面我们提过设备独立像素的概念，根据文献&lt;a href=&quot;https://www.quirksmode.org/blog/archives/2012/07/more_about_devi.html&quot;&gt;[5]&lt;/a&gt;，设置&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&amp;gt;&lt;/code&gt;后，可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;document.documentElement.clientWidth&lt;/code&gt;得到 dips，也就是说，ideal viewport 的大小等于 dips。&lt;/p&gt;
+
+&lt;p&gt;至此，几个像素和 viewport 的概念已经理清了。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;首先，dips = pps / dpr，设备的 pps 和 dpr 固定，可以求得 dips&lt;/p&gt;
+
+  &lt;p&gt;ideal viewport 等于 dips（可以暂时理解为 ideal viewport 以 dips 度量）&lt;/p&gt;
+
+  &lt;p&gt;layout viewport 和 vitual viewport 都是以 CSS 像素度量的&lt;/p&gt;
+
+  &lt;p&gt;visual viewport width = ideal viewport width / zoom factor&lt;/p&gt;
+
+  &lt;p&gt;设置&lt;code class=&quot;highlighter-rouge&quot;&gt;width=device-width; initial-scale=1&lt;/code&gt;可以使 layout viewport=ideal viewport=visual viewport，此时一个 CSS 像素等于一个 dips，当页面放大或缩小时，一个 CSS 像素的大小等于 dip * zoom factor 的大小&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;那么最终来看看移动端为啥 1px 变粗了。这主要是因为，视觉稿以 iPhone6 为基准，画布大小 750×1334（物理像素），根据视觉稿写代码时，最简单的做法是把所有标注除以 2，如 22px 的字号，转为 CSS 是 11px，这都没有问题，但视觉稿中的 1px 分割线，表示一个物理像素，而我们在写代码时，通常不会再把 1px 除以 2 了（只有高版本的 iOS 支持 0.5px）。当我们设置&lt;code class=&quot;highlighter-rouge&quot;&gt;width=device-width; initial-scale=1&lt;/code&gt;后，layout viewport = ideal viewport = 375×667，一个 CSS 像素为两个物理像素，线自然就变粗啦。到底如何解决这个 1px 问题呢，网上有很多办法，但都不尽善尽美，后续经过自己实战，再写一篇总结吧。&lt;/p&gt;
+
+&lt;h3 id=&quot;参考文章&quot;&gt;参考文章&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.quirksmode.org/mobile/viewports.html&quot;&gt;1. A tale of two viewports — part one&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.quirksmode.org/mobile/viewports2.html&quot;&gt;2. A tale of two viewports — part two&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.quirksmode.org/mobile/metaviewport/&quot;&gt;3. Meta viewport&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.jianshu.com/p/d62d22b44ce4&quot;&gt;4. 移动端 1px 细线解决方案总结&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.quirksmode.org/blog/archives/2012/07/more_about_devi.html&quot;&gt;5. More about devicePixelRatio&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 26 Jul 2017 17:31:30 +0800</pubDate>
+        <link>http://localhost:4000/blog/meta-viewport/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/meta-viewport/</guid>
+        
+        <category>CN</category>
+        
+        <category>front-end</category>
+        
+        <category>Mobile</category>
+        
+        <category>html</category>
+        
+        
+        <category>Tech</category>
+        
+      </item>
+    
+      <item>
+        <title>不得不说的 Passive Event Listeners</title>
+        <description>&lt;p&gt;之前用 iScroll 做了一个图片墙，在部分 Android 机上会出现滑动时无法切换整张图片的问题，通过添加如下代码解决了该问题:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'touchmove'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;preventDefault&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;最近又被报了同样的 Bug，明明之前修复过呀，怎么又复现了，百思不得其解！拿着真机调试，发现控制台给了个 Warning，提示&lt;code class=&quot;highlighter-rouge&quot;&gt;Passvie Event Listeners&lt;/code&gt;新特性。这是个什么东西呢？&lt;/p&gt;
+
+&lt;p&gt;其实它已经有一段时间了，关注&lt;code class=&quot;highlighter-rouge&quot;&gt;2016 Google I/O Mobile Talk&lt;/code&gt;的同学应该有些印象。它能够提升页面的滑动流畅度，以下是官方说明：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A new feature in the DOM spec that enable developers to opt-in to better scroll performance by eliminating the need for scrolling to block on touch and wheel event listeners.&lt;/p&gt;
+
+  &lt;p&gt;Developers can annotate touch and wheel listeners with {passive: true} to indicate that they will never invoke preventDefault.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;翻译过来大概就是：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;在监听&lt;code class=&quot;highlighter-rouge&quot;&gt;mousewheel&lt;/code&gt;或者&lt;code class=&quot;highlighter-rouge&quot;&gt;touch&lt;/code&gt;事件中，增加了&lt;code class=&quot;highlighter-rouge&quot;&gt;passive&lt;/code&gt;这个设置，当它为&lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt;时，就表示事件处理程序不会调用&lt;code class=&quot;highlighter-rouge&quot;&gt;preventDefault&lt;/code&gt;来阻止默认行为。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;举个例子，如果我们在 touchmove 事件调用 preventDefault，这时会禁止浏览器默认行为，页面不会滚动或缩放。浏览器无法预先知道一个监听器会不会调用 preventDefault()，它需要等监听器执行完后，再去执行默认行为，而监听器执行是要耗时的，这样就会导致页面卡顿。如果 Web 开发者能够提前告诉浏览器监听器不会调用 preventDefault 函数来阻止默认行为，那么浏览器就能快速生成事件，从而提升页面性能。passive 由此而生，我们可以通过传递 passive 为 true 来明确告诉浏览器，事件处理程序不会调用 preventDefault 来阻止默认滑动行为。&lt;/p&gt;
+
+&lt;p&gt;该特性兼容&lt;code class=&quot;highlighter-rouge&quot;&gt;Chrome 51&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;Firefox 49&lt;/code&gt;开始的浏览器，默认设置为&lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt;，此时&lt;code class=&quot;highlighter-rouge&quot;&gt;event.cancelable&lt;/code&gt;为&lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;。因此，可以使用如下代码告诉浏览器，监听器会使用&lt;code class=&quot;highlighter-rouge&quot;&gt;preventDefault&lt;/code&gt;函数：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'touchmove'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;preventDefault&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;passive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;至此，iScroll 的轮播问题就解决啦。&lt;/p&gt;
+</description>
+        <pubDate>Sat, 01 Jul 2017 10:13:30 +0800</pubDate>
+        <link>http://localhost:4000/blog/passive-event-listeners/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/passive-event-listeners/</guid>
+        
+        <category>CN</category>
+        
+        <category>front-end</category>
+        
+        <category>Mobile</category>
+        
+        
+        <category>Tech</category>
+        
+      </item>
+    
+      <item>
+        <title>口袋天气微信小程序开发总结</title>
+        <description>&lt;p&gt;自从小程序对个人开发者开放，就一直心痒痒的想做个小程序练练手，偶然发现&lt;a href=&quot;http://lbsyun.baidu.com/index.php?title=wxjsapi&quot;&gt;百度地图开放平台&lt;/a&gt;提供了几个小程序 API，于是经过几天的调研，决定做一个天气查询的小程序。&lt;/p&gt;
+
+&lt;h3 id=&quot;功能设计&quot;&gt;功能设计&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;在微信小程序入口搜索天气关键词，可以看到不少相关小程序，那么同样是天气查询，我要做的小程序和他们相比有什么优势呢，对用户来说有什么特别的意义呢？&lt;/p&gt;
+
+&lt;p&gt;于是我花了一些时间体验检索列表中 Top 20 的小程序，发现如下问题：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;切换城市大都需要输入城市名字&lt;/li&gt;
+  &lt;li&gt;内容过多，重点不够突出&lt;/li&gt;
+  &lt;li&gt;服务不稳定，一些固定文案已经展示，动态数据却还在加载，加载失败时也没有断网提示&lt;/li&gt;
+  &lt;li&gt;设计风格相近，大多是蓝色背景加灰色蒙版，配上白色字体的商务风&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;针对上面几个自己比较在意的问题，我对自己的小程序做了如下的功能规划：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;减少用户的输入，采用点选操作&lt;/li&gt;
+  &lt;li&gt;首页只展示最关键的信息，包括温度、空气质量、天气状况和日期，非关键信息，如穿衣、洗车等放在下拉页面&lt;/li&gt;
+  &lt;li&gt;断网、loading 等提示，确保用户体验&lt;/li&gt;
+  &lt;li&gt;采用自己喜欢的纯色风格设计小程序&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;界面设计&quot;&gt;界面设计&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;作为一个程序媛，PS、AE 都是 just so so 水平，每次思考要把产品做成什么样子的时候，都很头疼。在 Dribbble 看过那么多太美的作品，脑海中也总构思自己可以做一个这样或那样的东西。然而，理想很丰满，现实太骨感，能把自己的 idea 重现真的有点难呀。搭建这个 Blog 时也是改了好几版才终于比较满意。等毕业之后，没有科研压力了，自己一定要利用业余时间好好学设计~&lt;/p&gt;
+
+&lt;p&gt;回归正题，自己一直喜欢纯色系的设计方案，简约大方。那么采用什么配色方案呢，毫无疑问，蓝色啊（捂脸遁，真的是太爱蓝色了，其实中间尝试过粉色和绿色的配色，但还是觉得蓝色最好看，而且小程序会根据早晚切换背景颜色，浅蓝和深蓝也更能体现夜空）。&lt;/p&gt;
+
+&lt;p&gt;确定设计方案后一切就比较简单啦，按照设计稿开始码代码！&lt;/p&gt;
+
+&lt;h3 id=&quot;写代码-ing&quot;&gt;写代码 ing&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;这部分只想写一下自己的思路，我要慢慢摆脱贴代码这个习惯！&lt;/p&gt;
+
+&lt;p&gt;由于微信小程序支持 ES6 转码，自己刚好也没有太多的 ES6 实践基础，于是果断选择用 ES6 语法完成代码的编写。编写之前需要熟悉小程序的官方开发文档，这里不再赘述，相信对于一个 FE 来说都不是问题啦。&lt;/p&gt;
+
+&lt;p&gt;编写第一步就是数据的获取，这里按照百度地图 API 的文档说明很容易就可以实现。由于地图 API 的封装问题，目前不能通过城市名进行数据请求，只支持根据经纬度获取天气信息，因此自己写了个脚本抓取每个城市的中心点坐标，再根据坐标请求相应的天气数据。由于请求数据有一定的耗时，因此需要在请求前加一个 loading 的动作，在请求失败时跳转失败页面。&lt;/p&gt;
+
+&lt;p&gt;获取到数据后，需要对数据进行处理，再将其渲染到前端页面。这一步需要判断当前为白天还是黑夜、根据当前 PM 2.5 值设置进度条的位置、根据天气状况设置天气动画等。值得一提的是 PM 2.5 的设置，系统默认最大值为1000，当用户所在城市空气质量爆表之后，把最大值存储在&lt;code class=&quot;highlighter-rouge&quot;&gt;localStorage&lt;/code&gt;中，并更新滚动条的取值范围。&lt;/p&gt;
+
+&lt;h3 id=&quot;测试&quot;&gt;测试&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;大致开发完了，我们开始测试吧！首先可以在微信小程序开发工具的模拟器中大致测试下功能，断网提示、请求失败、文本截断、部分异常值的处理等等。没有什么功能性 Bug 之后，可以扫码进行真机测试，看看一些 CSS 样式是否存在兼容性问题。我主要用 iPhone 6P、7、华为大屏、中屏手机进行了测试，修改了两个样式上的问题。&lt;/p&gt;
+
+&lt;h3 id=&quot;发布线上&quot;&gt;发布线上&lt;/h3&gt;
+
+&lt;p&gt;自测完毕后，就可以在开发工具中提交代码啦。接着就是给自己的小程序起一个辨识度高的名字、设置一个好看的 Logo、添加几个标签，完成这些内容后，就可以在微信开放平台中申请审核。审核期大概是两天，审核通过后直接发布线上！大功告成。&lt;/p&gt;
+
+&lt;p&gt;下面是口袋天气的小程序码，可以直接使用微信扫一扫打开小程序，或在&lt;code class=&quot;highlighter-rouge&quot;&gt;微信&lt;/code&gt;-&lt;code class=&quot;highlighter-rouge&quot;&gt;发现&lt;/code&gt;-&lt;code class=&quot;highlighter-rouge&quot;&gt;小程序&lt;/code&gt;中搜索&lt;code class=&quot;highlighter-rouge&quot;&gt;口袋天气&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/pocket-weather.jpg&quot; alt=&quot;pocket-weather&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;后期版本规划&quot;&gt;后期版本规划&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;初版已经上线了，后续会继续对口袋天气进行优化，目前有如下计划：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在支持城市点选的同时，引入地图选点，使天气信息更加精准&lt;/li&gt;
+  &lt;li&gt;支持常用城市收藏&lt;/li&gt;
+  &lt;li&gt;优化天气动画&lt;/li&gt;
+  &lt;li&gt;增加更多背景色，如雾霾天为灰色等&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Tue, 20 Jun 2017 12:00:30 +0800</pubDate>
+        <link>http://localhost:4000/blog/pocket-weather/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/pocket-weather/</guid>
+        
+        <category>CN</category>
+        
+        <category>front-end</category>
+        
+        <category>微信小程序</category>
+        
+        
+        <category>Tech</category>
+        
+      </item>
+    
+      <item>
+        <title>明光以北，蓟门以南</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;那一年我十八岁，&lt;br /&gt;
+这一年我二十五岁，&lt;br /&gt;
+在我一生的黄金时代，&lt;br /&gt;
+我学会了淡漠、但也记得抗争。&lt;br /&gt;
+站在这里，&lt;br /&gt;
+明光以北、蓟门以南，&lt;br /&gt;
+我望着天上半明半暗的云，&lt;br /&gt;
+离开这里，&lt;br /&gt;
+该有留恋吗？&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;没有想到，人生的反转，会来得比电视中的反转剧还滑稽。&lt;/p&gt;
+
+&lt;p&gt;25日，踩着高跟鞋走了两万多步的我，十点钟的时候终于洗了个舒舒服服的澡，潦草的做了个护肤。我想，终于可以安静的在床上挺尸了，直到我打开微信。朋友圈清一色的北邮人BT、论坛关闭通告，我慌张的点开链接，迅速的扫完了文章。了解原尾后，我的手有些发抖，我大声的和室友吐槽，希望可以宣泄心中的委屈与愤怒。&lt;/p&gt;
+
+&lt;p&gt;就在两天前，坐在去往上地的公交上，我在想，当我明年毕业了，我会留恋什么呢？从十八岁踏入北邮校园，到我二十四岁，大概就是王小波口中的黄金时代吧。六年多的时间，我就生活在三环以里的这块地方，我经历了很多，我成熟了不少，我从那个敢说敢做、爱憎分明的水瓶，变成了懂得暗示自己算了吧的大人。时间总是催着我奔跑，我就只能匆匆的拾起那么丁点回忆，这其中，北邮人论坛和北邮人 BT 就占了一大部。&lt;/p&gt;
+
+&lt;p&gt;犹记得大一结束的那个暑假，回到本部的我终于注册了论坛和 BT。那时还是个萌新，只是偶尔水水论坛，回家过了个暑假，竟连帐号名都忘记了，无奈只能重新注册一个，为了不再忘记账号名，我用了名字的全拼做 ID，后来总被人认出真身，也就有了几次啼笑皆非的经历。后来，我下载了「贵邮」，那是我第一次看到&lt;code class=&quot;highlighter-rouge&quot;&gt;明光以北，蓟门以南&lt;/code&gt;这八个字，不知道是谁如此睿智的用它来形容北邮，光是念着，心中就暖暖的漾起了归属感。再后来，就算学校发生了许多不愉快的事情，想想论坛上可爱的 byr，想想这八个字，我依然会义无反顾的「护犊子」，依然为自己是一名 byr 而骄傲。&lt;/p&gt;
+
+&lt;p&gt;当得知论坛将不再对外开放、BT 将永久关闭的那一刻，我说不清自己是什么感受，只想把当时能够想到的所有恶劣的词语用来形容做出这项决定的人。我承认，对于淡漠这项技能，我还不能够游刃有余。当自己所珍惜、热爱的东西遭到侵犯时，我依然冲动着毫不犹豫的站出来，将它护在身后。同一时刻，每一个 byr 都和我做出了同样的选择。在微博、知乎、朋友圈等主流平台上充斥着守护论坛、BT 的文章后，这场保卫战终于以戏剧性的、荒诞的、讽刺的方式结束了。各中详情，我不愿提起，只是觉得好笑，只是心生凄凉。好似有什么东西在慢慢积聚，长成了一个大大的吃豆人，正在慢慢吞噬着我爱的这片明光以北、蓟门以南。我想，我身处其中，被雾霾蒙蔽着眼睛，怎么会看到吃豆人呢？可当我有一天踏出这里，就算着的看到了吃豆人，我又能拿他怎样呢？&lt;/p&gt;
+
+&lt;p&gt;我只能选择独善其身。我只能时刻念着想着我爱的那些人、那些事所留给我的美好念想。我记得在北邮人论坛，我的头像是一只折耳猫，有很多陌生人夸她可爱，年初为了找工作，我加入了意涵团，换了新的头像，没有想到，收到了不少「陌生人」的回复，问我为什么换了头像。原来，有那么多的人在默默记着我。我记得，我上过几次十大，有的是吐槽贴，有的是征友贴，我得到了很多声援，也成功的做了次月老。我记得，大四保研时，我每日沉迷于考研专版，get 了大量北邮导师这样那样的信息，我收到了很多学长学姐给的建议，在后面的两年中，也致力于给更多的学弟学妹分享我掌握的信息。我记得，我的每一次实习归功于招聘实习版块，我总是很骄傲的告诉面试官，我是在北邮人论坛看到招聘启示的。我记得，混迹了六年的论坛，一万多的积分，用过我邮、佳邮、贵邮、北邮人论坛客户端，买过学妹款、十二周年和十三周年的北邮人坛服，我很爱，很爱这里。&lt;/p&gt;
+
+&lt;p&gt;我记得在北邮人 BT，我盼望着能够成为永久用户，年前移动硬盘被摔坏后，我心疼了好久好久。我记得，我买了好多徽章，在商店挑啊挑，那么多男神女神，都不知道如何是好。我记得，我下注了川普，大选唱票那天，我在科研楼焦灼的等待结果。我记得，一年后我就和它告别了，我很舍不得，很舍不得这里。&lt;/p&gt;
+
+&lt;p&gt;我只希望，等我越长越大，也许我有了权利，也许我能够做很多选择，我还能记得这些，记着我爱的、给了我如此美好回忆的这些，时刻不忘初心。&lt;/p&gt;
+</description>
+        <pubDate>Mon, 29 May 2017 21:00:30 +0800</pubDate>
+        <link>http://localhost:4000/blog/byr-bbs-memory/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/byr-bbs-memory/</guid>
+        
+        <category>CN</category>
+        
+        <category>生活</category>
+        
+        
+        <category>Life</category>
+        
+      </item>
+    
+      <item>
+        <title>移动端 Web 页面调试指南</title>
+        <description>&lt;p&gt;本篇文章主要分为以下部分：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;利用 Chrome 模拟移动端开发（Windows、Mac）&lt;/li&gt;
+  &lt;li&gt;利用 Chrome 进行 Android 真机调试（Windows、Mac）&lt;/li&gt;
+  &lt;li&gt;在 Mac 上利用 Safari 进行 iPhone 真机调试&lt;/li&gt;
+  &lt;li&gt;在 Mac 上利用 Safari 模拟移动端开发&lt;/li&gt;
+  &lt;li&gt;在 Mac 上利用 iOS 模拟器进行 Hybrid 开发&lt;/li&gt;
+  &lt;li&gt;在手机上用浏览器查看页面效果（Android、iPhone）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;利用-chrome-模拟移动端开发&quot;&gt;利用 Chrome 模拟移动端开发&lt;/h4&gt;
+
+&lt;p&gt;作为一个前端工程师，每日与 Chrome 打交道，相信大家对 Chrome 的调试方法早已轻车熟路。在这里就简单提下。&lt;/p&gt;
+
+&lt;p&gt;在 Chrome 中打开待调试页面，&lt;code class=&quot;highlighter-rouge&quot;&gt;F12&lt;/code&gt;开启开发者工具（Mac中是&lt;code class=&quot;highlighter-rouge&quot;&gt;cmd+alt+i&lt;/code&gt;）。点击开发者工具左上角的第二个图标（下图中被红色框选中的），待调试页面就会切换到移动终端屏幕展示模式。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/web-debug-in-mobile/1.jpeg&quot; alt=&quot;mobile-debug1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;点击左上角的移动设备名称（如 iPhone6），可以切换设备。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/web-debug-in-mobile/2.png&quot; alt=&quot;mobile-debug2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;同时，&lt;code class=&quot;highlighter-rouge&quot;&gt;Edit&lt;/code&gt;支持自定义设备，可以自己添加一些特殊分辨率的屏幕。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/web-debug-in-mobile/3.png&quot; alt=&quot;mobile-debug3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Chrome 最主要的还是模拟移动设备的屏幕尺寸，由于各种手机厂商会对手机浏览器进行不同程度的定制，真机中的效果可能会与 Chrome 中看到的不同，在不同型号的手机中便会出现形形色色的 Bug。因此，本方法比较适合日常的开发，开发完毕后需要在真机中查看具体效果。若遇到各种兼容性 Bug，就需要真机调试或模拟器调试了。&lt;/p&gt;
+
+&lt;h4 id=&quot;利用-chrome-进行-android-真机调试&quot;&gt;利用 Chrome 进行 Android 真机调试&lt;/h4&gt;
+
+&lt;p&gt;利用 Chrome 可以对 Android 上的 Web 页面、原生 App 中的 WebView 进行调试。方法很简单，在 PC 和 Android 手机上安装最新版的 Chrome 浏览器，将手机与 PC 用数据线连接，手机开启 USB 调试功能，不同机型开启调试功能的方法不一样，请自行百度。在 PC 端的 Chrome 地址栏中输入 &lt;code class=&quot;highlighter-rouge&quot;&gt;chrome://inspect/#devices&lt;/code&gt;，选中&lt;code class=&quot;highlighter-rouge&quot;&gt;Discover USB devices&lt;/code&gt;，若页面中显示出了你的设备名称，表示 Chrome 成功连接到了你的手机。若没有连接成功，请检查数据线是否完好、浏览器是否是新版。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/web-debug-in-mobile/4.png&quot; alt=&quot;mobile-debug4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;连接成功后，用手机的 Chrome 打开想调试的 Web 页面，PC 端的 inspect 页面会同步出现相应的页面信息，点击&lt;code class=&quot;highlighter-rouge&quot;&gt;inspect&lt;/code&gt;即可开始调试。若想调试某 App 中的 WebView 页面，手机中需安装该 App 的 debug 版本，进入 App 中的相应 WebView 页面，PC 端的 Chrome 便会成功获取该页面信息。&lt;/p&gt;
+
+&lt;h4 id=&quot;在-mac-上利用-safari-进行-iphone-真机调试&quot;&gt;在 Mac 上利用 Safari 进行 iPhone 真机调试&lt;/h4&gt;
+
+&lt;p&gt;iPhone 的真机调试与 Android 相似。首先，为 Safari 开启开发者工具，打开 Safari，&lt;code class=&quot;highlighter-rouge&quot;&gt;cmd+,&lt;/code&gt;打开偏好设置，在&lt;code class=&quot;highlighter-rouge&quot;&gt;高级&lt;/code&gt;选项的最下边，选中&lt;code class=&quot;highlighter-rouge&quot;&gt;在菜单中显示开发菜单&lt;/code&gt;。此时，Safari 的菜单栏中就会出现&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;选项。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/web-debug-in-mobile/5.png&quot; alt=&quot;mobile-debug5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;接着，将 iPhone 与 Mac 用数据线连接，在 PC 端 Safari 的&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;中会出现&lt;code class=&quot;highlighter-rouge&quot;&gt;iPhone&lt;/code&gt;选项，选中之后即可看到手机中开启的 Web 页面。&lt;/p&gt;
+
+&lt;p&gt;当出现与 iOS 版本相关的 Bug 时，比如在 iOS 8.x 版本的 iPhone5 中出现了一些问题，采用本方法比较合适，直接连上测试机就可以定位问题了。但对于更普遍的 Bug、或者仅仅想看下页面在真机中的效果，还是采用 iOS 模拟器比较方便。&lt;/p&gt;
+
+&lt;h4 id=&quot;在-mac-上利用-safari-模拟移动端开发&quot;&gt;在 Mac 上利用 Safari 模拟移动端开发&lt;/h4&gt;
+
+&lt;p&gt;Safari 也像 Chrome 一样可以模拟移动端开发。在&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;中选中&lt;code class=&quot;highlighter-rouge&quot;&gt;用户代理&lt;/code&gt;-&lt;code class=&quot;highlighter-rouge&quot;&gt;iPhone&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/web-debug-in-mobile/6.png&quot; alt=&quot;mobile-debug6&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;接着选中&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;中的&lt;code class=&quot;highlighter-rouge&quot;&gt;进入响应式设计模式&lt;/code&gt;，页面就会切成移动显示模式了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/web-debug-in-mobile/7.png&quot; alt=&quot;mobile-debug7&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;作为一个 Chrome 党，平时开发从来没有用过这种方法，好不好用就不做评价啦。&lt;/p&gt;
+
+&lt;h4 id=&quot;在-mac-上利用-ios-模拟器进行-hybrid-开发&quot;&gt;在 Mac 上利用 iOS 模拟器进行 Hybrid 开发&lt;/h4&gt;
+
+&lt;p&gt;iOS 模拟器（iOS Simulator）捆绑在了 Xcode 里，但其本身也是一个独立程序，启动 iOS 模拟器后，可以在 Dock 中看到模拟器的图标。右键选择图标，在&lt;code class=&quot;highlighter-rouge&quot;&gt;选项&lt;/code&gt;中选择&lt;code class=&quot;highlighter-rouge&quot;&gt;在 Dock 中保留&lt;/code&gt;，这样即使关闭模拟器，图标也会出现在 Dock 中，方便以后开发调试。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/web-debug-in-mobile/8.png&quot; alt=&quot;mobile-debug8&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;启动模拟器后，可以在模拟器中的 Safari 打开想调试的页面，再打开 Mac 上的 Safari，在&lt;code class=&quot;highlighter-rouge&quot;&gt;开发&lt;/code&gt;-&lt;code class=&quot;highlighter-rouge&quot;&gt;Simulator&lt;/code&gt;中监听相应页面。但这完全没有必要，这和直接用 Mac 上的 Safari 开发没有什么区别。iOS 模拟器主要是用来调试原生 App 中的 WebView 页面的。&lt;/p&gt;
+
+&lt;p&gt;想要用模拟器调试 WebView 页面，你需要找 NA 的小伙伴给你一个基于源代码打包出来的 App Bundle，因为模拟器上没有 App Store，同时也不支持下载 ipa 文件进行安装。拿到了 App Bundle 后（我的 Bundle 名字叫 IphoneCom.app），打开终端，执行如下语句&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun simctl install booted /Users/ks/Documents/IphoneCom.app&lt;/code&gt;。&lt;code class=&quot;highlighter-rouge&quot;&gt;/Users/ks/Documents/&lt;/code&gt;是你的 App Bundle 所处的位置，如果不知道位置，可以先在终端输入&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun simctl install booted &lt;/code&gt;后，注意后面有个空格，不要输入回车，直接把自己的 App Bundle 拖入终端，终端会自动识别它所在的位置，输入回车，模拟器中就会有相应的 App 了。&lt;/p&gt;
+
+&lt;p&gt;现在可以在模拟器的 App 中打开自己要调试的 WebView 页面啦，可以使用&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun&lt;/code&gt;命令开启相应的页面，我不太喜欢输入页面 URL，所以比较习惯直接对 App 进行操作，从而访问相应的页面。感兴趣的同学可自行百度&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun&lt;/code&gt;的用法。&lt;/p&gt;
+
+&lt;p&gt;打开待调试的页面后，在 Mac 上的 Safari—开发—Simulator 中即可看到相应的 WebView 页面，这样就可以开始相应的调试啦。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/web-debug-in-mobile/9.png&quot; alt=&quot;mobile-debug9&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;每次 App Bundle 中有代码修改时，都需要重新在模拟器中安装 App，选择&lt;code class=&quot;highlighter-rouge&quot;&gt;Simulator&lt;/code&gt;—&lt;code class=&quot;highlighter-rouge&quot;&gt;Reset Content and Settings&lt;/code&gt;重置模拟器，再执行&lt;code class=&quot;highlighter-rouge&quot;&gt;xcrun simctl install booted /Users/ks/Documents/IphoneCom.app&lt;/code&gt;安装 App。&lt;/p&gt;
+
+&lt;h4 id=&quot;在手机上用浏览器查看页面效果androidiphone&quot;&gt;在手机上用浏览器查看页面效果（Android、iPhone）&lt;/h4&gt;
+
+&lt;p&gt;最后，如果你只是想用 Android 或 iPhone 的浏览器看看本地代码的效果，在本地开启一个 server 后，比如&lt;code class=&quot;highlighter-rouge&quot;&gt;localhost:8080&lt;/code&gt;，在手机浏览器中将&lt;code class=&quot;highlighter-rouge&quot;&gt;localhost&lt;/code&gt;替换成电脑的 IP 地址即可看到本地的页面啦。&lt;/p&gt;
+</description>
+        <pubDate>Thu, 18 May 2017 17:00:30 +0800</pubDate>
+        <link>http://localhost:4000/blog/web-debug-in-mobile/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/web-debug-in-mobile/</guid>
+        
+        <category>CN</category>
+        
+        <category>front-end</category>
+        
+        <category>Mobile</category>
+        
+        
+        <category>Tech</category>
+        
+      </item>
+    
+      <item>
+        <title>数据库知识点总结</title>
+        <description>&lt;p&gt;《SQL 必知必会》是一本通俗易懂的数据库入门书籍，本篇文章归纳总结了书中没有提及的，但在笔试面试中经常出现的知识点。&lt;/p&gt;
+
+&lt;h6 id=&quot;mysql-日志&quot;&gt;MySQL 日志&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;错误日志&lt;/code&gt;：&lt;code class=&quot;highlighter-rouge&quot;&gt;log-err&lt;/code&gt;，记录启动，运行，停止 MySQL 时出现的信息。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;二进制日志&lt;/code&gt;：&lt;code class=&quot;highlighter-rouge&quot;&gt;log-bin&lt;/code&gt;，记录所有更改数据的语句，还用于复制，恢复数据库用。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;查询日志&lt;/code&gt;： &lt;code class=&quot;highlighter-rouge&quot;&gt;log&lt;/code&gt;，记录建立的客户端连接和执行的语句。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;慢查询日志&lt;/code&gt;： &lt;code class=&quot;highlighter-rouge&quot;&gt;log-slow-queries&lt;/code&gt;，记录所有执行超过&lt;code class=&quot;highlighter-rouge&quot;&gt;long-query-time&lt;/code&gt;秒的所有查询。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;更新日志&lt;/code&gt;： &lt;code class=&quot;highlighter-rouge&quot;&gt;log-update&lt;/code&gt;，二进制日志在 MySQL 5.1 中代替了老的更新日志。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;mysql-主master从slave复制&quot;&gt;MySQL 主（master）从（slave）复制&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;master&lt;/code&gt;将数据改变记录到二进制日志（binary log）中，也即是配置文件（log-bin）指定的文件；&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;slave&lt;/code&gt;将&lt;code class=&quot;highlighter-rouge&quot;&gt;master&lt;/code&gt;的二进制日志拷贝到它自身的中继日志（relay log）中；&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;slave&lt;/code&gt;重做中继日志中的事件，将改变反映它自己的数据（数据重演）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;mysql-中的通信协议&quot;&gt;MySQL 中的通信协议&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;TCP/IP 协议&lt;/code&gt;：是一套被用于连接互联网上各主机的通信协议。TCP/IP一开始是用于 UNIX 操作系统建立互联网通信的。现在它已经成为了一种网络数据传输的事实标准。即便那些拥有自己通信协议的网络操作系统，如 Netware 也支持 TCP/IP 协议。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Unix Socket 协议&lt;/code&gt;：一个socket是一种内部进程通信形式，它被用于在相同主机上形成进程间的双向通信连接点(在本地系统上的一个物理文件)。通常登入 MySQL 服务器中使用这个协议。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Share Memory 协议&lt;/code&gt;：一个在程序间传送数据的有效方法。一个程序会建立一个内存区以提供其它受允许的进程进行访问。仅可工作于 Windows 系统主机中。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Named Pipes 协议&lt;/code&gt;：这个协议也是只有 windows 才可以用，同 Share memory 一样，使用此协议，一个 host 上依然只能有一个 server ，即使是使用不同的端口也不行。Named Pipes 是为局域网而开发的协议。内存的一部分被某个进程用来向另一个进程传递信息，因此一个进程的输出就是另一个进程的输入。第二个进程可以是本地的（与第一个进程位于同一台计算机上），也可以是远程的（位于联网的计算机上）。正因为如此，假如你的环境中没有或者禁用 TCP/IP 环境，而且是windows 服务器，那么好歹你的数据库还能工作。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;数据字典&quot;&gt;数据字典&lt;/h6&gt;
+
+&lt;p&gt;数据字典（Data dictionary）是对于数据模型中的数据对象或者项目的描述的集合，在需求分析阶段建立，在数据库设计过程中不断修改、充实和完善的。&lt;/p&gt;
+
+&lt;h6 id=&quot;事务的四个特性acid&quot;&gt;事务的四个特性（ACID）&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;原子性（Atomicity）&lt;/code&gt;：事务是一个不可分割的整体，为了保证事务的总体目标，事务必须具有原子性，即当数据修改时，要么全执行，要么全不执行，即不允许事务部分的完成，避免了只执行这些操作的一部分而带来的错误。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;一致性（Consistency）&lt;/code&gt;：一个事务执行之前和之后，数据库数据必须要保持一致性状态。数据库的一致性状态应该满足模式锁指定的约束，那么在完整执行该事务后数据仍然处于一致性的状态。为了维护所有数据的完整性，在关系型数据库中，所有规则应用到事务的修改中。数据库的一致性状态由用户来负责，由并发控制机制实现。例如银行转账，转账前后两个账户金额之和保持不变。由此并发操作带来的数据不一致性包括丢失数据修改、脏读数据、不可重复读、产生幽灵数据。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;隔离性（Isolation）&lt;/code&gt;：隔离性也被称为独立性，当两个或多个事务并发执行时，为了保证数据的安全性，将一个事务内部的操作与事务的操作隔离起来，不被其它正在执行的事务看到。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;持久性（Durability）&lt;/code&gt;：持久性也被称为永久性，事务完成之后，DBMS 保证它对数据库中的数据的修改是永久性的，当系统或介质发生故障时，该修改也永久保持。持久性一般通过数据库备份与恢复来保证。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;范式&quot;&gt;范式&lt;/h6&gt;
+
+&lt;p&gt;设计关系数据库时，遵从不同的规范要求，设计出合理的关系型数据库，这些不同的规范要求被称为不同的范式，各种范式呈递次规范，越高的范式数据库冗余越小。&lt;/p&gt;
+
+&lt;p&gt;目前关系数据库有六种范式：第一范式（1NF）、第二范式（2NF）、第三范式（3NF）、巴斯-科德范式（BCNF）、第四范式(4NF）和第五范式（5NF，又称完美范式）。满足最低要求的范式是第一范式（1NF）。在第一范式的基础上进一步满足更多规范要求的称为第二范式（2NF），其余范式以次类推。一般说来，数据库只需满足第三范式(3NF）就行了。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;第一范式&lt;/code&gt;：指在关系模型中，对域添加的一个规范要求，所有的域都应该是原子性的，即数据库表的每一列都是不可分割的原子数据项，而不能是集合，数组，记录等非原子数据项。即实体中的某个属性有多个值时，必须拆分为不同的属性。在符合第一范式（1NF）表中的每个域值只能是实体的一个属性或一个属性的一部分。简而言之，第一范式就是无重复的域。考虑这样一个表，【联系人】（姓名，性别，电话），如果在实际场景中，一个联系人有家庭电话和公司电话，那么这种表结构设计就没有达到 1NF。要符合 1NF，需把列（电话）拆分，即：【联系人】（姓名，性别，家庭电话，公司电话）。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;第二范式&lt;/code&gt;：在 1NF 的基础上，还需包含两部分内容，一是表必须有一个主键；二是没有包含在主键中的列必须完全依赖于主键，而不能只依赖于主键的一部分。考虑一个订单明细表：【OrderDetail】（OrderID，ProductID，UnitPrice，Discount，Quantity，ProductName）。因为我们知道在一个订单中可以订购多种产品，所以单单一个 OrderID 是不足以成为主键的，主键应该是（OrderID，ProductID）。显而易见 Discount（折扣），Quantity（数量）完全依赖（取决）于主键（OderID，ProductID），而 UnitPrice，ProductName 只依赖于 ProductID。所以 OrderDetail 表不符合 2NF。不符合 2NF 的设计容易产生冗余数据。可以把【OrderDetail】表拆分为【OrderDetail】（OrderID，ProductID，Discount，Quantity）和【Product】（ProductID，UnitPrice，ProductName）来消除原订单表中 UnitPrice，ProductName 多次重复的情况。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;第三范式&lt;/code&gt;：在 2NF 的基础上，非主键列必须直接依赖于主键，不能存在传递依赖。即不能存在：非主键列 A 依赖于非主键列 B，非主键列 B 依赖于主键的情况。考虑一个订单表【Order】（OrderID，OrderDate，CustomerID，CustomerName，CustomerAddr，CustomerCity）主键是（OrderID）。其中 OrderDate，CustomerID，CustomerName，CustomerAddr，CustomerCity 等非主键列都完全依赖于主键（OrderID），所以符合 2NF。不过问题是 CustomerName，CustomerAddr，CustomerCity 直接依赖的是 CustomerID（非主键列），而不是直接依赖于主键，它是通过传递才依赖于主键，所以不符合 3NF。通过拆分【Order】为【Order】（OrderID，OrderDate，CustomerID）和【Customer】（CustomerID，CustomerName，CustomerAddr，CustomerCity）从而达到 3NF。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;第二范式（2NF）和第三范式（3NF）的概念很容易混淆，区分它们的关键点在于，2NF：非主键列是否完全依赖于主键，还是依赖于主键的一部分；3NF：非主键列是直接依赖于主键，还是直接依赖于非主键列。&lt;/p&gt;
+
+&lt;h6 id=&quot;数据库设计的六个阶段&quot;&gt;数据库设计的六个阶段&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;需求分析&lt;/code&gt;：分析用户的需求，包括数据、功能和性能需求。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;概念结构设计&lt;/code&gt;：主要采用 E-R 模型进行设计，包括画 E-R 图。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;逻辑结构设计&lt;/code&gt;：通过将 E-R 图转换成表，实现从 E-R 模型到关系模型的转换，进行关系规范化。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;物理设计&lt;/code&gt;：主要是为所设计的数据库选择合适的存储结构和存储路径。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;数据库的实施&lt;/code&gt;：包括编程、测试和试运行。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;数据库运行和维护&lt;/code&gt;：系统的运行与数据库的日常维护。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;关系数据模型的三个组成部分&quot;&gt;关系数据模型的三个组成部分&lt;/h6&gt;
+
+&lt;p&gt;数据结构，操作集合（数据操纵），完整性约束。&lt;/p&gt;
+
+&lt;h6 id=&quot;数据库并发操作带来的问题&quot;&gt;数据库并发操作带来的问题&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;丢失更新&lt;/code&gt;：当两个或多个事物读入同一数据并修改，会发生丢失更新问题，即后一个事物更新的结果被前一事务所做更新覆盖。即当事务 A 和 B 同时进行时，事务 A 对数据已经改变但并未提交时 B 又对同一数据进行了修改（注意此时数据是 A 还未提交改变的数据），到时 A 做的数据改动丢失了。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;不可重复读&lt;/code&gt;：当两个数据读取某个数据后，另一事务执行了对该数据的更新，当前一事务再次读取该数据（希望与第一次读取的是相同的值）时，得到的数据与前一次的不一样，这是由于第一次读取数据后，事务 B 对其做了修改，导致再次读取数据时与第一次读取的数据不相同。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;脏读&lt;/code&gt;：当一个事务修改某个数据后，另一事务对该数据进行了读取，由于某种原因前一事务撤销了对改数据的修改，即将修改过的数据恢复原值，那么后一事务读到的数据与数据可得不一致，称之为脏数据。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;注意：还有一个叫&lt;code class=&quot;highlighter-rouge&quot;&gt;幽灵数据&lt;/code&gt;，与脏数据类似，不过幽灵数据是指事务提交之后读到的数据，但是在读取之后又进行了对前一事务的恢复，而脏数据是指提交前读取的数据。&lt;/p&gt;
+
+&lt;h6 id=&quot;聚集索引和非聚集索引&quot;&gt;聚集索引和非聚集索引&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;聚集索引&lt;/code&gt;：该索引中键值的逻辑顺序决定了表中相应行的物理顺序。聚集索引类似于电话簿，后者按姓氏排列数据。由于聚集索引规定数据在表中的物理存储顺序，因此一个表只能包含一个聚集索引。但该索引可以包含多个列，就像电话簿按姓氏和名字进行组织一样。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;非聚集索引&lt;/code&gt;：数据存储在一个地方，索引存储在另一个地方，索引带有指针指向数据的存储位置。非聚集索引中的项目按索引键值的顺序存储，而表中的信息按另一种顺序存储（这可以由聚集索引规定）。对于非聚集索引，可以为在表非聚集索引中查找数据时常用的每个列创建一个非聚集索引。有些书籍包含多个索引。例如，一本介绍园艺的书可能会包含一个植物通俗名称索引，和一个植物学名索引，因为这是读者查找信息的两种最常用的方法。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;数据库的三级模式&quot;&gt;数据库的三级模式&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;模式&lt;/code&gt;：模式又称概念模式或逻辑模式，对应于概念级。它是由数据库设计者综合所有用户的数据，按照统一的观点构造的全局逻辑结构，是对数据库中全部数据的逻辑结构和特征的总体描述，是所有用户的公共数据视图（全局视图，数据库的表，字段的类型等等）。它是由数据库管理系统提供的数据模式描述语言（Data Description Language，DDL）来描述、定义的，体现、反映了数据库系统的整体观。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;外模式&lt;/code&gt;：外模式又称子模式，对应于用户级。它是某个或某几个用户所看到的数据库的数据视图，是与某一应用有关的数据的逻辑表示。外模式是从模式导出的一个子集，包含模式中允许特定用户使用的那部分数据。用户可以通过外模式描述语言来描述、定义对应于用户的数据记录（外模式），也可以利用数据操纵语言（Data Manipulation Language，DML）对这些数据记录进行处理。外模式反映了数据库的用户观（视图、查出数据的表）。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;内模式&lt;/code&gt;：内模式又称存储模式，对应于物理级，它是数据库中全体数据的内部表示或底层描述，它描述了数据在存储介质上的存储方式及物理结构（顺序存储、按照B树结构存储还是按hash方法存储），对应着实际存储在外存储介质上的数据库。内模式由内模式描述语言来描述、定义，它是数据库的存储观。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;数据库中数据不一致的原因&quot;&gt;数据库中数据不一致的原因：&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;数据冗余&lt;/code&gt;：如果数据库中存在冗余数据，比如两张表中都存储了用户的地址，在用户的地址发生改变时，如果只更新了一张表中的数据，那么这两张表中就有了不一致的数据。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;并发控制不当&lt;/code&gt;：比如某个订票系统中，两个用户在同一时间订同一张票，如果并发控制不当，可能会导致一张票被两个用户预订的情况。当然这也与元数据的设计有关。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;故障和错误&lt;/code&gt;：如果软硬件发生故障造成数据丢失等情况，也可能引起数据不一致的情况。因此我们需要提供数据库维护和数据恢复的一些措施。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;access-数据库的七种对象&quot;&gt;Access 数据库的七种对象&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;表（Table）&lt;/code&gt;：表是数据库的基本对象，是创建其它几种对象的基础。表由记录组成，记录由字段组成，表用来存贮数据库的数据，故又称数据表。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;查询（Query）&lt;/code&gt;：查询可以按索引快速查找到需要的记录，按要求筛选记录并能连接若干个表的字段组成新表。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;窗体（Form）&lt;/code&gt;：窗体提供了一种方便的浏览、输入及更改数据的窗口。还可以创建子窗体显示相关联的表的内容。窗体也称表单。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;报表（Report）&lt;/code&gt;：报表的功能是将数据库中的数据分类汇总，然后打印出来，以便分析。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;宏（Macro）&lt;/code&gt;：宏相当于 DOS 中的批处理，用来自动执行一系列操作。Access 列出了一些常用的操作供用户选择，使用起来十分方便。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;模块（Module）&lt;/code&gt;：模块的功能与宏类似，但它定义的操作比宏更精细和复杂，用户可以根据自己的需要编写程序。模块使用 Visual Basic 编程。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;页&lt;/code&gt;：是一种特殊的直接连接到数据库中数据的一种 WEB 页。通过数据访问页将数据发布到 Internet 或 Intranet 上，并可以适用浏览器进行数据的维护和操作。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;数据库处理一个查询的步骤&quot;&gt;数据库处理一个查询的步骤&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;客户端发送一条查询给服务器；&lt;/li&gt;
+  &lt;li&gt;服务器先会检查查询缓存&lt;code class=&quot;highlighter-rouge&quot;&gt;query cache&lt;/code&gt;，如果命中了缓存，则立即返回存储在缓存中的结果，否则进入下一个阶段；&lt;/li&gt;
+  &lt;li&gt;服务器端进行 SQL 解析 &lt;code class=&quot;highlighter-rouge&quot;&gt;parsing&lt;/code&gt;，预处理&lt;code class=&quot;highlighter-rouge&quot;&gt;transition&lt;/code&gt;，再由优化器&lt;code class=&quot;highlighter-rouge&quot;&gt;optimization&lt;/code&gt;生成对应的执行计划；&lt;/li&gt;
+  &lt;li&gt;根据优化器生成的执行计划，调用存储引擎的 API 来执行分布&lt;code class=&quot;highlighter-rouge&quot;&gt;distribution&lt;/code&gt;查询；&lt;/li&gt;
+  &lt;li&gt;将结果返回给客户端。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;e-r-模型的基本元素&quot;&gt;E-R 模型的基本元素&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;实体（Entities）&lt;/code&gt;：实体是首要的数据对象，常用于表示一个人、地方、某样事物或某个事件。一个特定的实体被称为实体实例（entity instance 或 entity occurrence）。实体用长方形框表示，实体的名称标识在框内。一般名称单词的首字母大写。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;关系（Relationships）&lt;/code&gt;：关系表示一个或多个实体之间的联系。关系依赖于实体，一般没有物理概念上的存在。关系最常用来表示实体之间，一对一，一对多，多对多的对应。关系的构图是一个菱形，关系的名称一般为动词。关系的端点联系着角色（role）。一般情况下角色名可以省略，因为实体名和关系名已经能清楚的反应角色的概念，但有些情况下我们需标出角色名来避免歧义。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;属性（Attributes）&lt;/code&gt;：属性为实体提供详细的描述信息。一个特定实体的某个属性被称为属性值。Employee 实体的属性可能有：emp-id, emp-name, emp-address, phone-no……。属性一般以椭圆形表示，并与描述的实体连接。属性可被分为两类：标识符（identifiers），描述符（descriptors）。Identifiers 可以唯一标识实体的一个实例（key），可以由多个属性组成。E-R 图中通过在属性名下加上下划线来标识。多值属性（multivalued attributes）用两条线与实体连接，eg：hobbies属性（一个人可能有多个hobby，如reading，movies…）。复合属性（Complex attributes）本身还有其它属性。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;辨别强实体与弱实体：强实体内部有唯一的标识符。弱实体（weak entities）的标识符来自于一个或多个其它强实体。弱实体用双线长方形框表示，依赖于强实体而存在。&lt;/p&gt;
+
+&lt;h6 id=&quot;数据独立性&quot;&gt;数据独立性&lt;/h6&gt;
+
+&lt;p&gt;数据独立性是数据库系统的一个最重要的目标之一。它能使数据独立于应用程序。数据独立性包括数据的物理独立性和逻辑独立性。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;物理独立性&lt;/code&gt;：物理独立性是指用户的应用程序与存储在磁盘上的数据库中数据是相互独立的。即，数据在磁盘上怎样存储由 DBMS 管理，用户程序不需要了解，应用程序要处理的只是数据的逻辑结构，这样当数据的物理存储改变了，应用程序不用改变。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;逻辑独立性&lt;/code&gt;：逻辑独立性是指用户的应用程序与数据库的逻辑结构是相互独立的，即，当数据的逻辑结构改变时，用户程序也可以不变。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;关系代数基本操作符&quot;&gt;关系代数基本操作符&lt;/h6&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;选择操作符&lt;/code&gt;：选择表中符合条件的元组（行），\(\sigma_{p}(R)\)，\(p\)表示选择条件，\(R\)表示表格。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;投影操作符&lt;/code&gt;：选择表中符合条件的（属性）列，\(\Pi_{A,B,…}(R)\)，右下角表示表的域（每一列的表头）。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;并操作符&lt;/code&gt;：\(\cap\)。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;差操作符&lt;/code&gt;：\(-\)。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;笛卡儿积&lt;/code&gt;：\(\times\)。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;自然连接&lt;/code&gt;：\(\infty\)。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default&quot;&gt;&lt;/script&gt;
+
+</description>
+        <pubDate>Sun, 07 May 2017 15:00:30 +0800</pubDate>
+        <link>http://localhost:4000/blog/sql-notes/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/sql-notes/</guid>
+        
+        <category>CN</category>
+        
+        <category>SQL</category>
+        
+        
+        <category>Tech</category>
+        
+      </item>
+    
+      <item>
+        <title>前端性能优化总结</title>
+        <description>&lt;p&gt;随着前端技术的飞速发展，性能问题越来越受到重视，本文从代码和网络性能两部分，总结了常用的前端优化方法。&lt;/p&gt;
+
+&lt;h3 id=&quot;1-应用性能分析&quot;&gt;1. 应用性能分析&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;性能分析是优化任何应用程序时的重要一步。盲目尝试优化 Web 应用往往会出现效率低、收益少等问题。因此，在优化前进行性能分析是非常关键的一步。&lt;/p&gt;
+
+&lt;p&gt;当下 Web 端的性能诊断工具已经非常丰富，如&lt;a href=&quot;http://www.webpagetest.org/&quot;&gt;WebPageTest&lt;/a&gt;、&lt;a href=&quot;https://developers.google.com/speed/pagespeed/&quot;&gt;Google PageSpeed&lt;/a&gt;、&lt;a href=&quot;http://developer.yahoo.com/yslow/&quot;&gt;YSlow&lt;/a&gt;。可以通过上述工具分析自己的网站性能，查找影响性能的原因。&lt;/p&gt;
+
+&lt;p&gt;如果不想安装上面的扩展插件，利用&lt;code class=&quot;highlighter-rouge&quot;&gt;Chrome Dev Tools&lt;/code&gt;中的时间线和网络视图也可以很方便的定位问题所在。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Network&lt;/code&gt;可以帮助识别出由于请求缓慢而导致的延迟。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/fe-optimizing/1.png&quot; alt=&quot;network&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Timeline&lt;/code&gt;可以帮忙找出疑似较长的&lt;code class=&quot;highlighter-rouge&quot;&gt;Evaluate Script&lt;/code&gt;事件。Chrome 用四种颜色表示不同的事件：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/fe-optimizing/2.png&quot; alt=&quot;recalculate-style&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;蓝色：网络通信和HTML解析&lt;/li&gt;
+    &lt;li&gt;黄色：JavaScript执行&lt;/li&gt;
+    &lt;li&gt;紫色：样式计算和布局，即重排&lt;/li&gt;
+    &lt;li&gt;绿色：重绘&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ikongsong.com/assets/images/posts/fe-optimizing/3.png&quot; alt=&quot;pie&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;哪种颜色的色块越多，就说明应用将性能耗费在了哪里。找到性能损耗的中心可以让你有效率地达到优化的目标。&lt;/p&gt;
+
+&lt;p&gt;对后端的性能分析会更加困难。通常情况下，确认一个耗费较多时间的请求可以让你明确应该优先分析哪一个服务。对于后端的分析工具来说，则取决于所构建的技术栈。&lt;/p&gt;
+
+&lt;h3 id=&quot;2-代码优化&quot;&gt;2. 代码优化&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;21-压缩代码&quot;&gt;2.1 压缩代码&lt;/h4&gt;
+
+&lt;p&gt;JavaScript 应用是以源码形式进行分发的，而源码解析的效率是要比字节码低的。对于一小段脚本来说，区别可以忽略不计。但是对于更大型的应用，脚本的大小会对应用启动时间有着负面的影响。目前很多工具都实现了代码的压缩功能，如&lt;code class=&quot;highlighter-rouge&quot;&gt;Webpack&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;Gulp&lt;/code&gt;。同时，还可以利用这些工具对 CSS 代码进行压缩。&lt;/p&gt;
+
+&lt;h4 id=&quot;22-避免或最小化-js-和-css-的使用而阻塞渲染&quot;&gt;2.2 避免或最小化 JS 和 CSS 的使用而阻塞渲染&lt;/h4&gt;
+
+&lt;p&gt;JS 和 CSS 资源都会阻塞页面的渲染。通过采取某些规则，可以保证你的脚本和 CSS 被尽可能快速地处理，以便于浏览器能够显示你的网站内容。&lt;/p&gt;
+
+&lt;h5 id=&quot;221-css-的规则&quot;&gt;2.2.1 CSS 的规则&lt;/h5&gt;
+
+&lt;p&gt;通过使用 CSS 媒体查询，告诉浏览器，哪些 CSS 样式表应用在某个特定的显示媒体上。举个例子，用于打印的某些规则可以被赋予比用于屏幕显示更低的优先级。&lt;/p&gt;
+
+&lt;p&gt;媒体查询可以被设置成&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;link&amp;gt;&lt;/code&gt;标签属性：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/css&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;media=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;only screen and (max-device-width: 480px)&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mobile-device.css&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;同时，网页上的资源加载是从上往下顺序加载的，所以 CSS 放在页面的顶部能够优先渲染页面，让用户感觉页面加载很快。&lt;/p&gt;
+
+&lt;h5 id=&quot;222-js-的规则&quot;&gt;2.2.2 JS 的规则&lt;/h5&gt;
+
+&lt;p&gt;至于 JS，关键就在于遵循某些用于内联 JS 的规则（比如内联在 HTML 文件当中的代码）。内联 JS 应该尽可能短，并将其放在不会阻塞页面剩余部分解析的地方。换句话说，被放在 HTML 树中间的内联 JS 将会在这个地方阻塞解析器，并强制其等待直到脚本被执行完毕。如果在 HTML 文件中随意放了一些大的代码块或者很多小的代码块，这会成为性能杀手。内联可以有效减少额外对于某些特定脚本的网络请求。但是对于重复使用的脚本或者大的代码块来说，这个好处就可以忽略不计了。&lt;/p&gt;
+
+&lt;p&gt;防止 JS 阻塞解析器和渲染器的一种方法就是将&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script&amp;gt;&lt;/code&gt;标签标记为异步的。这限制了我们对于 DOM 的访问但是可以让浏览器不管脚本的执行状态而继续解析和渲染页面。换句话说，为了获得最佳的启动时间，确保那些对于渲染不重要的脚本已经通过异步属性的方式标记成异步的了。&lt;/p&gt;
+
+&lt;p&gt;对于不能标记为异步的 JS 脚本，可以放在页面底部最后加载，防止阻塞其它资源。&lt;/p&gt;
+
+&lt;h4 id=&quot;23-避免空的-src-和-href&quot;&gt;2.3 避免空的 src 和 href&lt;/h4&gt;
+
+&lt;p&gt;当 link 标签的&lt;code class=&quot;highlighter-rouge&quot;&gt;href&lt;/code&gt;属性为空、script 标签的&lt;code class=&quot;highlighter-rouge&quot;&gt;src&lt;/code&gt;属性为空的时候，浏览器渲染的时候会把当前页面的 URL 作为它们的属性值，从而把页面的内容加载进来作为它们的值。所以要避免犯这样的疏忽。&lt;/p&gt;
+
+&lt;h4 id=&quot;24-使用索引加速数据库查询&quot;&gt;2.4 使用索引加速数据库查询&lt;/h4&gt;
+
+&lt;p&gt;索引是一个过程，即数据库所创建的快速访问数据结构，从内部映射到键（在关系数据库中的列），可以提高检索相关数据的速度。大多数现代数据库都支持索引。为了使用索引来优化你的查询，你将需要研究一下应用程序的访问模式：什么是最常见的查询，在哪个键或列中执行搜索，等等。&lt;/p&gt;
+
+&lt;h4 id=&quot;25-js-代码&quot;&gt;2.5 JS 代码&lt;/h4&gt;
+
+&lt;h5 id=&quot;251-慎用-with&quot;&gt;2.5.1 慎用 with　&lt;/h5&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;obj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; 
+	&lt;span class=&quot;nx&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;上述代码块的行为实际上是修改了代码块中的执行环境 ，将 obj 放在了其作用域链的最前端，在 with 代码块中访问非局部变量是都是先从 obj 上开始查找，如果没有再依次按作用域链向上查找，因此使用 with 相当于增加了作用域链长度。而每次查找作用域链都是要消耗时间的，过长的作用域链会导致查找性能下降。因此，除非你能肯定在 with 代码中只访问 obj 中的属性，否则慎用 with，可以使用局部变量缓存需要访问的属性。&lt;/p&gt;
+
+&lt;h5 id=&quot;252-避免使用-eval-和-function&quot;&gt;2.5.2 避免使用 eval 和 Function&lt;/h5&gt;
+
+&lt;p&gt;每次 eval 或 Function 构造函数作用于字符串表示的源代码时，脚本引擎都需要将源代码转换成可执行代码。这是很消耗资源的操作（通常比简单的函数调用慢 100 倍以上）。&lt;/p&gt;
+
+&lt;p&gt;eval 函数效率特别低，由于事先无法知晓传给 eval 的字符串中的内容，eval 在其上下文中解释要处理的代码，也就是说编译器无法优化上下文，因此只能有浏览器在运行时解释代码。这对性能影响很大。&lt;/p&gt;
+
+&lt;p&gt;Function 构造函数比 eval 略好，因为使用此代码不会影响周围代码，但其速度仍很慢。&lt;/p&gt;
+
+&lt;p&gt;此外，使用 eval 和 Function 也不利于 JS 压缩工具执行压缩。&lt;/p&gt;
+
+&lt;h5 id=&quot;253--减少作用域链查找&quot;&gt;2.5.3  减少作用域链查找&lt;/h5&gt;
+
+&lt;p&gt;如果在循环中需要访问非本作用域下的变量时请在遍历之前用局部变量缓存该变量，并在遍历结束后再重写那个变量，这一点对全局变量尤其重要，因为全局变量处于作用域链的最顶端，访问时的查找次数是最多的。&lt;/p&gt;
+
+&lt;h5 id=&quot;254-数据访问&quot;&gt;2.5.4 数据访问&lt;/h5&gt;
+
+&lt;p&gt;JS 中的数据访问包括直接量 (字符串、正则表达式 )、变量、对象属性以及数组，其中对直接量和局部变量的访问是最快的，对对象属性以及数组的访问需要更大的开销。当出现以下情况时，建议将数据放入局部变量：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;对任何对象属性的访问超过 1 次&lt;/li&gt;
+    &lt;li&gt;对任何数组成员的访问次数超过 1 次&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;另外，还应当尽可能的减少对对象以及数组深度查找。&lt;/p&gt;
+
+&lt;h5 id=&quot;255-字符串拼接&quot;&gt;2.5.5 字符串拼接&lt;/h5&gt;
+
+&lt;p&gt;在 JS 中使用&lt;code class=&quot;highlighter-rouge&quot;&gt;+&lt;/code&gt;号来拼接字符串效率是比较低的，因为每次运行都会开辟新的内存并生成新的字符串变量，然后将拼接结果赋值给新变量。与之相比更为高效的做法是使用数组的&lt;code class=&quot;highlighter-rouge&quot;&gt;join&lt;/code&gt;方法，即将需要拼接的字符串放在数组中最后调用其 join 方法得到结果。不过由于使用数组也有一定的开销，因此当需要拼接的字符串较多的时候可以考虑用此方法。&lt;/p&gt;
+
+&lt;h4 id=&quot;26-dom-优化&quot;&gt;2.6 DOM 优化&lt;/h4&gt;
+
+&lt;h5 id=&quot;261-在使用-dom-操作库时用上-array-ids&quot;&gt;2.6.1 在使用 DOM 操作库时用上 array-ids&lt;/h5&gt;
+
+&lt;p&gt;如果你正在使用&lt;code class=&quot;highlighter-rouge&quot;&gt;React&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;Ember&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;Angular&lt;/code&gt;或者其他 DOM 操作库，使用&lt;code class=&quot;highlighter-rouge&quot;&gt;array-ids&lt;/code&gt;（或者 Angular 1.x 中的&lt;code class=&quot;highlighter-rouge&quot;&gt;track-by&lt;/code&gt;特性）非常有助于实现高性能，对于动态网页尤其如此。此特性的主要概念就是尽可能多地重用已有的节点。Array ids 使得 DOM 操作引擎可以知道在什么时候某个节点可以被映射到数组当中的某个元素。没有 array-ids 或者 track-by 的话，大部分库都会进行重新排序而摧毁已有的节点并重新创建新的。这就非常损耗性能了。&lt;/p&gt;
+
+&lt;h5 id=&quot;262-重排和重绘&quot;&gt;2.6.2 重排和重绘&lt;/h5&gt;
+
+&lt;p&gt;网页生成的时候，至少会渲染一次。用户访问的过程中，还会不断重新渲染。&lt;/p&gt;
+
+&lt;p&gt;以下三种情况，会导致网页重新渲染。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;修改DOM&lt;/li&gt;
+    &lt;li&gt;修改样式表&lt;/li&gt;
+    &lt;li&gt;用户事件（比如鼠标悬停、页面滚动、输入框键入文字、改变窗口大小等等）&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;重新渲染，就需要重新生成布局和重新绘制。前者叫做&lt;code class=&quot;highlighter-rouge&quot;&gt;重排&lt;/code&gt;（reflow），后者叫做&lt;code class=&quot;highlighter-rouge&quot;&gt;重绘&lt;/code&gt;（repaint）。提高网页性能，就是要降低重排和重绘的频率和成本，尽量少触发重新渲染。&lt;/p&gt;
+
+&lt;p&gt;一般来说，样式的写操作之后，如果有下面这些属性的读操作，都会引发浏览器立即重新渲染。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;offsetTop/Left/Width/Height&lt;/li&gt;
+    &lt;li&gt;scrollTop/Left/Width/Height&lt;/li&gt;
+    &lt;li&gt;clientTop/Left/Width/Height&lt;/li&gt;
+    &lt;li&gt;getComputedStyle()&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;因此，减少重排和重绘的一般规则为：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;样式表越简单，重排和重绘就越快。&lt;/li&gt;
+    &lt;li&gt;重排和重绘的 DOM 元素层级越高，成本就越高。&lt;/li&gt;
+    &lt;li&gt;table 元素的重排和重绘成本，要高于 div 元素&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;根据上述规则，有如下技巧可以降低浏览器重新渲染的频率和成本。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DOM 的多个读操作（或多个写操作），应该放在一起。不要两个读操作之间，加入一个写操作。&lt;/li&gt;
+  &lt;li&gt;如果某个样式是通过重排得到的，那么最好缓存结果。避免下一次用到的时候，浏览器又要重排。&lt;/li&gt;
+  &lt;li&gt;不要一条条地改变样式，而要通过改变&lt;code class=&quot;highlighter-rouge&quot;&gt;class&lt;/code&gt;，或者&lt;code class=&quot;highlighter-rouge&quot;&gt;csstext&lt;/code&gt;属性，一次性地改变样式。&lt;/li&gt;
+  &lt;li&gt;尽量使用离线 DOM，而不是真实的网面 DOM。&lt;/li&gt;
+  &lt;li&gt;需要对某个节点进行多次操作时，先将元素设为 display: none（需要1次重排和重绘），对这个节点进行操作后再恢复显示。&lt;/li&gt;
+  &lt;li&gt;position 属性为 absolute 或 fixed 的元素，重排的开销会比较小，因为不用考虑它对其他元素的影响。&lt;/li&gt;
+  &lt;li&gt;只在必要的时候，才将元素的 display 属性为可见。另外，visibility : hidden 的元素只对重绘有影响，不影响重排。&lt;/li&gt;
+  &lt;li&gt;使用虚拟 DOM 的脚本库，比如 React 等。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;3-网络优化&quot;&gt;3. 网络优化&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;31-减少-http-请求次数&quot;&gt;3.1 减少 Http 请求次数&lt;/h4&gt;
+
+&lt;p&gt;Http 协议是无状态的应用层协议，意味着每次 Http 请求都需要建立通信链路、进行数据传输，而在服务器端，每个 Http 都需要启动独立的线程去处理。这些通信和服务的开销都很昂贵，减少 Http 请求的数目可有效提高访问性能。&lt;/p&gt;
+
+&lt;h5 id=&quot;311-模块打包&quot;&gt;3.1.1 模块打包&lt;/h5&gt;
+
+&lt;p&gt;模块打包用于将不同脚本打包在一起并放进同一文件，可以有效的减少 Http 请求和文件解析所需的加载时间。&lt;/p&gt;
+
+&lt;h5 id=&quot;312-按需加载资源&quot;&gt;3.1.2 按需加载资源&lt;/h5&gt;
+
+&lt;p&gt;资源（特别是图片）的按需加载或者说&lt;code class=&quot;highlighter-rouge&quot;&gt;惰性加载&lt;/code&gt;，可以有助于你的 Web 应用在整体上获得更好的性能。对于使用大量图片的页面来说惰性加载有着显著的三个好处：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;减少向服务器发出的并发请求数量（这就使得页面的其他部分获得更快的加载时间）&lt;/li&gt;
+    &lt;li&gt;减少浏览器的内存使用率（更少的图片，更少的内存）&lt;/li&gt;
+    &lt;li&gt;减少服务器端的负载&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;大体上的理念就是只在必要的时候才去加载图片或资源（如视频），比如在第一次被显示的时候，或者是在将要显示的时候对其进行加载。由于这种方式跟你建站的方式密切相关，惰性加载的解决方案通常需要借助其他库的插件或者扩展来实现。&lt;/p&gt;
+
+&lt;h5 id=&quot;313-css-sprites&quot;&gt;3.1.3 CSS Sprites&lt;/h5&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CSS Sprites&lt;/code&gt;其实就是把网页中用到的一些图片整合到一张图片文件中，再利用 CSS 的&lt;code class=&quot;highlighter-rouge&quot;&gt;background-image&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;background-repeat&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;background-position&lt;/code&gt;的组合进行背景定位，background-position 可以用数字精确的定位出背景图片的位置。&lt;/p&gt;
+
+&lt;h4 id=&quot;32-缓存&quot;&gt;3.2 缓存&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Caches&lt;/code&gt;用于存储那些被频繁存取的静态数据的组件，便于随后对于这个数据的请求可以更快地被响应，或者说请求方式更加高效。由于 Web 应用是由很多可拆卸的部件组合而成，缓存就可以存在于架构中的很多部分。举例来说，缓存可以被放在动态内容服务器和客户端之间，就可以避免公共请求以减少服务器的负载，与此同时改善响应时间。其他缓存可能被放置在代码里，以优化某些用于脚本存取的通用模式，还有些缓存可能被放置在数据库或者是长运行进程之前。&lt;/p&gt;
+
+&lt;p&gt;简而言之，在 Web 应用中使用缓存是一种改善响应时间和减少 CPU 使用的绝佳方式。所以你的 Web 应用在第二次运行脚本的时候就可以几乎瞬间加载了。&lt;/p&gt;
+
+&lt;p&gt;对一个网站而言，CSS、JS、logo、图标这些静态资源文件更新的频率都比较低，而这些文件又几乎是每次 Http 请求都需要的，如果将这些文件缓存在浏览器中，可以极好的改善性能。通过设置 Http 头中的&lt;code class=&quot;highlighter-rouge&quot;&gt;cache-control&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;expires&lt;/code&gt;的属性，可设定浏览器缓存，缓存时间可以是数天，甚至是几个月。&lt;/p&gt;
+
+&lt;p&gt;同时，在使用&lt;code class=&quot;highlighter-rouge&quot;&gt;ajax&lt;/code&gt;异步请求时，要主动告诉浏览器如果该请求有缓存就去请求缓存内容。&lt;/p&gt;
+
+&lt;h4 id=&quot;33-启用-http2&quot;&gt;3.3 启用 HTTP/2&lt;/h4&gt;
+
+&lt;p&gt;越来越多的浏览器都开始支持&lt;code class=&quot;highlighter-rouge&quot;&gt;HTTP/2&lt;/code&gt;。这可能听起来没有必要，但是&lt;code class=&quot;highlighter-rouge&quot;&gt;HTTP/2&lt;/code&gt;为同一服务器的并发连接问题带来了很多好处。换句话说，如果有很多小型资源需要加载（如果你打包过的话就没有必要了），在延迟和性能方面 HTTP/2 秒杀 HTTP/1。&lt;/p&gt;
+
+&lt;h4 id=&quot;34-使用负载均衡方案&quot;&gt;3.4 使用负载均衡方案&lt;/h4&gt;
+
+&lt;h5 id=&quot;341-使用-cdncontent-distribute-network内容分发网络&quot;&gt;3.4.1 使用 CDN（content distribute network，内容分发网络）&lt;/h5&gt;
+
+&lt;p&gt;使用 CDN 的本质仍然是一个缓存，而且将数据缓存在离用户最近的地方，使用户以最快速度获取数据，即所谓网络访问第一跳。&lt;/p&gt;
+
+&lt;p&gt;由于CDN部署在网络运营商的机房，这些运营商又是终端用户的网络服务提供商，因此用户请求路由的第一跳就到达了 CDN 服务器，当 CDN 中存在浏览器请求的资源时，从 CDN 直接返回给浏览器，最短路径返回响应，加快用户访问速度，减少数据中心负载压力。&lt;/p&gt;
+
+&lt;p&gt;CDN 缓存的一般是静态资源，如图片、文件、CSS、script 脚本、静态网页等，这些文件访问频度很高，将其缓存在 CDN 可极大改善网页的打开速度。&lt;/p&gt;
+
+&lt;h5 id=&quot;342-反向代理&quot;&gt;3.4.2 反向代理&lt;/h5&gt;
+
+&lt;p&gt;传统代理服务器位于浏览器一侧，代理浏览器将 Http 请求发送到互联网上，而反向代理服务器位于网站机房一侧，代理网站 Web 服务器接收 Http 请求。&lt;/p&gt;
+
+&lt;p&gt;论坛网站，把热门词条、帖子、博客缓存在反向代理服务器上加速用户访问速度，当这些动态内容有变化时，通过内部通知机制通知反向代理缓存失效，反向代理会重新加载最新的动态内容再次缓存起来。&lt;/p&gt;
+
+&lt;p&gt;此外，反向代理也可以实现负载均衡的功能，而通过负载均衡构建的应用集群可以提高系统总体处理能力，进而改善网站高并发情况下的性能。&lt;/p&gt;
+
+&lt;h4 id=&quot;35-图片优化&quot;&gt;3.5 图片优化&lt;/h4&gt;
+
+&lt;h5 id=&quot;351-图片编码优化&quot;&gt;3.5.1 图片编码优化&lt;/h5&gt;
+
+&lt;p&gt;PNGs 和 JPGs 在 Web 发布时都会使用次优的设置进行编码。通过改变编码器和它的设置，对于需要大量图片的网站来说可以获得有效的改善。流行的解决方案包括 OptiPNG 和 jpegtran。&lt;/p&gt;
+
+&lt;h5 id=&quot;352-缩小-faviconico-并缓存&quot;&gt;3.5.2 缩小 favicon.ico 并缓存&lt;/h5&gt;
+
+&lt;h5 id=&quot;353-使用缩略图&quot;&gt;3.5.3 使用缩略图&lt;/h5&gt;
+
+&lt;p&gt;如果网页中需要的图片尺寸是 50&lt;em&gt;50，那就不要用一张 500&lt;/em&gt;500 的大尺寸图片，影响加载。&lt;/p&gt;
+
+&lt;h5 id=&quot;354-不要使用滤镜&quot;&gt;3.5.4 不要使用滤镜&lt;/h5&gt;
+
+&lt;p&gt;IE 独有属性 AlphaImageLoader 用于修正 7.0 以下版本中显示 PNG 图片的半透明效果。这个滤镜的问题在于浏览器加载图片时它会终止内容的呈现并且冻结浏览器。在每一个元素（不仅仅是图片）它都会运算一次，增加了内存开支，因此它的问题是多方面的。完全避免使用 AlphaImageLoader 的最好方法就是使用 PNG8 格式来代替，这种格式能在 IE 中很好地工作。&lt;/p&gt;
+
+&lt;h4 id=&quot;36-使用-gzip-压缩内容&quot;&gt;3.6 使用 gzip 压缩内容&lt;/h4&gt;
+
+&lt;h4 id=&quot;37-cookie&quot;&gt;3.7 Cookie&lt;/h4&gt;
+
+&lt;h5 id=&quot;371-减少-cookie-的大小&quot;&gt;3.7.1 减少 cookie 的大小。&lt;/h5&gt;
+
+&lt;p&gt;cookie 包含在每次请求和响应中，太大的 cookie 会严重影响数据传输，因此哪些数据需要写入 cookie 需要慎重考虑，尽量减少 cookie 中传输的数据量。&lt;/p&gt;
+
+&lt;h5 id=&quot;372-使用无-cookie-的域&quot;&gt;3.7.2 使用无 cookie 的域&lt;/h5&gt;
+
+&lt;p&gt;对于某些静态资源的访问，如 CSS、script 等，发送 cookie 没有意义，可以考虑静态资源使用独立域名访问，避免请求静态资源时发送 cookie ，减少 cookie 传输次数。&lt;/p&gt;
+
+&lt;h4 id=&quot;38-避免-404&quot;&gt;3.8 避免 404&lt;/h4&gt;
+
+&lt;p&gt;外链的 CSS 或者 JS 文件出现问题返回 404 时，会破坏浏览器对文件的并行加载。并且浏览器会把试图在返回的 404 响应内容中找到可能有用的部分当作 JS 代码来执行。&lt;/p&gt;
+
+&lt;h3 id=&quot;4-参考文献&quot;&gt;4 参考文献&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://auth0.com/blog/12-steps-to-a-faster-web-app/&quot;&gt;a. 12 steps to a faster web app&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html&quot;&gt;b. 网页性能管理详解&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.yahoo.com/performance/rules.html&quot;&gt;c. Best Practices for Speeding Up Your Web Site&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developers.google.com/web/tools/chrome-devtools/rendering-tools/?utm_source=dcc&amp;amp;utm_medium=redirect&amp;amp;utm_campaign=2016q3&quot;&gt;d. 利用 Chrom Dev Tools 分析运行时性能&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/mahoking/article/details/51472697&quot;&gt;e. web 前端性能优化总结&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 21 Apr 2017 20:00:30 +0800</pubDate>
+        <link>http://localhost:4000/blog/fe-optimizing/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/fe-optimizing/</guid>
+        
+        <category>CN</category>
+        
+        <category>front-end</category>
+        
+        <category>性能优化</category>
+        
+        
+        <category>Tech</category>
+        
+      </item>
+    
+      <item>
+        <title>JS 实现墨卡托坐标到经纬度坐标的转换</title>
+        <description>&lt;p&gt;墨卡托投影，是正轴等角圆柱投影。由荷兰地图学家墨卡托于 1569 年创立。假想一个与地轴方向一致的圆柱切或割于地球，按等角条件，将经纬网投影到圆柱面上，将圆柱面展为平面后，即得本投影。墨卡托投影在切圆柱投影与割圆柱投影中，最早也是最常用的是切圆柱投影。&lt;/p&gt;
+
+&lt;p&gt;百度地图和 Google Maps 使用的投影方法都是墨卡托投影。纬度的变换方法为：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;墨卡托投影把纬度为 Φ(-90°&amp;lt;Φ&amp;lt;90°) 的点投影到
+y = ln(tan(45° + Φ/2))&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这种投影算法使得赤道附近的纬线较密，极地附近的纬线较稀。极点被投影到无穷远，所以这种投影不适合在高纬度地区使用。Google Maps 的选取的范围为&lt;code class=&quot;highlighter-rouge&quot;&gt;-π&amp;lt;y&amp;lt;π&lt;/code&gt;，这样近似的有&lt;code class=&quot;highlighter-rouge&quot;&gt;-85°&amp;lt;Φ&amp;lt;85°&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;根据上述公式，将墨卡托转为经纬度时，纬度的误差高达 0.2 几。为了实现高精度的转换，使用多项式展开的方式。&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// 摩卡托转经纬度
+&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;mercator2lonLat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;merX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;merY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;band&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;12890594.86&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;8362377.87&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5591021&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;3481989.83&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1678043.12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;// 多项式系数
+&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;MC2LL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.410526172116255&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.00000898305509648872&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.9939833816331&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;200.9824383106796&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;187.2403703815547&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;91.6087516669843&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;23.38765649603339&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;2.57121317296198&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.03801003308653&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;17337981.2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;7.435856389565537&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.000008983055097726239&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.78625201886289&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;96.32687599759846&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.85204757529826&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;59.36935905485877&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;47.40033549296737&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;16.50741931063887&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;2.28786674699375&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;10260144.86&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;3.030883460898826&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.00000898305509983578&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.30071316287616&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;59.74293618442277&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;7.357984074871&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;25.38371002664745&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;13.45380521110908&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;3.29883767235584&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.32710905363475&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;6856817.37&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.981981304930552&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.000008983055099779535&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.03278182852591&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;40.31678527705744&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.65659298677277&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;4.44255534477492&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.85341911805263&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.12923347998204&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.04625736007561&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;4482777.06&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;3.09191371068437&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.000008983055096812155&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.00006995724062&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;23.10934304144901&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.00023663490511&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.6321817810242&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.00663494467273&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.03430082397953&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.00466043876332&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;2555164.4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;2.890871144776878&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.000008983055095805407&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;3.068298&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;7.47137025468032&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.00000353937994&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.02145144861037&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.00001234426596&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.00010322952773&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.00000323890364&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;826088.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]];&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;band&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;abs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;merY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;band&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;MC2LL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;lng&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;abs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;merX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;lat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;abs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;merY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;lat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;lat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;pow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;pow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;pow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;pow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;pow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;lng&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;merX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;lat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;merY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;// 输出 '纬度,经度' 的格式，可调
+&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;lat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toFixed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;','&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;lng&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toFixed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+</description>
+        <pubDate>Tue, 18 Apr 2017 20:00:30 +0800</pubDate>
+        <link>http://localhost:4000/blog/mercator-and-lonlat/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/mercator-and-lonlat/</guid>
+        
+        <category>CN</category>
+        
+        <category>front-end</category>
+        
+        <category>JavaScript</category>
+        
+        
+        <category>Tech</category>
+        
+      </item>
+    
+      <item>
+        <title>基于 JS 的移动端滑动插件对比</title>
+        <description>&lt;p&gt;之前开发一个移动端的图片墙功能，需要实现图片的滑动、缩放功能，因此研究了一下目前比较流行的几个开源插件，这里总结一下。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;TouchSlide&lt;/li&gt;
+  &lt;li&gt;FlexSlider&lt;/li&gt;
+  &lt;li&gt;Swiper&lt;/li&gt;
+  &lt;li&gt;iScroll&lt;/li&gt;
+  &lt;li&gt;iSlider&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在选择插件的时候，主要考虑三方面因素：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;因为是移动端，插件大小尽可能小，节省流量。&lt;/li&gt;
+  &lt;li&gt;API 足够丰富，能够满足基本开发需求。&lt;/li&gt;
+  &lt;li&gt;移动端流畅度较好。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;各插件基本介绍&quot;&gt;各插件基本介绍&lt;/h4&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;插件名&lt;/th&gt;
+      &lt;th&gt;相关链接&lt;/th&gt;
+      &lt;th&gt;主要功能&lt;/th&gt;
+      &lt;th&gt;优点&lt;/th&gt;
+      &lt;th&gt;缺点&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;TouchSlide&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;http://www.superslide2.com/TouchSlide/param.html&quot;&gt;Link&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;触屏焦点图、触屏Tab切换、触屏多图切换&lt;/td&gt;
+      &lt;td&gt;体积小、专为移动端设计&lt;/td&gt;
+      &lt;td&gt;仅支持两个回调函数&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;FlexSlider&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://woocommerce.com/flexslider/&quot;&gt;Link&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;图片轮播效果、焦点图效果、图文混排滚动&lt;/td&gt;
+      &lt;td&gt;体积较小&lt;/td&gt;
+      &lt;td&gt;API 比 TouchSlider 丰富，但也比较少&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Swiper&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;http://www.swiper.com.cn/api/index.html&quot;&gt;Link&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;触屏焦点图、触屏Tab切换、触屏多图切换&lt;/td&gt;
+      &lt;td&gt;API 丰富、自带放大功能&lt;/td&gt;
+      &lt;td&gt;体积过大&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;iScroll&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;http://cubiq.org/iscroll-5&quot;&gt;Link&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;CSS 动画、缩放、拉动刷新、捕捉元素&lt;/td&gt;
+      &lt;td&gt;体积小、API 丰富&lt;/td&gt;
+      &lt;td&gt;Android 中端机中，提供的部分参数值不准确&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;iSlider&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;http://be-fe.github.io/iSlider/demo/&quot;&gt;Link&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;图片和 DOM 的滑动、可自定义插件&lt;/td&gt;
+      &lt;td&gt;体积较小、API 丰富&lt;/td&gt;
+      &lt;td&gt;需要额外引入 CSS 文件&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;各插件缩放对比&quot;&gt;各插件缩放对比&lt;/h4&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;由于&lt;code class=&quot;highlighter-rouge&quot;&gt;TouchSlide&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;FlexSlider&lt;/code&gt;支持回调函数过少、本身无缩放功能，这里不再讨论这两个插件。&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;插件名&lt;/th&gt;
+      &lt;th&gt;所需文件&lt;/th&gt;
+      &lt;th&gt;文件大小&lt;/th&gt;
+      &lt;th&gt;缩放存在的问题&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Swiper&lt;/td&gt;
+      &lt;td&gt;swiper.min.js, swiper.min.css&lt;/td&gt;
+      &lt;td&gt;94.2KB + 17.3KB&lt;/td&gt;
+      &lt;td&gt;放大后，无法移动到屏幕之外的地方&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;iScroll&lt;/td&gt;
+      &lt;td&gt;iscroll-zoom.js&lt;/td&gt;
+      &lt;td&gt;58.4KB&lt;/td&gt;
+      &lt;td&gt;图片滑动需设置屏幕捕捉，当前图片放大后，滑动一下，会出现两张图片各占屏幕一半的情况&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;iSlider&lt;/td&gt;
+      &lt;td&gt;slider.min.js, slider.min.css&lt;/td&gt;
+      &lt;td&gt;20.5KB + 1.5KB&lt;/td&gt;
+      &lt;td&gt;第一次放大后，继续放大灵敏度低&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;总结：个人比较倾向&lt;code class=&quot;highlighter-rouge&quot;&gt;iScroll&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;iSlider&lt;/code&gt;两个插件，但这些插件在缩放上的交互与原生相差较大，还需继续努力。&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 31 Mar 2017 11:00:30 +0800</pubDate>
+        <link>http://localhost:4000/blog/mobile-slide-plugin/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/mobile-slide-plugin/</guid>
+        
+        <category>CN</category>
+        
+        <category>front-end</category>
+        
+        <category>Mobile</category>
+        
+        <category>Plugin</category>
+        
+        <category>JavaScript</category>
+        
+        
+        <category>Tech</category>
+        
+      </item>
+    
+      <item>
+        <title>JS 实现页面调起原生 APP</title>
+        <description>&lt;p&gt;开发活动分享页经常遇到这种需求：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在分享页点击某个按钮，若本地安装 App，调起 App&lt;/li&gt;
+  &lt;li&gt;若本地没有安装 App，跳转到 App下载页&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;由于微信和微博存在坑，开发中，我们首先判断当前页面是否在微信或微博中，若是，可以显示一个蒙板提醒用户在浏览器中打开当前页面。&lt;/p&gt;
+
+&lt;h4 id=&quot;1-判断浏览器类型&quot;&gt;1. 判断浏览器类型&lt;/h4&gt;
+
+&lt;hr /&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ua&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;navigator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;userAgent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 微信或微博内提示在浏览器打开
+&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/MicroMessenger|Weibo/i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ua&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// 这里做些处理，如现实一个提示在浏览器打开的灰色蒙板
+&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;2-iframe-调起-app&quot;&gt;2. iframe 调起 App。&lt;/h4&gt;
+
+&lt;hr /&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// 使用了 Zepto.js，jQuery 同理
+&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'#open_app'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'#open_app'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;naUrl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'这里是 app 链接，也就是你和 NA 的 RD 小伙伴商量好的协议'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;iframeHtml&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&amp;lt;iframe src=&quot;'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;naUrl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&quot; id=&quot;open_app&quot; width=&quot;0&quot; height=&quot;0&quot; style=&quot;border: 0;display: none;&quot;/&amp;gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;iframeHtml&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;3-判断本地是否安装-app&quot;&gt;3. 判断本地是否安装 App&lt;/h4&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;若 iframe 没有成功调起 App，则表示本地没有安装 App，那么此时页面跳转到 App 的下载页面。&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;startTime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Date&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getTime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+ &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;delayDownload&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;// 做一下延迟
+&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Date&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getTime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;startTime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isIos&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/iphone|ipad|ipod/i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ua&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+		&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isIos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'这里是你的 App 在 Appstore 中的下载链接'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'这里是你的 App 安卓的下载地址'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;href&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;4-ios-9-和-10-利用-universal-link-调起-app&quot;&gt;4. IOS 9 和 10 利用 Universal Link 调起 App&lt;/h4&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;在 IOS 9 和 10 中，无法利用 iframe 调起 App，可以使用&lt;code class=&quot;highlighter-rouge&quot;&gt;location.href&lt;/code&gt;直接跳转 App，但会出现两个问题：1. 当本地有 App 时，Safari 弹出&lt;code class=&quot;highlighter-rouge&quot;&gt;是否打开 App&lt;/code&gt;的弹窗，当用户两次选择&lt;code class=&quot;highlighter-rouge&quot;&gt;取消&lt;/code&gt;时，页面会跳转到苹果官网。2. 当本地无 App 时，Safari 会弹出&lt;code class=&quot;highlighter-rouge&quot;&gt;无效的链接&lt;/code&gt;的弹窗，然后才会弹出&lt;code class=&quot;highlighter-rouge&quot;&gt;是否打开 Appstore&lt;/code&gt;的弹窗，体验非常不好。因此，我们使用 Universal Link 来调起 App。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;h6 id=&quot;universal-link-是什么&quot;&gt;Universal Link 是什么？&lt;/h6&gt;
+  &lt;p&gt;简单地说就是通过一个 https 的链接，完成从浏览器直接跳转到 App 或者在没安装 App 的情况下跳转到指定页面。没有是否要进入 App 的弹窗，没有微信客户端限制跳转。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;NA 端如何实现 Universal Link，可以&lt;a href=&quot;http://www.cocoachina.com/ios/20150902/13321.html&quot;&gt;查看这里&lt;/a&gt;。当你的 NA 小伙伴已经开发好后，就可以直接使用相应的协议啦。&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/iPhone OS 9|iPhone OS 10/i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ua&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;href&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'这里是你和 NA 小伙伴商量好的协议'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;5-切换到后台后的相关处理&quot;&gt;5. 切换到后台后的相关处理&lt;/h4&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;当浏览器切换到后台后，我们需要清除代码中的延迟下载，以防当我们再一次返回页面后，页面跳转到 App 下载地址。&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;visibilitychange&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;callAppSuccess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;webkitvisibilitychange&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;callAppSuccess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;msvisibilitychange&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;callAppSuccess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;blur&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;callAppSuccess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;callAppSuccess&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;delayDownload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;clearTimeout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;delayDownload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;以上就是实现 Web 调起 App 的整个过程，正式的代码需要调整顺序，比如先做 IOS 9 和 10 的处理，这里就不赘述了。&lt;/p&gt;
+</description>
+        <pubDate>Tue, 14 Mar 2017 12:00:30 +0800</pubDate>
+        <link>http://localhost:4000/blog/web-call-app/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/web-call-app/</guid>
+        
+        <category>CN</category>
+        
+        <category>front-end</category>
+        
+        <category>Mobile</category>
+        
+        <category>JavaScript</category>
+        
+        
+        <category>Tech</category>
+        
+      </item>
+    
+  </channel>
+</rss>

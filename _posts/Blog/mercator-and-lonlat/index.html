@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JS 实现墨卡托坐标到经纬度坐标的转换</title>
+  <meta name="description" content="在调用百度地图 API 时发现，墨卡托到经纬度的转换，利用转换公式得到的结果误差较大。本篇文章利用 JS 实现了高精度的转换。">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="http://localhost:4000/blog/mercator-and-lonlat/">
+  <link rel="alternate" type="application/rss+xml" title="水榭清松-Song Kong" href="http://localhost:4000/feed.xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >JS 实现墨卡托坐标到经纬度坐标的转换</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#CN">CN</a></li>
+				
+				
+				<li><a href="/tags#front-end">front-end</a></li>
+				
+				
+				<li><a href="/tags#JavaScript">JavaScript</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">18 Apr 2017</div>
+			</div>
+			<div class="post-content">
+				<p>墨卡托投影，是正轴等角圆柱投影。由荷兰地图学家墨卡托于 1569 年创立。假想一个与地轴方向一致的圆柱切或割于地球，按等角条件，将经纬网投影到圆柱面上，将圆柱面展为平面后，即得本投影。墨卡托投影在切圆柱投影与割圆柱投影中，最早也是最常用的是切圆柱投影。</p>
+
+<p>百度地图和 Google Maps 使用的投影方法都是墨卡托投影。纬度的变换方法为：</p>
+
+<blockquote>
+  <p>墨卡托投影把纬度为 Φ(-90°&lt;Φ&lt;90°) 的点投影到
+y = ln(tan(45° + Φ/2))</p>
+</blockquote>
+
+<p>这种投影算法使得赤道附近的纬线较密，极地附近的纬线较稀。极点被投影到无穷远，所以这种投影不适合在高纬度地区使用。Google Maps 的选取的范围为<code class="highlighter-rouge">-π&lt;y&lt;π</code>，这样近似的有<code class="highlighter-rouge">-85°&lt;Φ&lt;85°</code>。</p>
+
+<p>根据上述公式，将墨卡托转为经纬度时，纬度的误差高达 0.2 几。为了实现高精度的转换，使用多项式展开的方式。</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// 摩卡托转经纬度
+</span>
+<span class="kd">function</span> <span class="nx">mercator2lonLat</span><span class="p">(</span><span class="nx">merX</span><span class="p">,</span> <span class="nx">merY</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">band</span> <span class="o">=</span> <span class="p">[</span><span class="mf">12890594.86</span><span class="p">,</span> <span class="mf">8362377.87</span><span class="p">,</span> <span class="mi">5591021</span><span class="p">,</span> <span class="mf">3481989.83</span><span class="p">,</span> <span class="mf">1678043.12</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+	<span class="c1">// 多项式系数
+</span>
+    <span class="kd">var</span> <span class="nx">MC2LL</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">1.410526172116255</span><span class="nx">e</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mf">0.00000898305509648872</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.9939833816331</span><span class="p">,</span> <span class="mf">200.9824383106796</span><span class="p">,</span> <span class="o">-</span><span class="mf">187.2403703815547</span><span class="p">,</span> <span class="mf">91.6087516669843</span><span class="p">,</span> <span class="o">-</span><span class="mf">23.38765649603339</span><span class="p">,</span> <span class="mf">2.57121317296198</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.03801003308653</span><span class="p">,</span> <span class="mf">17337981.2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">7.435856389565537</span><span class="nx">e</span><span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="mf">0.000008983055097726239</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.78625201886289</span><span class="p">,</span> <span class="mf">96.32687599759846</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.85204757529826</span><span class="p">,</span> <span class="o">-</span><span class="mf">59.36935905485877</span><span class="p">,</span> <span class="mf">47.40033549296737</span><span class="p">,</span> <span class="o">-</span><span class="mf">16.50741931063887</span><span class="p">,</span> <span class="mf">2.28786674699375</span><span class="p">,</span> <span class="mf">10260144.86</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">3.030883460898826</span><span class="nx">e</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mf">0.00000898305509983578</span><span class="p">,</span> <span class="mf">0.30071316287616</span><span class="p">,</span> <span class="mf">59.74293618442277</span><span class="p">,</span> <span class="mf">7.357984074871</span><span class="p">,</span> <span class="o">-</span><span class="mf">25.38371002664745</span><span class="p">,</span> <span class="mf">13.45380521110908</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.29883767235584</span><span class="p">,</span> <span class="mf">0.32710905363475</span><span class="p">,</span> <span class="mf">6856817.37</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.981981304930552</span><span class="nx">e</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mf">0.000008983055099779535</span><span class="p">,</span> <span class="mf">0.03278182852591</span><span class="p">,</span> <span class="mf">40.31678527705744</span><span class="p">,</span> <span class="mf">0.65659298677277</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.44255534477492</span><span class="p">,</span> <span class="mf">0.85341911805263</span><span class="p">,</span> <span class="mf">0.12923347998204</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.04625736007561</span><span class="p">,</span> <span class="mf">4482777.06</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.09191371068437</span><span class="nx">e</span><span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="mf">0.000008983055096812155</span><span class="p">,</span> <span class="mf">0.00006995724062</span><span class="p">,</span> <span class="mf">23.10934304144901</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00023663490511</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6321817810242</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00663494467273</span><span class="p">,</span> <span class="mf">0.03430082397953</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00466043876332</span><span class="p">,</span> <span class="mf">2555164.4</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.890871144776878</span><span class="nx">e</span><span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="mf">0.000008983055095805407</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.068298</span><span class="nx">e</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mf">7.47137025468032</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00000353937994</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.02145144861037</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00001234426596</span><span class="p">,</span> <span class="mf">0.00010322952773</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00000323890364</span><span class="p">,</span> <span class="mf">826088.5</span><span class="p">]];</span>
+    <span class="kd">var</span> <span class="nx">params</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">band</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">merY</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nx">band</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="p">{</span>
+            <span class="nx">params</span> <span class="o">=</span> <span class="nx">MC2LL</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="kd">var</span> <span class="nx">lng</span> <span class="o">=</span> <span class="nx">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nx">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">merX</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">lat</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">merY</span><span class="p">)</span> <span class="o">/</span> <span class="nx">params</span><span class="p">[</span><span class="mi">9</span><span class="p">];</span>
+    <span class="nx">lat</span> <span class="o">=</span> <span class="nx">params</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="nx">params</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="nx">lat</span> <span class="o">+</span> <span class="nx">params</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">lat</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nx">params</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">lat</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="nx">params</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">lat</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="nx">params</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">lat</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="nx">params</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">lat</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+    <span class="nx">lng</span> <span class="o">*=</span> <span class="p">(</span><span class="nx">merX</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">?</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="nx">lat</span> <span class="o">*=</span> <span class="p">(</span><span class="nx">merY</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">?</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="c1">// 输出 '纬度,经度' 的格式，可调
+</span>
+    <span class="k">return</span> <span class="nx">lat</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="s1">','</span> <span class="o">+</span> <span class="nx">lng</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">6</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/mobile-slide-plugin/" class="btn-pagination prev" title="基于 JS 的移动端滑动插件对比
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/fe-optimizing/" class="btn-pagination next" title="前端性能优化总结
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/blog/mercator-and-lonlat/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=http://localhost:4000/blog/mercator-and-lonlat/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/blog/mercator-and-lonlat/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=http://localhost:4000/blog/mercator-and-lonlat/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+        <h1 class="blue-title">Comments</h1>
+		
+
+		
+		<!-- Gitalk  BEGIN-->
+		<div id="gitalk-container" ></div>
+		<script type="text/javascript">
+            var gitalk = new Gitalk({
+                clientID: '06d60e5287de2b4292cc',
+                clientSecret: 'bdf1b23d4351a323bd556fde080567b0e0d0e138',
+                repo: 'blogcomments',
+                owner: 'songkong',
+                admin: ['songkong'],
+                id: location.pathname,
+                distractionFreeMode: false
+            });
+            gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk END -->
+		
+
+
+		
+
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:hi@ikongsong.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        <li><a class="social-btn btn-white" href="http://facebook.com/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Facebook"><i class="fa fa-fw fa-facebook"></i></a></li>
+        
+        <li><a class="social-btn btn-white" href="http://linkedin.com/in/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Linkedin"><i class="fa fa-fw fa-linkedin"></i></a></li>
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/songkong" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        <li><a class="social-btn btn-white" href="http://stackoverflow.com/users/6438519/song-kong" target="_blank" rel="noopener noreferrer" title="Follow me on Stackoverflow"><i class="fa fa-fw fa-stack-overflow"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2020 Song Kong. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-82494501-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?5b31ffbbdc6cff18727f3adf75a03777";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

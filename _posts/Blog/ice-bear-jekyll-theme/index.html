@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ice Bear Jekyll Theme</title>
+  <meta name="description" content="This is my first jekyll theme and this article describes how to use it.">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="http://localhost:4000/blog/ice-bear-jekyll-theme/">
+  <link rel="alternate" type="application/rss+xml" title="水榭清松-Song Kong" href="http://localhost:4000/feed.xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >Ice Bear Jekyll Theme</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#EN">EN</a></li>
+				
+				
+				<li><a href="/tags#jekyll">jekyll</a></li>
+				
+				
+				<li><a href="/tags#front-end">front-end</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">03 Oct 2016</div>
+			</div>
+			<div class="post-content">
+				<p>This is my first jekyll theme decorated by my favorite items – blue and ice bear. It’s welcomed to give me a star at github if you like it.</p>
+
+<iframe src="https://ghbtns.com/github-btn.html?user=songkong&amp;repo=Blog&amp;type=star&amp;count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+
+<h1 id="installation">Installation</h1>
+<hr />
+
+<ul>
+  <li>Fork the repository. &lt;iframe src="https://ghbtns.com/github-btn.html?user=songkong&amp;repo=Blog&amp;type=fork&amp;count=true" frameborder="0" scrolling="0" width="170px" height="20px"&gt;&lt;/iframe&gt;</li>
+  <li>Edit <code class="highlighter-rouge">_config.yml</code> file.</li>
+  <li>Add your own <code class="highlighter-rouge">projects</code> in <code class="highlighter-rouge">_includes/projects.html</code>.</li>
+  <li>Change <code class="highlighter-rouge">domain name</code> in <code class="highlighter-rouge">CNAME</code>.</li>
+  <li>Replace <code class="highlighter-rouge">favicon.ico</code> with your website icon.</li>
+  <li>Change <code class="highlighter-rouge">avatar.jpg</code> and <code class="highlighter-rouge">cartoon-avatar.jpg</code> in <code class="highlighter-rouge">assets/images</code>.</li>
+  <li>Edit <code class="highlighter-rouge">LICENSE.md</code> and <code class="highlighter-rouge">README.md</code>.</li>
+</ul>
+
+<blockquote>
+  <p>I use two categories for posts in my blog, <code class="highlighter-rouge">Tech</code> and <code class="highlighter-rouge">Life</code>. If you want to add other categories, remember to modify <code class="highlighter-rouge">_includes/post-list-pagination</code>, <code class="highlighter-rouge">_layouts/post-list.html</code> and <code class="highlighter-rouge">assets/js/script.js</code> to add <code class="highlighter-rouge">Tabs</code> and <code class="highlighter-rouge">Paginations</code> for every category posts.</p>
+</blockquote>
+
+<h1 id="style-test">Style test</h1>
+<hr />
+
+<p><em>italic</em>. <strong>bold</strong>. <strong><em>italic and bold</em></strong>. <del>delete line</del>. <a href="http://kongsong.me">link</a>.</p>
+
+<h1 id="heading-1">Heading 1</h1>
+
+<h2 id="heading-2">Heading 2</h2>
+
+<h3 id="heading-3">Heading 3</h3>
+
+<h4 id="heading-4">Heading 4</h4>
+
+<h5 id="heading-5">Heading 5</h5>
+
+<h6 id="heading-6">Heading 6</h6>
+
+<blockquote>
+  <h3 id="heading-3-in-blockquotes">Heading 3 in Blockquotes</h3>
+  <p>Normal Blockquotes text.</p>
+
+  <ul>
+    <li>Unordered List in Blockquotes.</li>
+  </ul>
+
+  <ol>
+    <li>Ordered List in Blockquotes.</li>
+  </ol>
+</blockquote>
+
+<ul>
+  <li>Unordered List.
+    <ul>
+      <li>Unordered List.</li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>Ordered List
+    <ol>
+      <li>Ordered List</li>
+      <li>Ordered List</li>
+    </ol>
+  </li>
+  <li>Ordered List</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">//</span> <span class="no">Ruby</span> <span class="n">codes</span>
+
+<span class="nb">require</span> <span class="s1">'parallel'</span>
+
+<span class="no">Parallel</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="n">lots_of_data</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">chunk</span><span class="o">|</span>
+  <span class="n">heavy_computation</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+<span class="k">end</span></code></pre></figure>
+
+<table>
+  <thead>
+    <tr>
+      <th>table</th>
+      <th>table</th>
+      <th>table</th>
+      <th>table</th>
+      <th>table</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>This is table</td>
+      <td>This is table</td>
+      <td>This is table</td>
+      <td>This is table</td>
+      <td>This is table</td>
+    </tr>
+    <tr>
+      <td>This is table</td>
+      <td>This is table</td>
+      <td>This is table</td>
+      <td>This is table</td>
+      <td>This is table</td>
+    </tr>
+  </tbody>
+</table>
+
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/javascript-reading-notes/" class="btn-pagination prev" title="学习笔记之《JavaScript 高级程序设计》（上篇）
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/photo-mask/" class="btn-pagination next" title="CSS 实现移动端图片点击的遮罩效果
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/blog/ice-bear-jekyll-theme/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=http://localhost:4000/blog/ice-bear-jekyll-theme/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/blog/ice-bear-jekyll-theme/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=http://localhost:4000/blog/ice-bear-jekyll-theme/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+        <h1 class="blue-title">Comments</h1>
+		
+
+		
+		<!-- Gitalk  BEGIN-->
+		<div id="gitalk-container" ></div>
+		<script type="text/javascript">
+            var gitalk = new Gitalk({
+                clientID: '06d60e5287de2b4292cc',
+                clientSecret: 'bdf1b23d4351a323bd556fde080567b0e0d0e138',
+                repo: 'blogcomments',
+                owner: 'songkong',
+                admin: ['songkong'],
+                id: location.pathname,
+                distractionFreeMode: false
+            });
+            gitalk.render('gitalk-container')
+		</script>
+		<!-- Gitalk END -->
+		
+
+
+		
+
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:hi@ikongsong.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        <li><a class="social-btn btn-white" href="http://facebook.com/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Facebook"><i class="fa fa-fw fa-facebook"></i></a></li>
+        
+        <li><a class="social-btn btn-white" href="http://linkedin.com/in/kongsong" target="_blank" rel="noopener noreferrer" title="Follow me on Linkedin"><i class="fa fa-fw fa-linkedin"></i></a></li>
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/songkong" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        <li><a class="social-btn btn-white" href="http://stackoverflow.com/users/6438519/song-kong" target="_blank" rel="noopener noreferrer" title="Follow me on Stackoverflow"><i class="fa fa-fw fa-stack-overflow"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2020 Song Kong. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-82494501-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?5b31ffbbdc6cff18727f3adf75a03777";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>
