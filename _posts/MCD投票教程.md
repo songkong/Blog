@@ -1,6 +1,6 @@
 ---
 title: MCD投票教程
-tags: 教程,打投,MCD
+tags: Tech,打投,MCD
 renderNumberedHeading: true
 grammar_cjkRuby: true
 ---
