@@ -34,6 +34,12 @@ blockquote a {
 }
 
 .btn-blue {
+  border: 2px solid $blue;
+  color: $white;
+  background-color: transparent;
+  &:hover,
+  &:active {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .btn-white {

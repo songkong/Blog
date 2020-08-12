@@ -18,7 +18,7 @@
     border-radius: 95px;
     border: 5px solid $light-blue;
     background: url(../images/cartoon-avatar.jpg) center no-repeat;
-    background-size: 80% 80%;
+    background-size: 120% 120%;
     &:hover {
 	animation: rotateAvatar 1s ease;
 	-webkit-animation: rotateAvatar 1s ease;	/* Safari and Chrome */
